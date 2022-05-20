@@ -1,0 +1,41 @@
+{
+  "name": "julionc/slim-basic-auth-middleware",
+  "type": "library",
+  "description": "HTTP Basic Authentication Middleware for Slim Framework",
+  "keywords": [
+    "slim",
+    "middleware",
+    "auth",
+    "http"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Julio Napuri",
+      "email": "julionc@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "slim/slim": "~3.0",
+    "phpunit/phpunit": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Slim\\HttpBasicAuth\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Slim\\HttpBasicAuth\\Tests\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": [
+      "@phpunit"
+    ],
+    "phpunit": "php vendor/bin/phpunit"
+  }
+}
