@@ -16,11 +16,11 @@ $json='{
 		},
 		"servers": [
 			{
-				"url": "http://localhost/slim/",
+				"url": "http://localhost/lanchonete/",
 				"description": "Homologação"
 			},
 			{
-				"url": "http://localhost/slim/",
+				"url": "http://localhost/lanchonete/",
 				"description": "Produção"
 			}
 		],

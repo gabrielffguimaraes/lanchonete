@@ -25,4 +25,29 @@ class CategoryDAO extends Conexao
         $stmt->execute();
         return  $stmt->affected_rows;
     }
+    public function updateCategory($category) {
+        $sql="UPDATE category SET description=? WHERE id=?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $category['description'],$category['id']);
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
+    public function getCategoryByDescription($category) {
+        $nParams = "s";
+        $filter = "";
+        $params = array();
+        $params[] = $category['description'];
+        if(isset($category['id']) and $category['id'] != "") {
+            $filter = " and id != ?";
+            $nParams.="s";
+            $params[] = $category['id'];
+        }
+
+        $sql="SELECT * FROM category WHERE description like ? $filter";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param($nParams, ...$params);
+        $stmt->execute();
+        $this->resultado = $stmt->get_result();
+        return  $this->resultado;
+    }
 }

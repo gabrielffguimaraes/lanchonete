@@ -5,7 +5,7 @@ class Conexao
     private $host = "localhost";
     private $username  = "root";
     private $password  = "";
-    private $dbname  = "projeto";
+    private $dbname  = "lanchonete";
 
     protected $connection = null;
     private $connectionIsOpen = false;

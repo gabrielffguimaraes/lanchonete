@@ -24,24 +24,46 @@ class CategoryController extends CategoryDAO
             return $res->withJson("Categoria não encontrada",404);
         }
     }
-   /*
+
     public function add($req,$res)
     {
         $args = $req->getParsedBody();
-        $newUser = array(
-            "name" => $args['username'],
-            "password" => $args['password'],
-            "email" => $args['email']
+        $newCategory = array(
+            "description" => $args['description']
         );
+        $this->getCategoryByDescription($newCategory);
+        $msg = "";
+        $status = null;
 
-        $this->findUserByNameOrEmail($newUser);
-
-        if (!empty($this->countRows())) {
-            return $res->withJson("Usuário ou email já existente(s)", 400);
+        if(empty($this->countRows())) {
+            $result = $this->addCategory($newCategory);
+            $msg = ($result == 1) ? "Categoria criada com sucesso" : "Erro ao criar categoria";
+            $status = ($result == 1) ? 201 : 400;
         } else {
-            $result = $this->register($newUser);
-            $msg = ($result == 1) ? "Usuário adicionado com sucesso" : "Erro ao adicionar usuário";
-            return $res->withJson($msg, 201);
+            $msg = "Categoria já existe";
+            $status = 400;
         }
-    }*/
+        return $res->withJson($msg, $status);
+    }
+    public function update($req,$res)
+    {
+        $args = $req->getParsedBody();
+        $category = array(
+            "id" => $args['id'],
+            "description" => $args['description']
+        );
+        $this->getCategoryByDescription($category);
+        $msg = "";
+        $status = null;
+
+        if(empty($this->countRows())) {
+            $result = $this->updateCategory($category);
+            $msg = ($result >= 0) ? "Categoria atualizada com sucesso" : "Erro ao atualizar categoria";
+            $status = ($result >= 0) ? 200 : 400;
+        } else {
+            $msg = "Categoria já existe";
+            $status = 400;
+        }
+        return $res->withJson($msg, $status);
+    }
 }

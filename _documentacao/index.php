@@ -38,7 +38,7 @@
     window.onload = function() {
       // Begin Swagger UI call region
       const ui = SwaggerUIBundle({
-        url: "http://localhost/slim/_documentacao/api.php",
+        url: "http://localhost/lanchonete/_documentacao/api.php",
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
