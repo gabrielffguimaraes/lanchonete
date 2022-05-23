@@ -11,3 +11,8 @@ create table category(
     id INT PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(255) UNIQUE NOT NULL
 );
+
+create table ingredient(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    description VARCHAR(255) UNIQUE NOT NULL
+);

@@ -40,6 +40,7 @@ $json='{
 	/*APIs de Exemplo*/
 	include("./user/register.php");
     include("./category/category.php");
+    include("./ingredient/ingredient.php");
 	//include("./usuario/testeGet.php");
 
 	

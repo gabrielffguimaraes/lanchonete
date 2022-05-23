@@ -22,6 +22,10 @@ $app->group('/user', function() use ($app) {
 $app->group('/category', function() use ($app) {
     include './rest/CategoryRest.php';
 });
+
+$app->group('/ingredient', function() use ($app) {
+    include './rest/IngredientRest.php';
+});
 /*
 $app->group('/categoria', function() use ($app) {
     $app->get('/', function (Request $request, Response $response, array $args) {
