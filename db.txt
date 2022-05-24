@@ -16,3 +16,9 @@ create table ingredient(
     id INT PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(255) UNIQUE NOT NULL
 );
+
+create table products(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    category int
+);
