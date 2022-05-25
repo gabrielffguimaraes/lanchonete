@@ -4,10 +4,6 @@ require('../vendor/autoload.php');
 require('./conexao/Conexao.php');
 require('../app/authentication/Auth.php');
 $app = new \Slim\App();
-use Slim\Http\Request;
-use Slim\Http\Response;
-
-
 
 
 $app->get('/', function ($request, $response, $args) {
@@ -16,15 +12,22 @@ $app->get('/', function ($request, $response, $args) {
 
 
 $app->group('/user', function() use ($app) {
-    include './rest/LoginRest.php';
+    include './rest/loginRest.php';
 });
 
 $app->group('/category', function() use ($app) {
-    include './rest/CategoryRest.php';
+    include './rest/categoryRest.php';
 });
 
 $app->group('/ingredient', function() use ($app) {
-    include './rest/IngredientRest.php';
+    include './rest/ingredientRest.php';
+});
+
+$app->group('/client/products', function() use ($app) {
+    include './rest/clientProductRest.php';
+});
+$app->group('/products', function() use ($app) {
+    include './rest/product.php';
 });
 /*
 $app->group('/categoria', function() use ($app) {
@@ -33,8 +36,8 @@ $app->group('/categoria', function() use ($app) {
         return $LoginController->registerUser($request,$response);
     });
 });
-
-
 */
+
+
 
 $app->run();

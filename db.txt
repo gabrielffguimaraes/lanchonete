@@ -17,8 +17,10 @@ create table ingredient(
     description VARCHAR(255) UNIQUE NOT NULL
 );
 
-create table products(
+create table product(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
-    category int
+    category int,
+    price decimal(10,2),
+    ingredient int
 );

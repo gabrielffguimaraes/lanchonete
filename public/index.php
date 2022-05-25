@@ -16,7 +16,7 @@ $container = $app->getContainer();
 
 // Register component on container
 $container['view'] = function ($container) {
-    return new \Slim\Views\PhpRenderer('../resources/views',['baseUrl' => '/slim/public/']);
+    return new \Slim\Views\PhpRenderer('../resources/views',['baseUrl' => '/lanchonete/public/']);
 };
 
 

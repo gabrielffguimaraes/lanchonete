@@ -10,9 +10,7 @@ class Conexao
     protected $connection = null;
     private $connectionIsOpen = false;
 
-    public function __constructor() {
 
-    }
     public function	get_connectionIsOpen(){
         return $this->connectionIsOpen;
     }

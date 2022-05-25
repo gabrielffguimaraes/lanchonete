@@ -22,7 +22,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
 });
 
 $app->get('/', function (Request $request, Response $response, array $args) {
-    return $this->view->render($response, 'home.php');
+    return $this->view->render($response, 'products.php');
 });
 
 $app->get('/about',function(Request $request, Response $response, array $args)
