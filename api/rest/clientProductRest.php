@@ -1,7 +1,4 @@
 <?php
-require('./dao/ProductDAO.php');
-require('./controller/ProductController.php');
-
 use Slim\Http\Request;
 use Slim\Http\Response;
 

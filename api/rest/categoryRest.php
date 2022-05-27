@@ -1,7 +1,4 @@
 <?php
-require('./dao/CategoryDAO.php');
-require('./controller/CategoryController.php');
-
 use Slim\Http\Request;
 use Slim\Http\Response;
 

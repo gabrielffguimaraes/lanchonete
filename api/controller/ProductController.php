@@ -15,6 +15,17 @@ class ProductController extends ProductDAO
         $products = $this->getProducts();
         return $res->withJson($products,200);
     }
+    public function addIngredientToProduct($req,$res)
+    {
+        $ingredientDAO = new IngredientDAO();
+        $ingredientDAO->connection = $this->connection;
+        $args = $req->getParsedBody();
+        $ingredient = $ingredientDAO->getIngredients($args['ingredientId']);
+        if (!empty($ingredient)) {
+            return $res->withJson("Ingredient não encontrado",404);
+        }
+        return $res->withJson([],200);
+    }
     /*
     public function listById($req,$res,$args)
     {

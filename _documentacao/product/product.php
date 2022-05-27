@@ -1,6 +1,6 @@
 <?php
 
-$json.='"/api/client/products": {
+$json.='"/api/client/product": {
 				"get": {
 					"tags": [
 						"Produtos"

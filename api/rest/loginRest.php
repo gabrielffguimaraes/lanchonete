@@ -1,7 +1,4 @@
 <?php
-require('./dao/LoginDAO.php');
-require('./controller/LoginController.php');
-
 use Slim\Http\Request;
 use Slim\Http\Response;
 
