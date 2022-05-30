@@ -11,4 +11,7 @@ $app->post('/ingredient', function (Request $request, Response $response, array 
     $ProductController = new ProductController();
     return $ProductController->addIngredientToProduct($request,$response);
 });
-
+$app->post('', function (Request $request, Response $response, array $args) {
+    $ProductController = new ProductController();
+    return $ProductController->add($request,$response);
+});

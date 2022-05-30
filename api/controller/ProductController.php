@@ -19,12 +19,80 @@ class ProductController extends ProductDAO
     {
         $ingredientDAO = new IngredientDAO();
         $ingredientDAO->connection = $this->connection;
+        $productDAO = $this;
+
         $args = $req->getParsedBody();
+
         $ingredient = $ingredientDAO->getIngredients($args['ingredientId']);
-        if (!empty($ingredient)) {
-            return $res->withJson("Ingredient não encontrado",404);
+        $product = $productDAO->getProducts($args['productId']);
+        $exist = $productDAO->existIngredientProduct($args['ingredientId'],$args['productId']);
+
+        $msg = "";
+        $status = null;
+
+        if (empty($ingredient)) {
+            $msg = "Ingrediente não encontrado";
+            $status = 404;
+        } else if (empty($product)) {
+            $msg = "Produto não encontrado";
+            $status = 404;
+        } else if(!empty($exist)) {
+            $msg = "Ingrediente já adicionado ao produto .";
+            $status = 400;
         }
-        return $res->withJson([],200);
+
+        $added = $productDAO->addIngredientToProduct($args['ingredientId'],$args['productId']);
+        if($added == 1) {
+            $msg = "Erro , por favor tentar novamente mais tarde .";
+            $status = 400;
+        } else {
+            $msg = "Sucesso , ingrediente adicionado com sucesso .";
+            $status = 200;
+        };
+        return $res->withJson($msg,$status);
+    }
+    public function add($req,$res)
+    {
+        $categoryDAO = new CategoryDAO();
+        $categoryDAO->connection = $this->connection;
+        $productDAO = $this;
+        $args = $req->getParsedBody();
+
+        $category = $categoryDAO->getCategories($args['category']);
+
+        if (empty($category)) {
+            return $res->withJson("Categoria não encontrada",404);
+        }
+
+        $msg = "";
+        $status = null;
+
+        $product = array(
+            "description" => $args['description'],
+            "category" => $args['category'],
+            "price" => $args['price']
+        );
+        $id = $productDAO->addProduct($product);
+        if($id) {
+            $msg = "Sucesso, produto criado com sucesso .";
+            $status = 201;
+        } else {
+            $msg = "Erro ao criar produto .";
+            $status = 400;
+        }
+        return $res->withJson($msg,$status);
+
+        /*
+        else if(!empty($exist)) {
+            return $res->withJson("Ingrediente já adicionado ao produto .",400);
+        }*/
+
+        /*$added = $productDAO->addIngredientToProduct($args['ingredientId'],$args['productId']);
+        if(!$added) {
+            return $res->withJson("Erro , por favor tentar novamente mais tarde .",400);
+        } else {
+            return $res->withJson("Sucesso , ingrediente adicionado com sucesso .",200);
+        };*/
     }
     /*
     public function listById($req,$res,$args)

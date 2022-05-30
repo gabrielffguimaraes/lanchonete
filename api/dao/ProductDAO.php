@@ -11,7 +11,16 @@ class ProductDAO extends Conexao
         $this->categoryDAO = new CategoryDAO();
         $this->categoryDAO->connection = $this->connection;
     }
-
+    public function addProduct($product) {
+        $sql="INSERT INTO product 
+                (id,description,category,price) 
+                    VALUES 
+                (default,?,?,?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("sss",$product['description'],$product['category'],$product['price']);
+        $stmt->execute();
+        return  $stmt->insert_id;
+    }
     public function getProducts($id = "") {
         $filter =  ($id != "") ? "where id=?" : "";
         $sql = "select * from product $filter";
@@ -23,42 +32,60 @@ class ProductDAO extends Conexao
         $products = $this->createTableArray($stmt->get_result());
 
         foreach ($products as &$product) {
-            $product['ingredient'] = $this->ingredientDAO->getIngredients($product['ingredient']);
+            $product['ingredient'] = $this->getIngredientProduct($product['id']);
             $product['category'] = $this->categoryDAO->getCategories($product['category']);
         }
         return  $products;
     }
+    public function getIngredientProduct($productId) {
+        $sql = "SELECT i.* FROM 
+                    product_ingredient as pi
+                INNER JOIN ingredient i on i.id = pi.ingredient_id
+                WHERE product_id=?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $productId);
+        $stmt->execute();
+        $ingredients = $this->createTableArray($stmt->get_result());
+        return  $ingredients;
+    }
+    public function addIngredientToProduct($ingredientId,$productId) {
+        $sql="INSERT INTO product_ingredient (product_id,ingredient_id) VALUES (?,?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $productId , $ingredientId);
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
+    public function existIngredientProduct($ingredientId,$productId) {
+        $sql = "select * from product_ingredient where ingredient_id=? and product_id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $ingredientId , $productId);
+        $stmt->execute();
+        return  $stmt->get_result()->fetch_row();
+    }
     /*
-    public function addIngredient($ingredient) {
-        $sql="INSERT INTO ingredient (id,description) VALUES (default,?)";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $ingredient['description']);
-        $stmt->execute();
-        return  $stmt->affected_rows;
-    }
-    public function updateIngredient($ingredient) {
-        $sql="UPDATE ingredient SET description=? WHERE id=?";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("ss", $ingredient['description'],$ingredient['id']);
-        $stmt->execute();
-        return  $stmt->affected_rows;
-    }
-    public function getIngredientByDescription($ingredient) {
-        $nParams = "s";
-        $filter = "";
-        $params = array();
-        $params[] = $ingredient['description'];
-        if(isset($ingredient['id']) and $ingredient['id'] != "") {
-            $filter = " and id != ?";
-            $nParams.="s";
-            $params[] = $ingredient['id'];
-        }
+   public function updateIngredient($ingredient) {
+       $sql="UPDATE ingredient SET description=? WHERE id=?";
+       $stmt = $this->connection->prepare($sql);
+       $stmt->bind_param("ss", $ingredient['description'],$ingredient['id']);
+       $stmt->execute();
+       return  $stmt->affected_rows;
+   }
+   public function getIngredientByDescription($ingredient) {
+       $nParams = "s";
+       $filter = "";
+       $params = array();
+       $params[] = $ingredient['description'];
+       if(isset($ingredient['id']) and $ingredient['id'] != "") {
+           $filter = " and id != ?";
+           $nParams.="s";
+           $params[] = $ingredient['id'];
+       }
 
-        $sql="SELECT * FROM ingredient WHERE description like ? $filter";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param($nParams, ...$params);
-        $stmt->execute();
-        $this->resultado = $stmt->get_result();
-        return  $this->resultado;
-    }*/
+       $sql="SELECT * FROM ingredient WHERE description like ? $filter";
+       $stmt = $this->connection->prepare($sql);
+       $stmt->bind_param($nParams, ...$params);
+       $stmt->execute();
+       $this->resultado = $stmt->get_result();
+       return  $this->resultado;
+   }*/
 }

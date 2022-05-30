@@ -19,8 +19,13 @@ create table ingredient(
 
 create table product(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
+    description VARCHAR(255),
     category int,
-    price decimal(10,2),
-    ingredient int
+    price decimal(10,2)
+);
+
+create table product_ingredient(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    ingredient_id INT NOT NULL
 );
