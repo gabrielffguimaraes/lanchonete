@@ -2,14 +2,9 @@
 
 class ProductDAO extends Conexao
 {
-    private $ingredientDAO;
-    private $categoryDAO;
     public function __constructor()
     {
-        $this->ingredientDAO = new IngredientDAO();
-        $this->ingredientDAO->connection = $this->connection;
-        $this->categoryDAO = new CategoryDAO();
-        $this->categoryDAO->connection = $this->connection;
+
     }
     public function addProduct($product) {
         $sql="INSERT INTO product 
@@ -22,6 +17,9 @@ class ProductDAO extends Conexao
         return  $stmt->insert_id;
     }
     public function getProducts($id = "") {
+        $categoryDAO = new CategoryDAO();
+        $categoryDAO->connection = $this->connection;
+
         $filter =  ($id != "") ? "where id=?" : "";
         $sql = "select * from product $filter";
         $stmt = $this->connection->prepare($sql);
@@ -33,7 +31,7 @@ class ProductDAO extends Conexao
 
         foreach ($products as &$product) {
             $product['ingredient'] = $this->getIngredientProduct($product['id']);
-            $product['category'] = $this->categoryDAO->getCategories($product['category']);
+            $product['category'] = $categoryDAO->getCategories($product['category']);
         }
         return  $products;
     }
@@ -48,7 +46,7 @@ class ProductDAO extends Conexao
         $ingredients = $this->createTableArray($stmt->get_result());
         return  $ingredients;
     }
-    public function addIngredientToProduct($ingredientId,$productId) {
+    public function addIngredientToProduct($productId,$ingredientId) {
         $sql="INSERT INTO product_ingredient (product_id,ingredient_id) VALUES (?,?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ss", $productId , $ingredientId);

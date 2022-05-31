@@ -18,37 +18,36 @@ class ProductController extends ProductDAO
     public function addIngredientToProduct($req,$res)
     {
         $ingredientDAO = new IngredientDAO();
+        $productDAO = new ProductDAO();
+        $productDAO->connection = $this->connection;
         $ingredientDAO->connection = $this->connection;
-        $productDAO = $this;
 
         $args = $req->getParsedBody();
 
         $ingredient = $ingredientDAO->getIngredients($args['ingredientId']);
+
         $product = $productDAO->getProducts($args['productId']);
         $exist = $productDAO->existIngredientProduct($args['ingredientId'],$args['productId']);
 
         $msg = "";
         $status = null;
 
+
         if (empty($ingredient)) {
-            $msg = "Ingrediente não encontrado";
-            $status = 404;
+            return $res->withJson("Ingrediente não encontrado",404);
         } else if (empty($product)) {
-            $msg = "Produto não encontrado";
-            $status = 404;
+            return $res->withJson("Produto não encontrado",404);
         } else if(!empty($exist)) {
-            $msg = "Ingrediente já adicionado ao produto .";
-            $status = 400;
+            return $res->withJson("Ingrediente já adicionado ao produto .",400);
         }
 
-        $added = $productDAO->addIngredientToProduct($args['ingredientId'],$args['productId']);
-        if($added == 1) {
-            $msg = "Erro , por favor tentar novamente mais tarde .";
-            $status = 400;
+        $added = $productDAO->addIngredientToProduct($args['productId'],$args['ingredientId']);
+
+        if($added != 1) {
+            return $res->withJson("Erro , por favor tentar novamente mais tarde .",400);
         } else {
-            $msg = "Sucesso , ingrediente adicionado com sucesso .";
-            $status = 200;
-        };
+            return $res->withJson("Sucesso , ingrediente adicionado com sucesso .",200);
+        }
         return $res->withJson($msg,$status);
     }
     public function add($req,$res)

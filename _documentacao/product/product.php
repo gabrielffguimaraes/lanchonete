@@ -56,3 +56,48 @@ $json.='"/api/product/ingredient": {
 				}
 			},
 	';
+$json.='"/api/product": {
+				"post": {
+					"tags": [
+						"Produtos"
+					],
+					"description": "Adiciona produto.",
+					"parameters": [],
+					"requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "category": {
+                                            "type": "number",
+                                            "description": "categoria do produto",
+                                            "example": "1"
+                                        },
+                                        "description": {
+                                            "type": "number",
+                                            "description": "descrição do produto",
+                                            "example": "Camiseta azul"
+                                        },	
+                                        "price": {
+                                            "type": "number",
+                                            "description": "preço do produto",
+                                            "example": "20.00"
+                                        }
+                                    },
+                                    "required": [
+                                        "description"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": true
+                    },
+					"responses": {},
+					"security": [
+						{
+							"Authorization": []
+						}
+					]
+				}
+			},
+	';
