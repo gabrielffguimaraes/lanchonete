@@ -1,6 +1,6 @@
 <?php
 	$json.='
-			"/api/user/register": {
+			"/api/client/auth/register": {
 						"post": {
 							"tags": [
 								"Usuários"

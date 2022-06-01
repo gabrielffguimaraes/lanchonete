@@ -15,6 +15,38 @@ $json.='"/api/client/product": {
 				}
 			},
 	';
+$json.='"/api/client/product/{id}": {
+				"get": {
+					"tags": [
+						"Produtos"
+					],
+					"description": "Retorna produto pelo id",
+					"parameters": [
+					    {
+							"name": "id",
+							"example": "1",
+							"in": "path",
+							"schema": {
+								"properties": {
+									"id": {
+										"type": "number",
+										"description": "id produto.",
+										"example": "1"
+									}
+								}
+							},
+							"required": true
+						}
+					],
+					"responses": {},
+					"security": [
+						{
+							"Authorization": []
+						}
+					]
+				}
+			},
+	';
 
 $json.='"/api/product/ingredient": {
 				"post": {
@@ -28,12 +60,12 @@ $json.='"/api/product/ingredient": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "ingredientId": {
+                                        "ingredient_id": {
                                             "type": "number",
                                             "description": "id do ingrediente",
                                             "example": "1"
                                         },
-                                        "productId": {
+                                        "product_id": {
                                             "type": "number",
                                             "description": "id do produto",
                                             "example": "1"

@@ -15,6 +15,16 @@ class ProductController extends ProductDAO
         $products = $this->getProducts();
         return $res->withJson($products,200);
     }
+    public function listById($req,$res,$args)
+    {
+        $id = $args['id'];
+        $product = $this->getProducts($id);
+        if(!empty($product)) {
+            return $res->withJson($product[0],200);
+        } else {
+            return $res->withJson("Produto não encontrado",404);
+        }
+    }
     public function addIngredientToProduct($req,$res)
     {
         $ingredientDAO = new IngredientDAO();
@@ -24,14 +34,10 @@ class ProductController extends ProductDAO
 
         $args = $req->getParsedBody();
 
-        $ingredient = $ingredientDAO->getIngredients($args['ingredientId']);
+        $ingredient = $ingredientDAO->getIngredients($args['ingredient_id']);
 
-        $product = $productDAO->getProducts($args['productId']);
-        $exist = $productDAO->existIngredientProduct($args['ingredientId'],$args['productId']);
-
-        $msg = "";
-        $status = null;
-
+        $product = $productDAO->getProducts($args['product_id']);
+        $exist = $productDAO->existIngredientProduct($args['ingredient_id'],$args['product_id']);
 
         if (empty($ingredient)) {
             return $res->withJson("Ingrediente não encontrado",404);
@@ -41,7 +47,7 @@ class ProductController extends ProductDAO
             return $res->withJson("Ingrediente já adicionado ao produto .",400);
         }
 
-        $added = $productDAO->addIngredientToProduct($args['productId'],$args['ingredientId']);
+        $added = $productDAO->addIngredientToProduct($args['product_id'],$args['ingredient_id']);
 
         if($added != 1) {
             return $res->withJson("Erro , por favor tentar novamente mais tarde .",400);
@@ -62,10 +68,6 @@ class ProductController extends ProductDAO
         if (empty($category)) {
             return $res->withJson("Categoria não encontrada",404);
         }
-
-        $msg = "";
-        $status = null;
-
         $product = array(
             "description" => $args['description'],
             "category" => $args['category'],
@@ -73,77 +75,10 @@ class ProductController extends ProductDAO
         );
         $id = $productDAO->addProduct($product);
         if($id) {
-            $msg = "Sucesso, produto criado com sucesso .";
-            $status = 201;
+            return $res->withJson("Sucesso, produto criado com sucesso .",201);
         } else {
-            $msg = "Erro ao criar produto .";
-            $status = 400;
-        }
-        return $res->withJson($msg,$status);
-
-        /*
-        else if(!empty($exist)) {
-            return $res->withJson("Ingrediente já adicionado ao produto .",400);
-        }*/
-
-        /*$added = $productDAO->addIngredientToProduct($args['ingredientId'],$args['productId']);
-        if(!$added) {
-            return $res->withJson("Erro , por favor tentar novamente mais tarde .",400);
-        } else {
-            return $res->withJson("Sucesso , ingrediente adicionado com sucesso .",200);
-        };*/
-    }
-    /*
-    public function listById($req,$res,$args)
-    {
-        $id = $args['id'];
-        $ingredient = $this->getIngredients($id);
-        if(!empty($ingredient)) {
-            return $res->withJson($ingredient,200);
-        } else {
-            return $res->withJson("Ingrediente não encontrada",404);
+            return $res->withJson("Erro ao criar produto .",400);
         }
     }
 
-    public function add($req,$res)
-    {
-        $args = $req->getParsedBody();
-        $newIngredient = array(
-            "description" => $args['description']
-        );
-        $this->getIngredientByDescription($newIngredient);
-        $msg = "";
-        $status = null;
-
-        if(empty($this->countRows())) {
-            $result = $this->addIngredient($newIngredient);
-            $msg = ($result == 1) ? "Ingrediente criada com sucesso" : "Erro ao criar ingrediente";
-            $status = ($result == 1) ? 201 : 400;
-        } else {
-            $msg = "Ingrediente já existe";
-            $status = 400;
-        }
-        return $res->withJson($msg, $status);
-    }
-    public function update($req,$res)
-    {
-        $args = $req->getParsedBody();
-        $ingredient = array(
-            "id" => $args['id'],
-            "description" => $args['description']
-        );
-        $this->getIngredientByDescription($ingredient);
-        $msg = "";
-        $status = null;
-
-        if(empty($this->countRows())) {
-            $result = $this->updateIngredient($ingredient);
-            $msg = ($result >= 0) ? "Ingrediente atualizada com sucesso" : "Erro ao atualizar ingrediente";
-            $status = ($result >= 0) ? 200 : 400;
-        } else {
-            $msg = "Ingrediente já existe";
-            $status = 400;
-        }
-        return $res->withJson($msg, $status);
-    }*/
 }

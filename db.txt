@@ -1,6 +1,6 @@
 create database lanchonete;
 use lanchonete;
-create table user(
+create table client(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL,
     password TEXT NOT NULL,
@@ -20,12 +20,32 @@ create table ingredient(
 create table product(
     id INT PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(255),
-    category int,
-    price decimal(10,2)
+    category INT,
+    price DECIMAL(10,2)
 );
 
 create table product_ingredient(
     id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT NOT NULL,
     ingredient_id INT NOT NULL
+);
+
+create table payment_order (
+   id INT PRIMARY KEY AUTO_INCREMENT,
+   client_id INT NOT NULL,
+   address_id INT NOT NULL,
+   discount DECIMAL(10,2),
+   delivery_fee DECIMAL(10,2),
+   amount DECIMAL(10,2),
+   status INT NOT NULL
+);
+create table address (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    number INT,
+    street text,
+    district INT,
+    city TEXT,
+    uf VARCHAR(2),
+    ref TEXT,
+    client_id INT NOT NULL
 );

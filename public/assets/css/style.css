@@ -1144,3 +1144,9 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .pagination > li > a, .pagination > li > span {
   color: #e67e22;
 }
+.no-events {
+    pointer-events: none !important;
+}
+label {
+    margin:0;
+}

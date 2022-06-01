@@ -8,7 +8,7 @@ class LoginDAO extends Conexao
     }
 
     public function getUsers() {
-        $sql = "select * from user";
+        $sql = "select * from client";
         $response = [];
         $users = $this->createTableArray($this->query($sql));
         forEach($users as $user) {
@@ -17,7 +17,7 @@ class LoginDAO extends Conexao
         return $response;
     }
     public function register($user) {
-        $sql="INSERT INTO user (id,name,password,email) VALUES (default,?,?,?)";
+        $sql="INSERT INTO client (id,name,password,email) VALUES (default,?,?,?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("sss", $user['name'], $user['password'] , $user['email'] );
         $stmt->execute();
@@ -25,7 +25,7 @@ class LoginDAO extends Conexao
         return  $stmt->affected_rows;
     }
     public function findUserByNameOrEmail($user) {
-        $sql="SELECT * FROM user WHERE name=? or email=?";
+        $sql="SELECT * FROM client WHERE name=? or email=?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ss", $user['name'] , $user['email'] );
         $stmt->execute();

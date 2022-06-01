@@ -13,7 +13,7 @@ $app->get('/', function ($request, $response, $args) {
 });
 
 
-$app->group('/user', function() use ($app) {
+$app->group('/client/auth', function() use ($app) {
     include './rest/loginRest.php';
 });
 
@@ -28,6 +28,11 @@ $app->group('/ingredient', function() use ($app) {
 $app->group('/client/product', function() use ($app) {
     include './rest/clientProductRest.php';
 });
+
+$app->group('/client/address', function() use ($app) {
+    include './rest/clientAddressRest.php';
+});
+
 $app->group('/product', function() use ($app) {
     include './rest/productRest.php';
 });

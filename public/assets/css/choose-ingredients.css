@@ -1,0 +1,41 @@
+.single-product-area {
+    min-height:500px;
+    display: flex;
+    padding-top:50px;
+    align-items:unset;
+}
+.product-area {
+    flex:0 0 400px;
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.choose-ingredient-area {
+    flex-grow:1;
+    height:100%;
+    padding-left:8px;
+    padding-right: 8px;
+}
+.form-check-input {
+    width:17px;
+    height: 17px;
+}
+.product-name {
+    vertical-align:center;
+}
+td {
+    cursor: pointer;
+}
+tr:hover {
+    background-color: rgba(155,155,155,0.2);
+}
+.product-carousel-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:205px;
+}
+.product-carousel-price ins {
+    font-size:20px;
+}

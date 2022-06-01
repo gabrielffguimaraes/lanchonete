@@ -24,6 +24,15 @@ $app->post('/login', function (Request $request, Response $response, array $args
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'products.php');
 });
+$app->get('/cart', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'cart.php');
+});
+$app->get('/product/{id}/ingredients', function (Request $request, Response $response, array $args) {
+    $data = array(
+        "productId" => $args['id']
+    );
+    return $this->view->render($response, 'choose-ingredients.php',$data);
+});
 
 $app->get('/about',function(Request $request, Response $response, array $args)
 {

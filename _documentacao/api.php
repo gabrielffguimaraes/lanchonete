@@ -35,14 +35,19 @@ $json='{
 			},
 			{
 				"name": "Produtos",
-				"description": "Endpoints Categorias"
+				"description": "Endpoints produtos"
+			},
+			{
+				"name": "Endereço",
+				"description": "Endpoints endereços"
 			}
 		],
 		"paths": {
     ';
   
 	/*APIs de Exemplo*/
-	include("./user/register.php");
+	include("./client/register.php");
+    include("./client/address.php");
     include("./category/category.php");
     include("./ingredient/ingredient.php");
     include("./product/product.php");
