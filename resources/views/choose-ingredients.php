@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-Br">
 <head>
-    <? include "layouts/head.php"; ?>
+    <?php include "layouts/head.php"; ?>
     <link rel="stylesheet" href="<?=$baseUrl?>assets/css/choose-ingredients.css">
 </head>
 <body>
-    <? include "layouts/menu.php"; ?>
-    <? include "layouts/header.php"; ?>
-    <? include "layouts/navigator.php"; ?>
+    <?php include "layouts/menu.php"; ?>
+    <?php include "layouts/header.php"; ?>
+    <?php include "layouts/navigator.php"; ?>
 
     <div class="product-big-title-area">
         <div class="container">
@@ -38,7 +38,7 @@
             src="<?=$baseUrl?>assets/js/views/choose-ingredients.js"
             product-id="<?=$productId?>">
     </script>
-    <? include "layouts/footer.php"; ?>
+    <?php include "layouts/footer.php"; ?>
 </body>
 
 </html>

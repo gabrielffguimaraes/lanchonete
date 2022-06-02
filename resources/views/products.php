@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-Br">
 <head>
-    <? include "layouts/head.php"; ?>
+    <?php include "layouts/head.php"; ?>
 </head>
 <body>
-    <? include "layouts/menu.php"; ?>
-    <? include "layouts/header.php"; ?>
-    <? include "layouts/navigator.php"; ?>
+    <?php include "layouts/menu.php"; ?>
+    <?php include "layouts/header.php"; ?>
+    <?php include "layouts/navigator.php"; ?>
 
     <div class="product-big-title-area">
         <div class="container">
@@ -53,7 +53,7 @@
         </div>
     </div>
     <script src="<?=$baseUrl?>assets/js/views/products.js"></script>
-    <? include "layouts/footer.php"; ?>
+    <?php include "layouts/footer.php"; ?>
 </body>
 
 </html>

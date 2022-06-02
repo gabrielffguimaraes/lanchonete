@@ -24,6 +24,9 @@ $app->post('/login', function (Request $request, Response $response, array $args
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'products.php');
 });
+$app->get('/payment', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'payment.php');
+});
 $app->get('/cart', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'cart.php');
 });
