@@ -1,12 +1,14 @@
 <?php
+session_name("sistema");
+session_start();
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require('../vendor/autoload.php');
-
+require('../app/authentication/Auth.php');
 $settings = require __DIR__ . '/../app/settings.php';
-
+$enviroments = require __DIR__. '/../app/enviroments.php';
 $app = new \Slim\App($settings);
 
 
@@ -15,8 +17,8 @@ $container = $app->getContainer();
 
 
 // Register component on container
-$container['view'] = function ($container) {
-    return new \Slim\Views\PhpRenderer('../resources/views',['baseUrl' => '/lanchonete/public/']);
+$container['view'] = function ($container) use ($enviroments){
+    return new \Slim\Views\PhpRenderer('../resources/views',$enviroments);
 };
 
 

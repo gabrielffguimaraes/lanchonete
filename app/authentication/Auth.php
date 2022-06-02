@@ -5,10 +5,11 @@ class Auth
 {
     public static function authentication() {
         return function ($request, $response, $next)  {
+            $enviroments = require __DIR__. '/../enviroments.php';
             if(isset($_SESSION['name']) && $_SESSION['name'] != "") {
                 return $next($request, $response);
             } else {
-                return $response->withRedirect("/slim/public/");
+                return $response->withRedirect($enviroments['baseUrl']);
             }
         };
     }
@@ -25,7 +26,11 @@ class Auth
     }
     public static function credentials()
     {
-        return "Basic ".base64_encode("{$_SESSION['name']}:{$_SESSION['password']}");
+        if(isset($_SESSION['name'])) {
+           return "Basic " . base64_encode("{$_SESSION['name']}:{$_SESSION['password']}");
+        } else {
+            return "";
+        }
     }
 
 }

@@ -42,44 +42,17 @@
                                     </tr>
                                     </thead>
                                     <tbody id="tbody-cart">
-                                    <tr class="cart_item">
-                                        <td class="product-remove">
-                                            <a title="Remove this item" class="remove" href="#">×</a>
-                                        </td>
-
-                                        <td class="product-thumbnail">
-                                            <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
-                                        </td>
-
-                                        <td class="product-name">
-                                            <a href="single-product.html">Ship Your Idea</a>
-                                        </td>
-
-                                        <td class="product-price">
-                                            <span class="amount">R$15.00</span>
-                                        </td>
-
-                                        <td class="product-quantity">
-                                            <div class="quantity buttons_added">
-                                                <input type="button" class="minus" value="-">
-                                                <input type="number" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
-                                                <input type="button" class="plus" value="+">
-                                            </div>
-                                        </td>
-
-                                        <td class="product-subtotal">
-                                            <span class="amount">R$15.00</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="actions" colspan="6">
-                                            <div class="coupon">
-                                                <label for="coupon_code">Cupom:</label>
-                                                <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
-                                                <input type="submit" value="Aplicar" name="apply_coupon" class="button">
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <!--
+                                        <tr>
+                                            <td class="actions" colspan="6">
+                                                <div class="coupon">
+                                                    <label for="coupon_code">Cupom:</label>
+                                                    <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
+                                                    <input type="submit" value="Aplicar" name="apply_coupon" class="button">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        -->
                                     </tbody>
                                 </table>
                             </form>
@@ -107,17 +80,17 @@
                                         <tbody>
                                         <tr class="cart-subtotal">
                                             <th>Subtotal</th>
-                                            <td><span class="amount">R$15,00</span></td>
+                                            <td><span class="amount">R$ 0,00</span></td>
                                         </tr>
 
                                         <tr class="shipping">
                                             <th>Frete</th>
-                                            <td>R$0,00</td>
+                                            <td>R$ 0,00</td>
                                         </tr>
 
                                         <tr class="order-total">
                                             <th>Total</th>
-                                            <td><strong><span class="amount">R$15,00</span></strong> </td>
+                                            <td><strong><span class="amount">R$ 0,00</span></strong> </td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -126,7 +99,7 @@
                             </div>
 
                             <div class="pull-right">
-                                <button onclick=window.location.href="<?=$baseUrl?>payment" type="button" name="proceed" class="checkout-button button alt wc-forward">Finalizar Compra</button>
+                                <button onclick=window.location.href="<?=$baseUrl?>payment" type="submit" name="proceed" class="checkout-button button alt wc-forward">Finalizar Compra</button>
                             </div>
 
                         </div>

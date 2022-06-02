@@ -1,10 +1,10 @@
 function carregarProdutos() {
     $.ajax({
-        url: `${config.baseHttp}client/product`,
+        url: `${Enviroments.baseHttp}client/product`,
         type: 'GET',
         dataType: 'json',
         headers: {
-            'Authorization': `${config.authorization}`
+            'Authorization': `${Enviroments.authorization}`
         },
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
@@ -14,7 +14,7 @@ function carregarProdutos() {
                 <div class="col-md-3 col-sm-6">
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="${config.baseUrl}assets/img/product-2.jpg" alt="">
+                            <img src="${Enviroments.baseUrl}assets/img/product-2.jpg" alt="">
                         </div>
                         <h2><a href="">${product.description}</a></h2>
                         <div class="product-carousel-price">

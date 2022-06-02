@@ -1,23 +1,17 @@
 <?php
-session_name("sistema");
-session_start();
-
-require('../app/authentication/Auth.php');
-
-
 require('../api/conexao/Conexao.php');
 use Slim\Http\Request;
 use Slim\Http\Response;
-
+$enviroments = require __DIR__. '/enviroments.php';
 // Routes
 $auth = Auth::authentication();
 
-$app->post('/login', function (Request $request, Response $response, array $args) {
+$app->post('/login', function (Request $request, Response $response, array $args) use ($enviroments) {
     $loginController = new LoginController();
     if($loginController->login($request->getParsedBody())) {
-        return $response->withRedirect("/slim/public/about");
+        return $response->withRedirect("{$enviroments['baseUrl']}about");
     } else {
-        return $response->withRedirect("/slim/public/?isInvalid" );
+        return $response->withRedirect("{$enviroments['baseUrl']}?isInvalid" );
     };
 });
 
@@ -37,10 +31,11 @@ $app->get('/product/{id}/ingredients', function (Request $request, Response $res
     return $this->view->render($response, 'choose-ingredients.php',$data);
 });
 
+/*
 $app->get('/about',function(Request $request, Response $response, array $args)
 {
     $data = array(
         "credentials"=>Auth::credentials()
     );
     return $this->view->render($response, 'about.php',$data);
-})->add($auth);
+})->add($auth);*/

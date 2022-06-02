@@ -10,7 +10,7 @@
 <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/css/bootstrap.min.css">
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/font-awesome.min.css">
@@ -29,13 +29,10 @@
 <!-- config -->
 <script src="<?= $baseUrl; ?>assets/js/utils.js"></script>
 <script src="<?= $baseUrl; ?>assets/js/views/cart.js"></script>
-<script>
-    var config = {
-        baseUrl:"<?= $baseUrl; ?>",
-        baseHttp:"http://localhost/lanchonete/api/",
-        authorization:"<?=isset($credentials) ? $credentials : ""?>"
-    }
-</script>
+<script src="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/js/popper.min.js"></script>
+<script src="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/js/bootstrap.min.js"></script>
+
+<script src="<?= $baseUrl; ?>assets/js/enviroments.js" enviroments="<?=$envoriments;?>" id="enviroments-script"></script>
 
 
 

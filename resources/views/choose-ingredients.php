@@ -33,8 +33,7 @@
 
         </div>
     </div>
-    <script
-            id="ingredients-script"
+    <script id="ingredients-script"
             src="<?=$baseUrl?>assets/js/views/choose-ingredients.js"
             product-id="<?=$productId?>">
     </script>

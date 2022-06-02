@@ -1,0 +1,1 @@
+const Enviroments = JSON.parse(atob(getParams("#enviroments-script").enviroments));
