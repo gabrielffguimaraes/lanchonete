@@ -91,14 +91,14 @@
 
                                                 <tr class="cart-subtotal">
                                                     <th>Subtotal</th>
-                                                    <td><span class="amount">R$15,00</span>
+                                                    <td><span id="subtotal" class="amount">R$ 0,00</span>
                                                     </td>
                                                 </tr>
 
                                                 <tr class="shipping">
                                                     <th>Frete</th>
                                                     <td>
-                                                        R$0,00
+                                                        R$ 0,00
                                                         <input type="hidden" class="shipping_method" value="free_shipping" id="shipping_method_0" data-index="0" name="shipping_method[0]">
                                                     </td>
                                                 </tr>
@@ -106,7 +106,7 @@
 
                                                 <tr class="order-total">
                                                     <th>Total do Pedido</th>
-                                                    <td><strong><span class="amount">R$15,00</span></strong> </td>
+                                                    <td><strong><span id="total" class="amount">R$ 0,00</span></strong> </td>
                                                 </tr>
 
                                                 </tfoot>
