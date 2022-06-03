@@ -61,6 +61,18 @@ $json.='"/api/client/address": {
 							"Authorization": []
 						}
 					]
+				},"get": {
+					"tags": [
+						"Endereço"
+					],
+					"description": "Retorna endereços",
+					"parameters": [],
+					"responses": {},
+					"security": [
+						{
+							"Authorization": []
+						}
+					]
 				}
 			},
 	';
