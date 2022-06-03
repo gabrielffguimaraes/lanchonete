@@ -34,8 +34,9 @@
                                 <div class="woocommerce-billing-fields">
                                     <h3>Endereço de entrega</h3>
                                     <div class="accordion" id="addresses">
-                                        <!-- addresses list -->
+
                                     </div>
+
                                     <div class="clear"></div>
                                     <h3 id="order_review_heading" class="mt-5">Detalhes do Pedido</h3>
                                     <div id="order_review" style="position: relative;">

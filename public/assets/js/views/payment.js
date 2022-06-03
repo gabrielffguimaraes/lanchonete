@@ -35,43 +35,29 @@ function addressesList() {
         type: 'GET',
         dataType: 'json',
         headers: {
-            'Authorization': `${Enviroments.authorization}`
+            /*'Authorization': `${Enviroments.authorization}`*/
+            'Authorization': `Basic ${btoa("admin:admin")}`
         },
         contentType: 'application/json; charset=utf-8',
         success: function (addresses) {
-            console.log(addresses);
-            /*
-            let html = `
-                <div className="accordion-item">
-                    <h2 className="accordion-header" id="headingOne">
-                        <button className="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true"
-                                aria-controls="collapseOne">
-                            <div className="form-check">
-                                <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
-                                       value="option1" checked>
-                                    <label className="form-check-label mb-0 mt-1" htmlFor="exampleRadios1">
-                                        Endereço
-                                    </label>
-                            </div>
+            let html = ``;
+            addresses.forEach((address,i)=>{
+                html += `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            ENDEREÇO ${i+1}
                         </button>
                     </h2>
-                    <div id="collapseOne" className="accordion-collapse collapse show"
-                         aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div className="accordion-body">
-                            <strong>This is the first item's accordion body.</strong> It is
-                            shown by default, until the collapse plugin adds the appropriate
-                            classes that we use to style each element. These classes control the
-                            overall appearance, as well as the showing and hiding via CSS
-                            transitions. You can modify any of this with custom CSS or
-                            overriding our default variables. It's also worth noting that just
-                            about any HTML can go within the <code>.accordion-body</code>,
-                            though the transition does limit overflow.
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                         </div>
                     </div>
                 </div>
             `;
-            $("#tbody-").html(ingredients);*/
+            });
+            $("#addresses").html(html);
         },
         error: function (error) {
             console.log(error);
