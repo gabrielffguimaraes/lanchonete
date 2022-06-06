@@ -36,15 +36,20 @@ create table payment_order (
    address_id INT NOT NULL,
    discount DECIMAL(10,2),
    delivery_fee DECIMAL(10,2),
-   amount DECIMAL(10,2),
    status INT NOT NULL
 );
 create table payment_order_product (
     id INT PRIMARY KEY AUTO_INCREMENT,
     payment_order_id INT NOT NULL,
     product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2)
 );
-
+create table payment_order_product_ingredient (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    payment_order_product_id INT NOT NULL,
+    ingredient_id INT NOT NULL
+);
 create table address (
     id INT PRIMARY KEY AUTO_INCREMENT,
     number INT,
