@@ -4,6 +4,8 @@ require('../vendor/autoload.php');
 require('./conexao/Conexao.php');
 /* classes */
 require('./util/autoload.php');
+
+require('./util/util.php');
 require('../app/authentication/Auth.php');
 $app = new \Slim\App();
 
@@ -36,6 +38,11 @@ $app->group('/client/address', function() use ($app) {
 $app->group('/product', function() use ($app) {
     include './rest/productRest.php';
 });
+
+$app->group('/order', function() use ($app) {
+    include './rest/orderRest.php';
+});
+
 /*
 $app->group('/categoria', function() use ($app) {
     $app->get('/', function (Request $request, Response $response, array $args) {

@@ -7,6 +7,16 @@ class ClientDAO extends Conexao
         $this->connection = $con;
         parent::__constructor();
     }
+    public function getAddressById($id) {
+        $sql = "SELECT * FROM address WHERE id=?";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $id);
+
+        $stmt->execute();
+        $addresses = $this->createLineArray($stmt->get_result());
+        return $addresses;
+    }
     public function getAddressesByClientId($client_id) {
         $sql = "SELECT * FROM address WHERE client_id=?";
 

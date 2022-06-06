@@ -8,9 +8,7 @@ class ClientController extends ClientDAO
     }
 
     public function getAddresses($req,$res) {
-        $params = $req->getServerParams();
-        $authorization = base64_decode(explode(" ",$params['HTTP_AUTHORIZATION'])[1]);
-        $name = explode(":",$authorization)[0];
+        $name = getAuthorizationCredentials($req);
         $client = $this->getClientByName($name);
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);

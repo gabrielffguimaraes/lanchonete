@@ -1,4 +1,36 @@
-
+/* payment function */
+document.getElementById("place_order").addEventListener("click",()=>{
+    const cart = new Cart();
+    let cartSend = cart.getCart();
+    cartSend.forEach((item) => {
+        item.category = item.category[0].id
+    });
+    let addressId = $("input[name=address]:checked").val();
+    if(!addressId) {
+        alert("Endereço obrigatório");
+        return
+    }
+    $.ajax({
+        url: `${Enviroments.baseHttp}order`,
+        type: 'POST',
+        data: JSON.stringify({
+            cart:cartSend,
+            address_id:addressId
+        }),
+        dataType: 'json',
+        headers: {
+            /*'Authorization': `${Enviroments.authorization}`*/
+            'Authorization': `Basic ${btoa("admin:admin")}`
+        },
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+            console.log(response)
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+});
 window.addEventListener("load",() => {
     const cart = new Cart();
     let details = ``;
@@ -46,12 +78,18 @@ function addressesList() {
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <input type="radio" name="address" value="${address.client_id}">&nbsp;&nbsp;&nbsp;
                             ENDEREÇO ${i+1}
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            <p><strong>N °</strong> : ${address.number}</p>
+                            <p><strong>Rua</strong> : ${address.street}</p>
+                            <p><strong>Bairro</strong> : ${address.district}</p>
+                            <p><strong>Cidade</strong> : ${address.city}</p>
+                            <p><strong>Estado</strong> : ${address.uf}</p>
+                            <p><strong>Ponto de referencia</strong> : ${address.ref}</p>
                         </div>
                     </div>
                 </div>

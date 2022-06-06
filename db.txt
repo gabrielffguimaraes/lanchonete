@@ -39,6 +39,12 @@ create table payment_order (
    amount DECIMAL(10,2),
    status INT NOT NULL
 );
+create table payment_order_product (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    payment_order_id INT NOT NULL,
+    product_id INT NOT NULL,
+);
+
 create table address (
     id INT PRIMARY KEY AUTO_INCREMENT,
     number INT,
