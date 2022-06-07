@@ -24,6 +24,9 @@ $app->get('/payment', function (Request $request, Response $response, array $arg
 $app->get('/cart', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'cart.php');
 });
+$app->get('/client/order', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'orders.php');
+});
 $app->get('/product/{id}/ingredients', function (Request $request, Response $response, array $args) {
     $data = array(
         "productId" => $args['id']

@@ -40,6 +40,10 @@ $json='{
 			{
 				"name": "Endereço",
 				"description": "Endpoints endereços"
+			},
+			{
+				"name": "Pedidos",
+				"description": "Endpoints pedidos"
 			}
 		],
 		"paths": {
@@ -51,6 +55,7 @@ $json='{
     include("./category/category.php");
     include("./ingredient/ingredient.php");
     include("./product/product.php");
+    include("./order/order.php");
 	//include("./usuario/testeGet.php");
 
 	

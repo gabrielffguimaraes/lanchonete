@@ -60,4 +60,24 @@ class OrderController extends OrderDAO
 
         return $res->withJson("Pedido realizado com sucesso", 201);
     }
+    public function list($req,$res)
+    {
+        $clientDao = new ClientDao();
+        $clientDao->connection = $this->connection;
+        $name = getAuthorizationCredentials($req);
+
+        /* verifica cliente */
+        $client = $clientDao->getClientByName($name);
+        if (!$client) {
+            return $res->withJson("Cliente não encontrado .", 404);
+        }
+        $orders = $this->getOrders($client['id']);
+        forEach($orders as &$order) {
+            $order['products'] = $this->getOrderProducts($order['id']);
+            forEach($order['products'] as &$product) {
+                $product['ingredients'] = $this->getOrderProductIngredients($product['id']);
+            }
+        }
+        return $res->withJson($orders,200);
+    }
 }
