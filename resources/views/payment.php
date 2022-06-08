@@ -32,7 +32,56 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="woocommerce-billing-fields">
-                                    <h3>Endereço de entrega</h3>
+                                    <h3>Cadastro de endereço</h3>
+                                    <div class="accordion-item mb-5">
+                                        <div class="accordion">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingOne">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-add">
+                                                        FORMULÁRIO DE CADASTRO DE ENDEREÇO
+                                                    </button>
+                                                </h2>
+                                                <div id="accordion-add" class="accordion-collapse collapse show">
+                                                    <div class="accordion-body">
+                                                        <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
+                                                            <label class="" for="billing_address_1">Cep <abbr title="required" class="required">*</abbr>
+                                                            </label>
+                                                            <input type="text" value="" placeholder="00000-000" id="billing_address_1" name="billing_address_1" class="input-text ">
+                                                        </p>
+
+                                                        <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
+                                                            <label class="" for="billing_address_1">Endereço <abbr title="required" class="required">*</abbr>
+                                                            </label>
+                                                            <input type="text" value="" placeholder="Logradouro, número e bairro" id="billing_address_1" name="billing_address_1" class="input-text ">
+                                                        </p>
+
+                                                        <p id="billing_address_2_field" class="form-row form-row-wide address-field">
+                                                            <input type="text" value="" placeholder="Complemento (opcional)" id="billing_address_2" name="billing_address_2" class="input-text ">
+                                                        </p>
+
+                                                        <p id="billing_city_field" class="form-row form-row-wide address-field validate-required" data-o_class="form-row form-row-wide address-field validate-required">
+                                                            <label class="" for="billing_city">Cidade <abbr title="required" class="required">*</abbr>
+                                                            </label>
+                                                            <input type="text" value="" placeholder="Cidade" id="billing_city" name="billing_city" class="input-text ">
+                                                        </p>
+
+                                                        <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
+                                                            <label class="" for="billing_state">Estado</label>
+                                                            <input type="text" id="billing_state" name="billing_state" placeholder="Estado" value="" class="input-text ">
+                                                        </p>
+
+                                                        <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
+                                                            <label class="" for="billing_state">País</label>
+                                                            <input type="text" id="billing_state" name="billing_state" placeholder="País" value="" class="input-text ">
+                                                        </p>
+                                                        <button type="submit"  id="btn-add-address" class="button alt">ADICIONAR</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h3>Meus Endereços</h3>
                                     <div class="accordion" id="addresses">
 
                                     </div>

@@ -34,18 +34,6 @@ class Conexao
         return $this->resultado;
     }
 
-    public function checkLogin($user){
-        $sql="SELECT *
-		  	    FROM usuario
-		  	   WHERE name=? AND password=?";
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("ss", $user['name'], $user['password']);
-        $stmt->execute();
-        $this->resultado = $stmt->get_result();
-        return $this->resultado;
-    }
-
     public function muyltipla_query($sql){
         $sql = trim($sql);
         $this->resultado = $this->connection->multi_query ($sql);

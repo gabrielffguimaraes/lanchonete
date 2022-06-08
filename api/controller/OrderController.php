@@ -74,10 +74,29 @@ class OrderController extends OrderDAO
         $orders = $this->getOrders($client['id']);
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
+            $order['status_history'] = $this->getStatusHistory($order['id']);
             forEach($order['products'] as &$product) {
                 $product['ingredients'] = $this->getOrderProductIngredients($product['id']);
             }
         }
         return $res->withJson($orders,200);
+    }
+    public function addStatus($req,$res,$args) {
+        $order = $this->getOrders($args['order_id']);
+        if(empty($order)) {
+            return $res->withJson("Ordem do pedido não encontrado", 404);
+        }
+        $result = $this->updateStatus($args['order_id'],$args['status']);
+        if($result != 1) {
+            return $res->withJson("Erro ao mudar o status do pedido", 404);
+        }
+
+        $order[0]['status'] = $args['status'];
+        $result = $this->updateOrder($order[0]);
+        if($result != 1) {
+            return $res->withJson("Erro ao mudar o status do pedido", 404);
+        }
+
+        return $res->withJson("Status atualizado com sucesso .", 200);
     }
 }

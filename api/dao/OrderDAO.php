@@ -7,7 +7,20 @@ class OrderDAO extends Conexao
         
     }
     public function getOrders($clientId = "") {
-        $sql = "SELECT * FROM payment_order WHERE client_id=?";
+        $sql = "SELECT *,
+                CASE 
+                    WHEN p.status = 1 THEN 'Pedido recebido'
+                    WHEN p.status = 2 THEN 'Pagamento aprovado'
+                    WHEN p.status = 3 THEN 'Preparando Pedido'
+                    WHEN p.status = 4 THEN 'Em transporte'
+                    WHEN p.status = 5 THEN 'Pedido entregue'
+                    ELSE '' 
+                END AS status_description,
+                DATE_FORMAT((SELECT 
+                        created_at 
+                FROM payment_order_status p1
+                WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at
+                FROM payment_order as p WHERE client_id=?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("s", $clientId);
         $stmt->execute();
@@ -35,6 +48,21 @@ class OrderDAO extends Conexao
         $stmt->execute();
         $orderProductIngredients = $this->createTableArray($stmt->get_result());
         return  $orderProductIngredients;
+    }
+    public function updateOrder($order) {
+        $sql="UPDATE  payment_order SET 
+                 client_id = ?,address_id = ?,discount = ?,delivery_fee = ?,status = ? 
+              WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ssssss",
+            $order['client_id'],
+            $order['address_id'],
+            $order['discount'],
+            $order['delivery_fee'],
+            $order['status'],
+            $order['id']);
+        $stmt->execute();
+        return $stmt->affected_rows;
     }
     public function createOrder($order) {
         $sql="INSERT INTO payment_order 
@@ -78,5 +106,27 @@ class OrderDAO extends Conexao
             $ingredientId);
         $stmt->execute();
         return $stmt;
+    }
+    public function updateStatus($order_id,$status) {
+        $sql="INSERT INTO payment_order_status 
+                (id,payment_order_id,status) 
+                    VALUES 
+                (default,?,?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss",
+            $order_id,
+            $status);
+        $stmt->execute();
+        return $stmt->affected_rows;
+    }
+    public function getStatusHistory($orderId = "") {
+        $sql = "SELECT *,DATE_FORMAT(created_at,'%d/%m/%y ás %H:%i') as created_at FROM 
+                    payment_order_status p
+                WHERE p.payment_order_id=?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $orderId);
+        $stmt->execute();
+        $orderProducts = $this->createTableArray($stmt->get_result());
+        return  $orderProducts;
     }
 }

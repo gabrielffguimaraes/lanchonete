@@ -20,12 +20,12 @@ class ClientController extends ClientDAO
     {
         $args = $req->getParsedBody();
         $newAdress = array(
-            "number" => $args['number'],
-            "street" => $args['street'],
-            "district" => $args['district'],
+            "cep" => $args['cep'],
+            "address" => $args['address'],
+            "complement" => $args['complement'],
             "city" => $args['city'],
             "uf" => $args['uf'],
-            "ref" => $args['ref'],
+            "country" => $args['country'],
             "client_id" => $args['client_id']
         );
         $client = $this->getClients($args['client_id']);

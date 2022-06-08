@@ -19,6 +19,7 @@ class LoginController extends LoginDAO
             "name" =>$args['username'],
             "password" =>$args['password']
         );
+
         $valid = $this->validate($user);
         if($valid) {
             $_SESSION['name'] = $user['name'];
@@ -30,19 +31,34 @@ class LoginController extends LoginDAO
     {
         $args = $req->getParsedBody();
         $newUser = array(
-            "name" => $args['username'],
-            "password" => $args['password'],
+            "complete-name" => $args['complete-name'],
+            "name" => $args['username-register'],
+            "password" => $args['password-register'],
             "email" => $args['email']
         );
 
         $this->findUserByNameOrEmail($newUser);
 
+        $resp = [];
         if (!empty($this->countRows())) {
-            return $res->withJson("Usuário ou email já existente(s)", 400);
+            $resp = array(
+                "message" => "Usuário ou email já existente(s)",
+                "status" => 400
+            );
         } else {
             $result = $this->register($newUser);
-            $msg = ($result == 1) ? "Usuário adicionado com sucesso" : "Erro ao adicionar usuário";
-            return $res->withJson($msg, 201);
+            if ($result == 1) {
+                $resp = array(
+                    "message" => "Usuário adicionado com sucesso",
+                    "status" => 201
+                );
+            } else {
+                $resp = array(
+                    "message" => "Erro ao adicionar usuário",
+                    "status" => 400
+                );
+            }
         }
+        return $resp;
     }
 }

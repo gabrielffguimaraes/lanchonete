@@ -36,8 +36,10 @@ create table payment_order (
    address_id INT NOT NULL,
    discount DECIMAL(10,2),
    delivery_fee DECIMAL(10,2),
-   status INT NOT NULL
+   status INT NOT NULL,
+   created_at datetime default now()
 );
+
 create table payment_order_product (
     id INT PRIMARY KEY AUTO_INCREMENT,
     payment_order_id INT NOT NULL,
@@ -50,13 +52,20 @@ create table payment_order_product_ingredient (
     payment_order_product_id INT NOT NULL,
     ingredient_id INT NOT NULL
 );
+create table payment_order_status (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    payment_order_id INT NOT NULL,
+    status INT NOT NULL,
+    created_at datetime default now()
+);
+
 create table address (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    number INT,
-    street text,
-    district INT,
+    cep varchar(255),
+    address TEXT,
+    complement TEXT,
     city TEXT,
     uf VARCHAR(2),
-    ref TEXT,
+    country varchar(255),
     client_id INT NOT NULL
 );

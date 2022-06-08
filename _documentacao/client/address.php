@@ -11,20 +11,20 @@ $json.='"/api/client/address": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "number": {
+                                        "cep": {
                                             "type": "number",
+                                            "description": "Cep",
+                                            "example": "21832-006"
+                                        },
+                                        "address": {
+                                            "type": "string",
                                             "description": "Endereço",
-                                            "example": "15"
+                                            "example": "Rua são francisco , 322 , Realengo"
                                         },
-                                        "street": {
+                                        "complement": {
                                             "type": "string",
-                                            "description": "Rua",
-                                            "example": "Rua são francisco"
-                                        },
-                                        "district": {
-                                            "type": "string",
-                                            "description": "Bairro",
-                                            "example": "Bangu"
+                                            "description": "Complemento",
+                                            "example": "Ao lado da praça"
                                         },
                                         "city": {
                                             "type": "string",
@@ -36,10 +36,10 @@ $json.='"/api/client/address": {
                                             "description": "Estado",
                                             "example": "RJ"
                                         },
-                                        "ref": {
+                                        "country": {
                                             "type": "string",
-                                            "description": "Ponto de referência",
-                                            "example": "ao lado da padaria"
+                                            "description": "Pais",
+                                            "example": "Brazil"
                                         },
                                         "client_id": {
                                             "type": "number",

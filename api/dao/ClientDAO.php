@@ -29,17 +29,17 @@ class ClientDAO extends Conexao
     }
     public function saveAddress($address) {
         $sql="INSERT INTO address 
-            (id,number,street,district,city,uf,ref,client_id) 
+            (id,cep,address,complement,city,uf,country,client_id) 
                 VALUES 
             (default,?,?,?,?,?,?,?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("sssssss",
-            $address['number'],
-            $address['street'],
-            $address['district'],
+            $address['cep'],
+            $address['address'],
+            $address['complement'],
             $address['city'],
             $address['uf'],
-            $address['ref'],
+            $address['country'],
             $address['client_id'],
         );
         $stmt->execute();

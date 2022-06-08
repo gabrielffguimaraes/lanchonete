@@ -32,8 +32,13 @@ class LoginDAO extends Conexao
         $this->resultado = $stmt->get_result();
         return $this->resultado;
     }
-    public function validate($user) {
-        $this->checkLogin($user);
-        return !empty($this->countRows());
+    public function validate($user){
+        $sql="SELECT *
+		  	    FROM client
+		  	   WHERE name=? AND password=?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $user['name'], $user['password']);
+        $stmt->execute();
+        return $this->createLineArray($stmt->get_result());
     }
 }

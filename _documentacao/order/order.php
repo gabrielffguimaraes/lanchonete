@@ -59,3 +59,34 @@ $json.='"/api/order": {
 				},
 			},
 	';
+
+$json.='"/api/order/{order_id}/status/{status}": {
+				"post": {
+					"tags": [
+						"Pedidos"
+					],
+					"description": "Muda o status do pedido",
+					"parameters": [
+					    {
+							"name": "order_id",
+							"in": "path",
+							"type": "number",
+							"required": true
+						},
+						{
+							"name": "status",
+							"in": "path",
+							"type": "number",
+							"required": true
+						}
+					],
+					"responses": {},
+					"security": [
+						{
+							"Authorization": []
+						}
+					]
+				}
+			},
+	';
+

@@ -20,7 +20,7 @@ document.getElementById("place_order").addEventListener("click",()=>{
         dataType: 'json',
         headers: {
             /*'Authorization': `${Enviroments.authorization}`*/
-            'Authorization': `Basic ${btoa("admin:admin")}`
+            'Authorization': `${Enviroments.authorization}`
         },
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
@@ -68,7 +68,7 @@ function addressesList() {
         dataType: 'json',
         headers: {
             /*'Authorization': `${Enviroments.authorization}`*/
-            'Authorization': `Basic ${btoa("admin:admin")}`
+            'Authorization': `${Enviroments.authorization}`
         },
         contentType: 'application/json; charset=utf-8',
         success: function (addresses) {
@@ -77,19 +77,19 @@ function addressesList() {
                 html += `
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-end-${i}">
                             <input type="radio" name="address" value="${address.client_id}">&nbsp;&nbsp;&nbsp;
                             ENDEREÇO ${i+1}
                         </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div id="accordion-end-${i}" class="accordion-collapse collapse">
                         <div class="accordion-body">
-                            <p><strong>N °</strong> : ${address.number}</p>
-                            <p><strong>Rua</strong> : ${address.street}</p>
-                            <p><strong>Bairro</strong> : ${address.district}</p>
+                            <p><strong>CEP °</strong> : ${address.cep}</p>
+                            <p><strong>Endereço</strong> : ${address.address}</p>
+                            <p><strong>Complemento</strong> : ${address.complement}</p>
                             <p><strong>Cidade</strong> : ${address.city}</p>
                             <p><strong>Estado</strong> : ${address.uf}</p>
-                            <p><strong>Ponto de referencia</strong> : ${address.ref}</p>
+                            <p><strong>Pais</strong> : ${address.country}</p>
                         </div>
                     </div>
                 </div>

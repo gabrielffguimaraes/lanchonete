@@ -11,10 +11,12 @@
     justify-content: center; }
 .card-item {
     max-width: 900px;
+    margin-bottom:40px;
 }
 .li {
     transition: all 200ms ease-in;
     flex-grow: 1;
+    height:117px;
 }
 
 

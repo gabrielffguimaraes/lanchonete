@@ -3,13 +3,17 @@ use Tuupola\Middleware\HttpBasicAuthentication;
 
 class Auth
 {
-    public static function authentication() {
-        return function ($request, $response, $next)  {
+    public static function authentication($redirect = "") {
+        $urlRedirect = "";
+        if ($redirect != "") {
+            $urlRedirect = "?redirect=$redirect";
+        }
+        return function ($request, $response, $next) use ($urlRedirect) {
             $enviroments = require __DIR__. '/../enviroments.php';
             if(isset($_SESSION['name']) && $_SESSION['name'] != "") {
                 return $next($request, $response);
             } else {
-                return $response->withRedirect($enviroments['baseUrl']);
+                return $response->withRedirect("{$enviroments['baseUrl']}login$urlRedirect");
             }
         };
     }
