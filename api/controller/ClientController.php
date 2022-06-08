@@ -19,6 +19,11 @@ class ClientController extends ClientDAO
     public function addAddress($req,$res)
     {
         $args = $req->getParsedBody();
+        $name = getAuthorizationCredentials($req);
+        $client = $this->getClientByName($name);
+        if(!$client) {
+            return $res->withJson("Cliente não encontrado", 404);
+        }
         $newAdress = array(
             "cep" => $args['cep'],
             "address" => $args['address'],
@@ -26,12 +31,8 @@ class ClientController extends ClientDAO
             "city" => $args['city'],
             "uf" => $args['uf'],
             "country" => $args['country'],
-            "client_id" => $args['client_id']
+            "client_id" => $client['id']
         );
-        $client = $this->getClients($args['client_id']);
-        if (empty($client)) {
-            return $res->withJson("Cliente não encontrado", 404);
-        }
 
         $result = $this->saveAddress($newAdress);
         $msg = ($result == 1) ? "Endereço adicionado com sucesso" : "Erro ao adicionar endereço";

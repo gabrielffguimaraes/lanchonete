@@ -1,4 +1,42 @@
 /* payment function */
+document.getElementById("address-form").addEventListener("submit" , () => {
+    event.preventDefault();
+    let cep = $("#billing_cep").val();
+    let address = $("#billing_address").val();
+    let complement = $("#billing_complement").val();
+    let city = $("#billing_city").val();
+    let estado = $("#billing_state").val();
+    let country = $("#billing_country").val();
+
+    $.ajax({
+        url: `${Enviroments.baseHttp}client/address`,
+        type: 'POST',
+        data: JSON.stringify({
+            cep,
+            address,
+            complement,
+            city,
+            uf:estado,
+            country
+        }),
+        dataType: 'json',
+        headers: {
+            /*'Authorization': `${Enviroments.authorization}`*/
+            'Authorization': `${Enviroments.authorization}`
+        },
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+            alert("Endereço cadastrado com sucesso");
+            $("#address-form").trigger("reset");
+            $("#accordion-add").toggle();
+            addressesList();
+        },
+        error: function (error) {
+            console.log(error);
+            alert("Ocorreu um erro ao adicionar endereço , por favor tente novamente mais tarde .")
+        }
+    });
+});
 document.getElementById("place_order").addEventListener("click",()=>{
     const cart = new Cart();
     let cartSend = cart.getCart();
@@ -24,6 +62,10 @@ document.getElementById("place_order").addEventListener("click",()=>{
         },
         contentType: 'application/json; charset=utf-8',
         success: function (response) {
+            const cart = new Cart();
+            cart.clearCart();
+            alert("Seu pedido foi realizado com sucesso você será redirecionado para a pagina de pedidos .");
+            window.location.href = `${Enviroments.baseUrl}client/order`;
             console.log(response)
         },
         error: function (error) {

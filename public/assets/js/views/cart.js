@@ -14,4 +14,7 @@ class Cart {
         } else products = [];
         return products;
     }
+    clearCart = () => {
+        sessionStorage.setItem("products",JSON.stringify([]));
+    }
 }
