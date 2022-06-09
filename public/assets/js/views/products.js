@@ -10,6 +10,9 @@ function carregarProdutos() {
         success: function (result) {
             let html = "";
             result.forEach((product)=>{
+                let ingredients = product.ingredient
+                    .map(ingredient => ingredient.description)
+                    .join(" ,");
                 html += `
                 <div class="col-md-3 col-sm-6">
                     <div class="single-shop-product">
@@ -19,6 +22,7 @@ function carregarProdutos() {
                         <h2><a href="">${product.description}</a></h2>
                         <div class="product-carousel-price">
                             <ins>$ ${product.price}</ins> 
+                            <p style="font-style: italic">${(ingredients != "") ? ingredients+" ." : ingredients}</p>
                             <!--<del>$999.00</del>-->
                         </div>
 

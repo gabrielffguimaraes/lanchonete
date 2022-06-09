@@ -1,7 +1,7 @@
+
 jQuery(document).ready(function($){
-    
     // jQuery sticky Menu
-    
+
 	$(".mainmenu-area").sticky({topSpacing:0});
     
     
@@ -77,13 +77,14 @@ jQuery(document).ready(function($){
         }, 1200, 'easeInOutExpo');
 
         event.preventDefault();
-    });    
+    });
     
     // Bootstrap ScrollPSY
-    $('body').scrollspy({ 
+    $('body').scrollspy({
         target: '.navbar-collapse',
         offset: 95
-    })      
+    })
+
 });
 
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

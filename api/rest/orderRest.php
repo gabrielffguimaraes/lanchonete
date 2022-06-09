@@ -10,10 +10,14 @@ $app->post('/{order_id}/status/{status}', function (Request $request, Response $
 });
 $app->post('', function (Request $request, Response $response, array $args) {
     $orderController = new OrderController();
+
     return $orderController->create($request,$response);
 });
 $app->get('', function (Request $request, Response $response, array $args) {
     $orderController = new OrderController();
     return $orderController->list($request,$response);
 });
-
+$app->get('/frete/{cep}', function (Request $request, Response $response, array $args) {
+    $orderController = new OrderController();
+    return $orderController->calcularFrete($request,$response,$args);
+});

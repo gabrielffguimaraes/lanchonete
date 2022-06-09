@@ -9,3 +9,6 @@ function object (key,value) {
         return {[key]: value}
     } else {};
 }
+function money (value) {
+    return value.toLocaleString("pt-Br",{currency:"BRL",style:"currency",maximumFractionDigits:2});
+}

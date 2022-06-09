@@ -1,3 +1,5 @@
+var frete = 0;
+
 /* payment function */
 document.getElementById("address-form").addEventListener("submit" , () => {
     event.preventDefault();
@@ -96,14 +98,11 @@ window.addEventListener("load",() => {
     });
     addressesList();
     $("#tbody-products").html(details);
-    $("#subtotal").html(money(subtotal,"pt-Br","BRL"));
-    $("#total").html(money(total,"pt-Br","BRL"));
+    $("#subtotal").html(money(subtotal));
+    $("#total").html(money(total));
 });
-function money(n,place,currency) {
-    return n.toLocaleString(place,{style:"currency",currency:currency});
-}
-function addressesList() {
 
+function addressesList() {
     $.ajax({
         url: `${Enviroments.baseHttp}client/address`,
         type: 'GET',
@@ -120,7 +119,7 @@ function addressesList() {
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-end-${i}">
-                            <input type="radio" name="address" value="${address.client_id}">&nbsp;&nbsp;&nbsp;
+                            <input type="radio" onclick="loadFrete(${address.cep})" name="address" value="${address.client_id}">&nbsp;&nbsp;&nbsp;
                             ENDEREÇO ${i+1}
                         </button>
                     </h2>
@@ -138,6 +137,25 @@ function addressesList() {
             `;
             });
             $("#addresses").html(html);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+function loadFrete(cep) {
+    $.ajax({
+        url: `${Enviroments.baseHttp}order/frete/${cep}`,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            /*'Authorization': `${Enviroments.authorization}`*/
+            'Authorization': `${Enviroments.authorization}`
+        },
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+            frete = parseFloat(response.valor[0].replace(",","."));
+            $("#frete").html(money(frete));
         },
         error: function (error) {
             console.log(error);

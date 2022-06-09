@@ -110,7 +110,7 @@
                                             <tr class="shipping">
                                                 <th>Frete</th>
                                                 <td>
-                                                    R$ 0,00
+                                                    <span id="frete">R$ 0,00</span>
                                                     <input type="hidden" class="shipping_method" value="free_shipping"
                                                            id="shipping_method_0" data-index="0"
                                                            name="shipping_method[0]">

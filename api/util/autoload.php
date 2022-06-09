@@ -11,3 +11,4 @@ require('./controller/IngredientController.php');
 require('./controller/ProductController.php');
 require('./controller/ClientController.php');
 require('./controller/OrderController.php');
+require('./service/Correios.php');

@@ -9,28 +9,37 @@ class OrderController extends OrderDAO
     }
     public function create($req,$res)
     {
+
         $args = $req->getParsedBody();
 
         $clientDao = new ClientDao();
         $clientDao->connection = $this->connection;
         $name = getAuthorizationCredentials($req);
 
-        /* verifica cliente */
+        /*VERIFICA CLIENTE*/
         $client = $clientDao->getClientByName($name);
         if (!$client) {
             return $res->withJson("Cliente não encontrado .", 404);
         }
-        /* verifica endereço */
+        /*VERIFICA ENDEREÇO*/
         $address = $clientDao->getAddressById($args['address_id']);
         if (empty($address)) {
             return $res->withJson("Endereço não encontrado .", 404);
+        }
+
+        /*CALCULANDO FRETE*/
+        try {
+            $correio = new Correios();
+            $frete = $correio->frete("21832006", $address['cep']);
+        } catch (Exception $e) {
+            return $res->withJson($e->getMessage(), 400);
         }
 
         $order = array(
             "client_id" => $client['id'],
             "address_id" => $args['address_id'],
             "discount" => 0,
-            "delivery_fee" => 0,
+            "delivery_fee" => $frete['valor'],
             "status" => 1
         );
 
@@ -43,22 +52,23 @@ class OrderController extends OrderDAO
         // INSERTING PRODUCTS FROM CART
         $productDao = new ProductDao();
         $productDao->connection = $this->connection;
-        foreach($args['cart'] as $cartProduct) {
+        foreach ($args['cart'] as $cartProduct) {
             $product = $productDao->getProducts($cartProduct['id'])[0];
             $orderProduct = array(
                 "product_id" => $product['id'],
                 "quantity" => $cartProduct['quantity'],
                 "price" => $product['price']
             );
-            $stmtOrderProduct = $this->addOrderProduct($orderId,$orderProduct);
+            $stmtOrderProduct = $this->addOrderProduct($orderId, $orderProduct);
             $orderProductId = $stmtOrderProduct->insert_id;
 
             foreach ($product['ingredient'] as $ingredient) {
-                $stmtOrderProductIngredient = $this->addOrderProductIngredient($orderProductId,$ingredient['id']);
+                $stmtOrderProductIngredient = $this->addOrderProductIngredient($orderProductId, $ingredient['id']);
             }
         }
 
         return $res->withJson("Pedido realizado com sucesso", 201);
+
     }
     public function list($req,$res)
     {
@@ -98,5 +108,15 @@ class OrderController extends OrderDAO
         }
 
         return $res->withJson("Status atualizado com sucesso .", 200);
+    }
+    public function calcularFrete($req,$res,$args) {
+        /*CALCULANDO FRETE*/
+        try {
+            $correio = new Correios();
+            $frete = $correio->frete("21832006", $args['cep']);
+            return $res->withJson($frete, 200);
+        } catch (Exception $e) {
+            return $res->withJson($e->getMessage(), 400);
+        }
     }
 }

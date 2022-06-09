@@ -26,9 +26,9 @@ function carregarProduto(id) {
                             <ins>$ ${product.price}</ins> 
                             <!--<del>$999.00</del>-->
                             <div class="quantity buttons_added">
-                                <input type="button" class="minus" value="-">
+                                <input type="button" class="minus" onclick="minus(this.nextElementSibling)" value="-">
                                 <input type="number" id="quantity" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
-                                <input type="button" class="plus" value="+">
+                                <input type="button" class="plus" onclick="plus(this.previousElementSibling)" value="+">
                             </div>
                         </div>
 
