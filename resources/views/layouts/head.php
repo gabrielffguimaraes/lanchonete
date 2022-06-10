@@ -29,6 +29,7 @@
 <!-- config -->
 <script src="<?= $baseUrl; ?>assets/js/utils.js"></script>
 <script src="<?= $baseUrl; ?>assets/js/views/cart.js"></script>
+<script src="<?= $baseUrl; ?>assets/js/jquery-3.6.0.min.js"></script>
 <script src="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/js/popper.min.js"></script>
 <script src="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/js/bootstrap.min.js"></script>
 

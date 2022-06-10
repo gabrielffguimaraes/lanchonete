@@ -49,7 +49,9 @@ $app->post('/register', function (Request $request, Response $response, array $a
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'products.php');
 });
-
+$app->get('/my-addresses', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'my-addresses.php');
+});
 $app->get('/login', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'login.php');
 });
@@ -62,8 +64,8 @@ $app->get('/cart', function (Request $request, Response $response, array $args) 
     return $this->view->render($response, 'cart.php');
 });
 
-$app->get('/client/order', function (Request $request, Response $response, array $args) {
-    return $this->view->render($response, 'orders.php');
+$app->get('/my-orders', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'my-orders.php');
 })->add(Auth::authentication());
 
 $app->get('/product/{id}/ingredients', function (Request $request, Response $response, array $args) {

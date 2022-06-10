@@ -15,19 +15,34 @@ function orderList() {
             let html = ``;
             orders.forEach((order,i)=>{
                 let stats = order.status_history;
+                let firstProduct = order.products[0];
                 html += `
                 <div class="card card-item">
                     <div class="card-body">
-                        <div>
+                        <div class="order">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <a class="" data-bs-toggle="collapse" href="#order-${order.id}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="bi bi-chevron-down"></i>
-                                    </a>&nbsp;&nbsp;&nbsp;
-                                    <label>${order.status_description}</label>
+                                    <a  class="text-decoration-none" onclick="collapseEffectAccourdion(this)"  data-bs-toggle="collapse" href="#order-${order.id}" role="button" aria-expanded="false">
+                                        <div class="d-flex">
+                                            <i class="bi bi-chevron-down"></i>&nbsp;&nbsp;&nbsp;
+                                            <label>${order.status_description}</label>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div>
                                    ${order.created_at}
+                                </div>
+                            </div>
+                            <div class="d-flex half-opacity preview-product">
+                                <div class="me-3">
+                                    <img width="50" src="/lanchonete/public/assets/img/product-2.jpg" alt="">
+                                </div>
+                                <div>`;
+                        let ingredient = firstProduct.ingredients.map(ingredient => ingredient.description).join(" ,");
+                        html +=`
+                                    <p class="mb-0">${firstProduct.description}</p>
+                                    <p class="mb-0"><b>${firstProduct.quantity} quantidade</b></p>
+                                    <p class="mb-0">${ingredient}</p>
                                 </div>
                             </div>
                             <hr/>
@@ -36,7 +51,7 @@ function orderList() {
                                     <small> Pedido : ${order.id} </small>
                                     `;
                 order.products.forEach(product => {
-                    let ingredientes = product.ingredients.map(ingredient => ingredient.description).join(" ,");
+                    let ingredient = product.ingredients.map(ingredient => ingredient.description).join(" ,");
                     html += ` 
                                     <div class="mb-3">
                                         <div class="d-flex">
@@ -44,7 +59,7 @@ function orderList() {
                                             <div class="ms-2">
                                                 <p>${product.description}</p>
                                                 <p><b>${product.quantity} quantidade</b></p>
-                                                <p>${ingredientes}</p>
+                                                <p>${ingredient}</p>
                                             </div>
                                         </div>
                                     </div>`;
@@ -105,4 +120,12 @@ function orderList() {
             console.log(error);
         }
     });
+}
+function collapseEffectAccourdion(e) {
+    let isOpen = e.classList.contains("collapsed");
+    if(isOpen) {
+        e.closest(".order").querySelector(".preview-product").classList.remove("d-none");
+    } else {
+        e.closest(".order").querySelector(".preview-product").classList.add("d-none");
+    }
 }

@@ -3,13 +3,26 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="user-menu">
-                    <ul>
-                        <li><a href="#"><i class="fa fa-user"></i> Minha Conta</a></li>
+                    <ul >
+                        <?php if($authorization != "") {?>
+
+                        <li class="dropdown dropdown-small">
+                            <a href="<?=$baseUrl?>my-account" data-bs-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-user"></i> Minha Conta</a>
+                            <ul class="dropdown-menu border-1" aria-labelledby="moeda-item-menu" >
+                                <li><a href="<?=$baseUrl?>my-addresses">ENDEREÇOS</a></li>
+                                <li><a href="<?=$baseUrl?>my-orders">MEUS PEDIDOS</a></li>
+                            </ul>
+                        </li>
+
+                        <?php } ?>
                         <!--
                         <li><a href="#"><i class="fa fa-heart"></i> Lista de Desejos</a></li>
                         <li><a href="#"><i class="fa fa-shopping-cart"></i> Meu Carrinho</a></li>
                         -->
-                        <li><a href="#"><i class="fa fa-lock"></i> Login</a></li>
+                        <?php if($authorization == "") {?>
+                        <li><a href="<?=$baseUrl?>login"><i class="fa fa-lock"></i> Login</a></li>
+                        <li><a href="<?=$baseUrl?>login"><i class="fa fa-lock"></i> Register</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -35,7 +48,9 @@
                                 <li><a href="#">Espanhol</a></li>
                             </ul>
                         </li>-->
+                        <?php if($authorization != "") {?>
                         <li><a href="#"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

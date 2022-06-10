@@ -11,7 +11,6 @@
                             <a class="nav-link" href="<?=$baseUrl?>">Home</a>
                             <a class="nav-link" href="<?=$baseUrl?>">Produtos</a>
                             <a class="nav-link" href="<?=$baseUrl?>cart">Carrinho</a>
-                            <a class="nav-link" href="<?=$baseUrl?>client/order">Pedidos</a>
                         </div>
                     </div>
                 </div>
