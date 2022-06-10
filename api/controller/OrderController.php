@@ -40,7 +40,7 @@ class OrderController extends OrderDAO
             "address_id" => $args['address_id'],
             "discount" => 0,
             "delivery_fee" => $frete['valor'],
-            "status" => 1
+            "status" => 0
         );
 
         $stmt = $this->createOrder($order);
@@ -48,7 +48,7 @@ class OrderController extends OrderDAO
             return $res->withJson("Erro , ocorreu um erro por favor tente mais tarde", 400);
         }
         $orderId = $stmt->insert_id;
-
+        $this->updateStatus($orderId,0);
         // INSERTING PRODUCTS FROM CART
         $productDao = new ProductDao();
         $productDao->connection = $this->connection;
@@ -81,7 +81,7 @@ class OrderController extends OrderDAO
         if (!$client) {
             return $res->withJson("Cliente não encontrado .", 404);
         }
-        $orders = $this->getOrders($client['id']);
+        $orders = $this->getOrders("",$client['id']);
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);
@@ -103,7 +103,7 @@ class OrderController extends OrderDAO
 
         $order[0]['status'] = $args['status'];
         $result = $this->updateOrder($order[0]);
-        if($result != 1) {
+        if($result == -1) {
             return $res->withJson("Erro ao mudar o status do pedido", 404);
         }
 

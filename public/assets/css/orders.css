@@ -22,8 +22,28 @@
     align-items: center;
     justify-content: center; }
 .card-item {
+    position: relative;
     max-width: 900px;
     margin-bottom:40px;
+}
+.card-item::before {
+    position: absolute;
+    content: attr(color-p);
+    left:0;
+    top:0;
+    height: 100%;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    width:5px;
+}
+.approved .card-item::before {
+    background-color: green;
+}
+.not-accepted .card-item::before {
+    background-color: orange;
+}
+.cancelled .card-item::before {
+    background-color: red;
 }
 .li {
     transition: all 200ms ease-in;

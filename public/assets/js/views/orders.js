@@ -16,6 +16,7 @@ function orderList() {
             orders.forEach((order,i)=>{
                 let stats = order.status_history;
                 let firstProduct = order.products[0];
+                console.log(stats);
                 html += `
                 <div class="card card-item">
                     <div class="card-body">

@@ -6,9 +6,27 @@ class OrderDAO extends Conexao
     {
         
     }
-    public function getOrders($clientId = "") {
+    public function getOrders($id = "",$clientId = "") {
+        $filter = [];
+        $params = [];
+        $s = "";
+        if ($id != "") {
+            if(empty($filter))  $filter[] = "WHERE id = ?";
+            elseif (!empty($filter))  $filter[] = "AND id = ?";
+            $params[] = $id;
+            $s.="s";
+        }
+        if ($clientId != "") {
+            if(empty($filter)) { $filter[] = "WHERE client_id = ?"; }
+            elseif (!empty($filter)) $filter[] = "AND client_id = ?";
+            $params[] = $clientId;
+            $s.="s";
+        }
+        $filter = implode(" ",$filter);
+
         $sql = "SELECT *,
                 CASE 
+                    WHEN p.status = 0 THEN 'Aguardando aprovação do Pedido'
                     WHEN p.status = 1 THEN 'Pedido recebido'
                     WHEN p.status = 2 THEN 'Pagamento aprovado'
                     WHEN p.status = 3 THEN 'Preparando Pedido'
@@ -20,9 +38,9 @@ class OrderDAO extends Conexao
                         created_at 
                 FROM payment_order_status p1
                 WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at
-                FROM payment_order as p WHERE client_id=?";
+                FROM payment_order as p $filter";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $clientId);
+        $stmt->bind_param($s, ...$params);
         $stmt->execute();
         $orders = $this->createTableArray($stmt->get_result());
         return  $orders;
@@ -107,14 +125,14 @@ class OrderDAO extends Conexao
         $stmt->execute();
         return $stmt;
     }
-    public function updateStatus($order_id,$status) {
+    public function updateStatus($orderId,$status) {
         $sql="INSERT INTO payment_order_status 
                 (id,payment_order_id,status) 
                     VALUES 
                 (default,?,?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ss",
-            $order_id,
+            $orderId,
             $status);
         $stmt->execute();
         return $stmt->affected_rows;
