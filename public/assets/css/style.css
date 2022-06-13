@@ -719,7 +719,8 @@ input[type="submit"], button[type=submit] {
     background: none repeat scroll 0 0 #e67e22;
     border: medium none;
     color: #fff;
-    padding: 11px 20px;
+    padding: 9px 17px;
+    font-size: 14px;
     text-transform: uppercase;
 }
 input[type="submit"]:hover, button[type=submit]:hover {background-color: #222}

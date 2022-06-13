@@ -20,21 +20,6 @@
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/style.css">
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/responsive.css">
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<!-- config -->
-<script src="<?= $baseUrl; ?>assets/js/utils.js"></script>
+
 <script src="<?= $baseUrl; ?>assets/js/views/cart.js"></script>
-<script src="<?= $baseUrl; ?>assets/js/jquery-3.6.0.min.js"></script>
-<script src="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/js/popper.min.js"></script>
-<script src="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/js/bootstrap.min.js"></script>
-
-<script src="<?= $baseUrl; ?>assets/js/enviroments.js" enviroments="<?=$envoriments;?>" id="enviroments-script"></script>
-
-
-
-
+<script src="<?= $baseUrl; ?>assets/js/utils.js"></script>

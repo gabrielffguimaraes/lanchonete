@@ -64,6 +64,7 @@ function plus(e,indice=null) {
         const cart = new Cart();
         console.log(e.value);
         cart.updateQuantity(indice,e.value);
+        loadCartBtnHeaderInfo();
     }
 }
 function minus(e,indice=null) {
@@ -73,5 +74,6 @@ function minus(e,indice=null) {
     if(indice != null) { // update cart size
         const cart = new Cart();
         cart.updateQuantity(indice,e.value);
+        loadCartBtnHeaderInfo();
     }
 }

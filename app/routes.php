@@ -47,7 +47,13 @@ $app->post('/register', function (Request $request, Response $response, array $a
 });
 
 $app->get('/', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'homepage.php');
+});
+$app->get('/product', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'products.php');
+});
+$app->get('/product/{id}/details', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'product-details.php',$args);
 });
 $app->get('/my-addresses', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'my-addresses.php');
