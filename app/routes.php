@@ -64,7 +64,10 @@ $app->get('/my-addresses', function (Request $request, Response $response, array
     return $this->view->render($response, 'my-addresses.php');
 });
 $app->get('/my-addresses/{id}/edit', function (Request $request, Response $response, array $args) {
-    return $this->view->render($response, 'my-addresses.php',$args);
+    $data = array(
+        "id" => $args['id']
+    );
+    return $this->view->render($response, 'my-addresses.php',$data);
 });
 $app->get('/login', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'login.php');

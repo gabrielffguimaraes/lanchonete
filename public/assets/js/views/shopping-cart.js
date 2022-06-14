@@ -69,6 +69,7 @@ function remove(e,indice) {
     loadCart();
     loadAmountBox();
     controlCurrentView();
+    loadCartBtnHeaderInfo();
 }
 function updateAmount(e,indice) {
     let product = cart.getCart()[indice];

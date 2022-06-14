@@ -87,7 +87,7 @@
 </div>
 <script id="address-script"
         src="<?=$baseUrl?>assets/js/views/my-addresses.js"
-        id-address="<?=$id?>"></script>
+        address-id="<?=$id?>"></script>
 <?php include "layouts/footer.php"; ?>
 </body>
 

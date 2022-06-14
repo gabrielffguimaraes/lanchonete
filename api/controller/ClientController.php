@@ -7,6 +7,14 @@ class ClientController extends ClientDAO
         $this->open();
     }
 
+    public function getAddress($req,$res,$args = []) {
+        $name = getAuthorizationCredentials($req);
+        $address = $this->getAddressById($args['id']);
+        if(!$address) {
+            return $res->withJson("Endereço não encontrado", 404);
+        }
+        return $res->withJson($address, 200);
+    }
     public function getAddresses($req,$res) {
         $name = getAuthorizationCredentials($req);
         $client = $this->getClientByName($name);
