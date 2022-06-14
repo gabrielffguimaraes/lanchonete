@@ -8,26 +8,7 @@ jQuery(document).ready(function($){
     // jQuery sticky Menu
 
 	$(".mainmenu-area").sticky({topSpacing:0});
-    
-    
-    $('.product-carousel').owlCarousel({
-        loop:true,
-        nav:true,
-        margin:20,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items:1,
-            },
-            600:{
-                items:3,
-            },
-            1000:{
-                items:5,
-            }
-        }
-    });  
-    
+
     $('.related-products-carousel').owlCarousel({
         loop:true,
         nav:true,
@@ -83,15 +64,27 @@ jQuery(document).ready(function($){
 
         event.preventDefault();
     });
-    
-    // Bootstrap ScrollPSY
-    $('body').scrollspy({
-        target: '.navbar-collapse',
-        offset: 95
-    })
 
 });
-
+function reloadProductCarousel() {
+    $('.product-carousel').owlCarousel({
+        loop:true,
+        nav:true,
+        margin:20,
+        responsiveClass:true,
+        responsive:{
+            0:{
+                items:1,
+            },
+            600:{
+                items:3,
+            },
+            1000:{
+                items:5,
+            }
+        }
+    });
+}
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
