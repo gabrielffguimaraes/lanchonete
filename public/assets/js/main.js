@@ -1,4 +1,9 @@
-
+var btnLogout = document.getElementById("btn-logout");
+if(btnLogout) {
+    document.getElementById("btn-logout").addEventListener("click", () => {
+        document.getElementById("form-logout").submit();
+    });
+}
 jQuery(document).ready(function($){
     // jQuery sticky Menu
 

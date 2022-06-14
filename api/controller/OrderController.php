@@ -9,7 +9,6 @@ class OrderController extends OrderDAO
     }
     public function create($req,$res)
     {
-
         $args = $req->getParsedBody();
 
         $clientDao = new ClientDao();
@@ -21,6 +20,7 @@ class OrderController extends OrderDAO
         if (!$client) {
             return $res->withJson("Cliente não encontrado .", 404);
         }
+
         /*VERIFICA ENDEREÇO*/
         $address = $clientDao->getAddressById($args['address_id']);
         if (empty($address)) {
@@ -85,6 +85,7 @@ class OrderController extends OrderDAO
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);
+            $order['address'] = $clientDao->getAddressById($order['address_id']);
             forEach($order['products'] as &$product) {
                 $product['ingredients'] = $this->getOrderProductIngredients($product['id']);
             }

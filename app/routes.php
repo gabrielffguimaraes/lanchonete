@@ -9,6 +9,11 @@ $enviroments = require __DIR__. '/enviroments.php';
 // Routes
 $auth = Auth::authentication();
 
+$app->post('/logout', function (Request $request, Response $response, array $args) use ($enviroments) {
+    unset($_SESSION['name']);
+    unset($_SESSION['password']);
+    return $response->withRedirect("{$enviroments['baseUrl']}");
+});
 $app->post('/login', function (Request $request, Response $response, array $args) use ($enviroments) {
     $loginController = new LoginController();
     $params = $request->getParams();
@@ -51,6 +56,9 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 });
 $app->get('/my-addresses', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'my-addresses.php');
+});
+$app->get('/my-addresses/{id}/edit', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'my-addresses.php',$args);
 });
 $app->get('/login', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'login.php');

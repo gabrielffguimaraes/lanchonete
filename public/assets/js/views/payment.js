@@ -30,7 +30,7 @@ document.getElementById("address-form").addEventListener("submit" , () => {
         success: function (response) {
             alert("Endereço cadastrado com sucesso");
             $("#address-form").trigger("reset");
-            $("#accordion-add").toggle();
+            $("#accordion-add").collapse();
             addressesList();
         },
         error: function (error) {

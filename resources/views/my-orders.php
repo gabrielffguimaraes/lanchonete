@@ -28,7 +28,6 @@
         <div id="orders" class="row">
 
         </div>
-
     </div>
 </div>
 <script src="<?=$baseUrl?>assets/js/views/orders.js"></script>

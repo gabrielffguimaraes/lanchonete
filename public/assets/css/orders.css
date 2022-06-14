@@ -1,6 +1,9 @@
 .half-opacity {
     position: relative;
 }
+.border-right {
+    border-right: 1px solid lightgray;
+}
 .half-opacity ::before {
     position: absolute;
     content:"";

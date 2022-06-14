@@ -49,7 +49,11 @@
                             </ul>
                         </li>-->
                         <?php if($authorization != "") {?>
-                        <li><a href="#"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                        <li>
+                            <form id="form-logout" method="post" action="<?=$baseUrl?>logout">
+                                <a href="#" id="btn-logout"><i class="bi bi-box-arrow-right"></i> Sair</a>
+                            </form>
+                        </li>
                         <?php } ?>
                     </ul>
                 </div>
@@ -57,3 +61,4 @@
         </div>
     </div>
 </div> <!-- End header area -->
+

@@ -30,7 +30,7 @@ class Auth
     }
     public static function credentials()
     {
-        if(isset($_SESSION['name'])) {
+        if(isset($_SESSION['name']) && isset($_SESSION['password'])) {
            return "Basic " . base64_encode("{$_SESSION['name']}:{$_SESSION['password']}");
         } else {
             return "";

@@ -41,7 +41,7 @@
                                                         FORMULÁRIO DE CADASTRO DE ENDEREÇO
                                                     </button>
                                                 </h2>
-                                                <div id="accordion-add" class="accordion-collapse collapse show">
+                                                <div id="accordion-add" class="accordion-collapse collapse">
                                                     <div class="accordion-body">
                                                         <form id="address-form">
                                                             <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
