@@ -2,6 +2,7 @@
 <html lang="pt-Br">
 <head>
     <?php include "layouts/head.php"; ?>
+    <link rel="stylesheet" href="<?= $baseUrl ?>assets/css/product.css">
 </head>
 <body>
     <?php include "layouts/menu.php"; ?>
@@ -21,9 +22,23 @@
     </div>
 
 
-    <div class="single-product-area">
+    <div class="single-product-area pt-5">
         <div class="zigzag-bottom"></div>
         <div class="container">
+            <div class="accordion filter-category mb-4">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-filter" aria-expanded="true" aria-controls="collapse-filter">
+                            <i class="bi bi-funnel"></i> <b>Filtro</b>
+                        </button>
+                    </h2>
+                    <div id="collapse-filter" class="accordion-collapse collapse">
+                        <div id="filter-products" class="accordion-body d-flex flex-row flex-wrap">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="products" class="row"></div>
             <div class="row">
                 <div class="col-md-12">

@@ -44,33 +44,33 @@
                                                 <div id="accordion-add" class="accordion-collapse collapse">
                                                     <div class="accordion-body">
                                                         <form id="address-form">
+                                                            <p id="billing_name_field" class="form-row form-row-wide address-field validate-required">
+                                                                <label class="" for="billing_name">Nome <abbr title="required" class="required">*</abbr>
+                                                                </label>
+                                                                <input type="text" value="" required="" placeholder="Minha casa Exp.:" id="billing_name" name="billing_name" class="input-text w-100">
+                                                            </p>
                                                             <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
                                                                 <label class="" for="billing_cep">Cep <abbr title="required" class="required">*</abbr>
                                                                 </label>
                                                                 <input type="text" value="" required placeholder="00000-000" id="billing_cep" name="billing_cep" class="input-text ">
                                                             </p>
-
                                                             <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
                                                                 <label class="" for="billing_address">Endereço <abbr title="required" class="required">*</abbr>
                                                                 </label>
                                                                 <input type="text" value="" required placeholder="Logradouro, número e bairro" id="billing_address" name="billing_address" class="input-text ">
                                                             </p>
-
                                                             <p id="billing_address_2_field" class="form-row form-row-wide address-field">
                                                                 <input type="text" value="" placeholder="Complemento (opcional)" id="billing_complement" name="billing_complement" class="input-text ">
                                                             </p>
-
                                                             <p id="billing_city_field" class="form-row form-row-wide address-field validate-required" data-o_class="form-row form-row-wide address-field validate-required">
                                                                 <label class="" for="billing_city">Cidade <abbr title="required" class="required">*</abbr>
                                                                 </label>
                                                                 <input type="text" value="" required placeholder="Cidade" id="billing_city" name="billing_city" class="input-text ">
                                                             </p>
-
                                                             <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
                                                                 <label class="" for="billing_state">Estado</label>
                                                                 <input type="text" id="billing_state" required name="billing_state" placeholder="Estado" value="" class="input-text ">
                                                             </p>
-
                                                             <p id="billing_country_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
                                                                 <label class="" for="billing_country">País</label>
                                                                 <input type="text" id="billing_country" required name="billing_country" placeholder="País" value="" class="input-text ">
@@ -91,6 +91,9 @@
                                     <div class="clear"></div>
                                     <h3 id="order_review_heading" class="mt-5">Detalhes do Pedido</h3>
                                     <div id="order_review" style="position: relative;">
+                                        <div id="error-msg" class="alert alert-danger d-none" role="alert">
+
+                                        </div>
                                         <table class="shop_table">
                                             <thead>
                                             <tr>

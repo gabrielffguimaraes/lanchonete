@@ -61,11 +61,13 @@ create table payment_order_status (
 
 create table address (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    name varchar(255),
     cep varchar(255),
     address TEXT,
     complement TEXT,
     city TEXT,
     uf VARCHAR(2),
     country varchar(255),
-    client_id INT NOT NULL
+    client_id INT NOT NULL,
+    ativo BOOLEAN default true
 );

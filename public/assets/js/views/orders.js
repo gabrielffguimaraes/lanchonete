@@ -12,6 +12,8 @@ function orderList() {
         },
         contentType: 'application/json; charset=utf-8',
         success: function (orders) {
+            console.log(orders);
+            (orders.length > 0) ? $("#orders").removeClass("d-none") : $("#empty-order").removeClass("d-none");
             let html = ``;
             orders.forEach((order,i)=>{
                 let price = 0;
@@ -70,8 +72,9 @@ function orderList() {
                     price += parseFloat(product.price);
                     discount += parseFloat(order.discount);
                     delivery_fee += parseFloat(order.delivery_fee);
-                    console.log(product);
+
                 });
+
                                 html += `
                                 </div>
                                 <ul class="timeline" id="timeline">
@@ -137,15 +140,15 @@ function orderList() {
                                             <div class="w-100">
                                                 <h5>Endereço</h5>
                                                 <div class="text-start p-2">
-                                                    ${order.address.address} .                                                    
+                                                    ${order.address?.address} .                                                    
                                                     <br/>
                                                     <br/>
-                                                    ${order.address.complement}
+                                                    ${order.address?.complement}
                                                     <br/>
-                                                    CEP : ${order.address.cep}
+                                                    CEP : ${order.address?.cep}
                                                     <br/>
-                                                    ${order.address.city} ,
-                                                    ${order.address.uf} .
+                                                    ${order.address?.city} ,
+                                                    ${order.address?.uf} .
                                                 </div>
                                             </div>  
                                         </div>

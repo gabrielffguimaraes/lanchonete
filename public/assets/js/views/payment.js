@@ -3,6 +3,7 @@ var frete = 0;
 /* payment function */
 document.getElementById("address-form").addEventListener("submit" , () => {
     event.preventDefault();
+    let name = $("#billing_name").val();
     let cep = $("#billing_cep").val();
     let address = $("#billing_address").val();
     let complement = $("#billing_complement").val();
@@ -14,6 +15,7 @@ document.getElementById("address-form").addEventListener("submit" , () => {
         url: `${Enviroments.baseHttp}client/address`,
         type: 'POST',
         data: JSON.stringify({
+            name,
             cep,
             address,
             complement,
@@ -50,6 +52,7 @@ document.getElementById("place_order").addEventListener("click",()=>{
         alert("Endereço obrigatório");
         return
     }
+    $("#error-msg").addClass("d-none");
     $.ajax({
         url: `${Enviroments.baseHttp}order`,
         type: 'POST',
@@ -71,7 +74,9 @@ document.getElementById("place_order").addEventListener("click",()=>{
             console.log(response)
         },
         error: function (error) {
-            console.log(error);
+            alert(error.responseJSON);
+            $("#error-msg").removeClass("d-none");
+            $("#error-msg").html(error.responseJSON);
         }
     });
 });
@@ -119,12 +124,13 @@ function addressesList() {
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-end-${i}">
-                            <input type="radio" onclick="loadFrete(${address.cep})" name="address" value="${address.client_id}">&nbsp;&nbsp;&nbsp;
-                            ENDEREÇO ${i+1}
+                            <input type="radio" onclick="loadFrete('${address.cep}')" name="address" value="${address.id}">&nbsp;&nbsp;&nbsp;
+                            ${address.name.toUpperCase()}
                         </button>
                     </h2>
                     <div id="accordion-end-${i}" class="accordion-collapse collapse">
                         <div class="accordion-body">
+                            <p><strong>Nome</strong> : ${address.name}</p>
                             <p><strong>CEP °</strong> : ${address.cep}</p>
                             <p><strong>Endereço</strong> : ${address.address}</p>
                             <p><strong>Complemento</strong> : ${address.complement}</p>
@@ -144,6 +150,8 @@ function addressesList() {
     });
 }
 function loadFrete(cep) {
+    $("#error-msg").addClass("d-none");
+    $("#frete").html(money(0));
     $.ajax({
         url: `${Enviroments.baseHttp}order/frete/${cep}`,
         type: 'GET',
@@ -158,7 +166,8 @@ function loadFrete(cep) {
             $("#frete").html(money(frete));
         },
         error: function (error) {
-            console.log(error);
+            $("#error-msg").removeClass("d-none");
+            $("#error-msg").html(error.responseJSON);
         }
     });
 }

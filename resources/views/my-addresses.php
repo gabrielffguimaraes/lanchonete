@@ -41,6 +41,11 @@
                         <div id="accordion-add" class="accordion-collapse collapse show" style="">
                             <div class="accordion-body">
                                 <form id="address-form">
+                                    <p id="billing_name_field" class="form-row form-row-wide address-field validate-required">
+                                        <label class="" for="billing_name">Nome <abbr title="required" class="required">*</abbr>
+                                        </label>
+                                        <input type="text" value="" required="" placeholder="Minha casa Exp.:" id="billing_name" name="billing_name" class="input-text w-100">
+                                    </p>
                                     <p id="billing_address_1_field" class="form-row form-row-wide address-field validate-required">
                                         <label class="" for="billing_cep">Cep <abbr title="required" class="required">*</abbr>
                                         </label>
@@ -72,16 +77,24 @@
                                         <label class="" for="billing_country">País</label>
                                         <input type="text" id="billing_country" required="" name="billing_country" placeholder="País" value="" class="input-text w-100">
                                     </p>
-                                    <button type="submit" id="btn-add-address" class="button alt">
+                                    <button type="submit" id="btn-add-address" class="button alt me-3">
                                         <?=isset($id) ? 'EDITAR' : 'ADICIONAR'?>
                                     </button>
+                                    <?php if(isset($id)) {?>
+                                    <a href="<?=$baseUrl?>my-addresses" id="btn-add-address" class="button alt">
+                                        VOLTAR
+                                    </a>
+                                    <?php } ?>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="addresses" class="<?=isset($id) ? 'd-none' : ''?>"></div>
+            <?php if(!isset($id)) {?>
+            <h3 style="color:#e67e22">Meus Endereços</h3>
+            <div id="addresses"></div>
+            <?php }?>
         </div>
     </div>
 </div>

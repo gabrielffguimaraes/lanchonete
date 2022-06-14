@@ -5,6 +5,7 @@ require('./dao/IngredientDAO.php');
 require('./dao/ProductDAO.php');
 require('./dao/ClientDAO.php');
 require('./dao/OrderDAO.php');
+require('./dao/AddressDAO.php');
 require('./controller/LoginController.php');
 require('./controller/CategoryController.php');
 require('./controller/IngredientController.php');

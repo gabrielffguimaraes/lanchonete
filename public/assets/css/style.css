@@ -738,6 +738,9 @@ input[type="submit"]:hover, button[type=submit]:hover {background-color: #222}
     margin-right: 15px;
     width: 63px;
 }
+.cursor-pointer {
+    cursor:pointer;
+}
 .thubmnail-recent > h2 {
     font-size: 20px;
     margin-bottom: 10px;

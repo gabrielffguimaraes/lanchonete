@@ -1,8 +1,43 @@
-function carregarProdutos() {
+function getCategoriesFilter () {
+    return [...document.getElementsByName("category-filter")].map(elementRef => elementRef.value).join(",")
+}
+function loadCategories() {
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product`,
+        url: `${Enviroments.baseHttp}/category`,
         type: 'GET',
         dataType: 'json',
+        headers: {
+            'Authorization': `${Enviroments.authorization}`
+        },
+        contentType: 'application/json; charset=utf-8',
+        success: function (categories) {
+            let html = "";
+            categories.forEach((category)=>{
+                html += `
+                <div class="form-check me-3">
+                    <input class="form-check-input" type="checkbox"  id="category-filter-${category.id}" name="category-filter" value="${category.id}">
+                    <label class="form-check-label user-select-none cursor-pointer" for="category-filter-${category.id}">
+                        ${category.description}
+                    </label>
+                </div>
+                `;
+            })
+            $("#filter-products").html(html);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    })
+}
+function loadProducts() {
+    let categories = getCategoriesFilter();
+    console.log(categories);
+    console.log(`${Enviroments.baseHttp}client/product?categories=${categories}`)
+    $.ajax({
+        url: `${Enviroments.baseHttp}client/product?categories=${categories}`,
+        type: 'GET',
+        dataType: 'json',
+        data:JSON.stringify(categories),
         headers: {
             'Authorization': `${Enviroments.authorization}`
         },
@@ -41,5 +76,6 @@ function carregarProdutos() {
     })
 }
 window.addEventListener("load",()=> {
-    carregarProdutos();
+    loadProducts();
+    loadCategories();
 })

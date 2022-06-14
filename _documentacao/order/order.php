@@ -89,4 +89,28 @@ $json.='"/api/order/{order_id}/status/{status}": {
 				}
 			},
 	';
+$json.='"/api/order/frete/{cep}": {
+				"get": {
+					"tags": [
+						"Pedidos"
+					],
+					"description": "Calcula preço do frete",
+					"parameters": [
+					    {
+							"name": "cep",
+							"in": "path",
+							"type": "string",
+							"required": true,
+							"example": "77024772"
+						}
+					],
+					"responses": {},
+					"security": [
+						{
+							"Authorization": []
+						}
+					]
+				}
+			},
+	';
 

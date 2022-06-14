@@ -9,10 +9,15 @@ class OrderController extends OrderDAO
     }
     public function create($req,$res)
     {
+
         $args = $req->getParsedBody();
 
         $clientDao = new ClientDao();
         $clientDao->connection = $this->connection;
+
+        $addressDao = new AddressDao();
+        $addressDao->connection = $this->connection;
+
         $name = getAuthorizationCredentials($req);
 
         /*VERIFICA CLIENTE*/
@@ -22,8 +27,9 @@ class OrderController extends OrderDAO
         }
 
         /*VERIFICA ENDEREÇO*/
-        $address = $clientDao->getAddressById($args['address_id']);
-        if (empty($address)) {
+        $address = $addressDao->getAddressById($args['address_id']);
+
+        if (!$address) {
             return $res->withJson("Endereço não encontrado .", 404);
         }
 
@@ -74,6 +80,10 @@ class OrderController extends OrderDAO
     {
         $clientDao = new ClientDao();
         $clientDao->connection = $this->connection;
+
+        $addressDao = new AddressDao();
+        $addressDao->connection = $this->connection;
+
         $name = getAuthorizationCredentials($req);
 
         /* verifica cliente */
@@ -85,7 +95,7 @@ class OrderController extends OrderDAO
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);
-            $order['address'] = $clientDao->getAddressById($order['address_id']);
+            $order['address'] = $addressDao->getAddressById($order['address_id']);
             forEach($order['products'] as &$product) {
                 $product['ingredients'] = $this->getOrderProductIngredients($product['id']);
             }

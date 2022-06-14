@@ -8,6 +8,10 @@ window.addEventListener("load",() => {
     document.getElementById("btn-frete").addEventListener("click",() => {
         event.preventDefault();
         let cep = $("#cep").val();
+        if(cep == "") {
+            alert("Cep inválido");
+            return
+        }
         $.ajax({
             url: `${Enviroments.baseHttp}order/frete/${cep}`,
             type: 'GET',
@@ -22,7 +26,8 @@ window.addEventListener("load",() => {
                 loadAmountBox();
             },
             error: function (error) {
-                console.log(error);
+                console.log(error.responseJSON)
+                alert(error.responseJSON);
             }
         });
     });

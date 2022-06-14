@@ -1,3 +1,9 @@
+.icon-order {
+    font-size:40px;
+}
+#empty-order {
+    text-align: center;
+}
 .half-opacity {
     position: relative;
 }

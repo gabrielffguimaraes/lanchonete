@@ -7,44 +7,7 @@ class ClientDAO extends Conexao
         $this->connection = $con;
         parent::__constructor();
     }
-    public function getAddressById($id) {
-        $sql = "SELECT * FROM address WHERE id=?";
 
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $id);
-
-        $stmt->execute();
-        $addresses = $this->createLineArray($stmt->get_result());
-        return $addresses;
-    }
-    public function getAddressesByClientId($client_id) {
-        $sql = "SELECT * FROM address WHERE client_id=?";
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $client_id);
-
-        $stmt->execute();
-        $addresses = $this->createTableArray($stmt->get_result());
-        return $addresses;
-    }
-    public function saveAddress($address) {
-        $sql="INSERT INTO address 
-            (id,cep,address,complement,city,uf,country,client_id) 
-                VALUES 
-            (default,?,?,?,?,?,?,?)";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("sssssss",
-            $address['cep'],
-            $address['address'],
-            $address['complement'],
-            $address['city'],
-            $address['uf'],
-            $address['country'],
-            $address['client_id'],
-        );
-        $stmt->execute();
-        return  $stmt->affected_rows;
-    }
     public function getClientByName($name = "") {
         $sql = "select * from client where name = ?";
 

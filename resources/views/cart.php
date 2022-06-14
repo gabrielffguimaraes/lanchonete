@@ -101,7 +101,7 @@
                     </div>
                     <div class="empty-cart d-none">
                         <div class="mb-3">
-                            <i class="bi bi-cart icon-cart"></i>
+                            <i class="bi bi-cart-x icon-cart"></i>
                         </div>
                         <h4>SEU CARRINHO ESTÁ VAZIO</h4>
                     </div>

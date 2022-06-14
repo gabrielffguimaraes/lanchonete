@@ -21,10 +21,8 @@ class Correios
         $this->codigoEmpresa = $codigoEmpresa;
         $this->senhaEmpresa = $senhaEmpresa;
     }
-    public function frete() {
+    public function frete($cepOrigem,$cepDestino) {
         $codigoServico = self::SERVICO_PAC;
-        $cepOrigem = "09010100";
-        $cepDestino = "24310430";
         $peso = 1;
         $formato = self::FORMATO_CAIXA_PACOTE;
         $comprimento = 15;
@@ -53,7 +51,7 @@ class Correios
         }
         // VERIFICA O ERRO
         if(strlen($frete->MsgErro)) {
-            throw new Exception("Erro" .$frete->MsgErro);
+            throw new Exception("Erro : " .$frete->MsgErro);
         }
 
         return array(

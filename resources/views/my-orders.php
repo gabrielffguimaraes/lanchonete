@@ -25,8 +25,14 @@
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
-        <div id="orders" class="row">
+        <div id="orders" class="row d-none">
 
+        </div>
+        <div id="empty-order" class="d-none">
+            <div class="mb-3">
+                <i class="bi bi-bag-x icon-order"></i>
+            </div>
+            <h4>VOCÊ NÃO POSSUI PEDIDOS</h4>
         </div>
     </div>
 </div>
