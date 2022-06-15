@@ -53,7 +53,7 @@
                     </p>
                     <div class="clear"></div>
                     <p class="lost_password">
-                        <a href="<?$baseUrl?>forgot">Esqueceu a senha?</a>
+                        <a href="<?=$baseUrl?>forgot">Esqueceu a senha?</a>
                     </p>
                 </form>
             </div>

@@ -7,7 +7,11 @@
                         <?php if($authorization != "") {?>
 
                         <li class="dropdown dropdown-small">
-                            <a href="<?=$baseUrl?>my-account" data-bs-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-user"></i> Minha Conta</a>
+                            <a href="<?=$baseUrl?>my-account" data-bs-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-user"></i>
+                                Olá , <?=$name?>
+                                <br/>
+                                Minha Conta
+                            </a>
                             <ul class="dropdown-menu border-1" aria-labelledby="moeda-item-menu" >
                                 <li><a href="<?=$baseUrl?>my-addresses">ENDEREÇOS</a></li>
                                 <li><a href="<?=$baseUrl?>my-orders">MEUS PEDIDOS</a></li>
