@@ -33,7 +33,12 @@
                         </button>
                     </h2>
                     <div id="collapse-filter" class="accordion-collapse collapse">
-                        <div id="filter-products" class="accordion-body d-flex flex-row flex-wrap">
+                        <p class="mt-3 ms-3 fw-bolder">Produto :</p>
+                        <div class="mt-3 ms-3 me-3 d-flex">
+                            <input id="product-name" oninput="loadProductsFilter()" type="text" class="flex-grow-1" placeholder="Buscar produtos...">
+                        </div>
+                        <p class="mt-3 ms-3 fw-bolder">Categorias :</p>
+                        <div id="filter-products" class="accordion-body d-flex flex-row flex-wrap pt-0">
 
                         </div>
                     </div>
@@ -44,12 +49,12 @@
                 <div class="col-md-12">
                     <div class="product-pagination text-center">
                         <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
+                            <ul class="pagination d-none">
+                                <li class="page-item" onclick="previousPage()"><a class="page-link" href="javascript:void(0)">Anterior</a></li>
+                                <div id="pagination" class="d-flex">
+
+                                </div>
+                                <li class="page-item" onclick="nextPage()"><a class="page-link" href="javascript:void(0)">Próximo</a></li>
                             </ul>
                         </nav>
                     </div>

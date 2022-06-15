@@ -12,15 +12,21 @@ class ProductController extends ProductDAO
 
     public function list($req,$res)
     {
-        $products = $this->getProducts();
+        $params = $req->getParams();
+        $categories = $params['categories'] ?? "";
+        $limit = $params['limit'] ?? 20;
+        $offset = $params['offset'] ?? 0;
+        $description = $params['description'] ?? "";
+
+        $products = $this->getProducts("",$categories,$description,$limit,$offset);
         return $res->withJson($products,200);
     }
     public function listById($req,$res,$args)
     {
         $id = $args['id'];
         $product = $this->getProducts($id);
-        if(!empty($product)) {
-            return $res->withJson($product[0],200);
+        if(!empty($product["data"])) {
+            return $res->withJson($product["data"][0],200);
         } else {
             return $res->withJson("Produto não encontrado",404);
         }

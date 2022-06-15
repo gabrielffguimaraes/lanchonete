@@ -9,7 +9,7 @@ function carregarProdutos() {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             let html = "";
-            result.forEach((product)=>{
+            result["data"].forEach((product)=>{
                 product.price = parseFloat(product.price);
                 let ingredients = product.ingredient
                     .map(ingredient => ingredient.description)

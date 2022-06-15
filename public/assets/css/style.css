@@ -17,6 +17,13 @@ img {
     max-width: 100%;
     height: auto;
 }
+.active-pagination {
+    background-color: #e67e22;
+    color:white;
+}
+.b-radius-0 {
+    border-radius: 0px !important;
+}
 .fix { overflow: hidden }
 h1,
 h2,

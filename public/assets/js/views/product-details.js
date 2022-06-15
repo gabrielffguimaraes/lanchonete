@@ -47,8 +47,10 @@ function carregarProduto(id) {
     })
 }
 function carregarProdutos() {
+    event.preventDefault();
+    let description = $("#product-name").val();
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product`,
+        url: `${Enviroments.baseHttp}client/product?limit=10&description=${description}`,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -57,7 +59,7 @@ function carregarProdutos() {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             let html = "";
-            result.forEach((product)=>{
+            result["data"].forEach((product)=>{
                 /*let ingredients = product.ingredient
                     .map(ingredient => ingredient.description)
                     .join(" ,");*/

@@ -1,5 +1,17 @@
+var offsetAtual = 0;
+var limit = 20;
+var countPagination = 0;
+var timeoutLoadProductName = {}
+var xhr = {
+    abort() {
+
+    }
+};
+xhr.abort();
 function getCategoriesFilter () {
-    return [...document.getElementsByName("category-filter")].map(elementRef => elementRef.value).join(",")
+    return [...document.getElementsByName("category-filter")]
+        .filter(elementRef => elementRef.checked)
+        .map(elementRef => elementRef.value).join(",")
 }
 function loadCategories() {
     $.ajax({
@@ -15,7 +27,7 @@ function loadCategories() {
             categories.forEach((category)=>{
                 html += `
                 <div class="form-check me-3">
-                    <input class="form-check-input" type="checkbox"  id="category-filter-${category.id}" name="category-filter" value="${category.id}">
+                    <input onclick="loadProducts()" class="form-check-input" type="checkbox"  id="category-filter-${category.id}" name="category-filter" value="${category.id}">
                     <label class="form-check-label user-select-none cursor-pointer" for="category-filter-${category.id}">
                         ${category.description}
                     </label>
@@ -29,12 +41,53 @@ function loadCategories() {
         }
     })
 }
-function loadProducts() {
+function nextPage() {
+    let offset = offsetAtual + limit;
+    if(offset > (countPagination * limit)) {
+        offset = (countPagination * limit);
+    }
+    loadProducts(offset);
+}
+function previousPage(){
+    let offset = offsetAtual - limit;
+    if(offset < 0) {
+        offset = 0;
+    }
+    loadProducts(offset);
+}
+function buildPagination(maxsize) {
+    i = (maxsize/limit);
+    countPagination = parseInt(i);
+    $("#pagination").closest(".pagination").addClass("d-none");
+    if(countPagination > 0) {
+        let html = "";
+        let offset = 0;
+        $("#pagination").closest(".pagination").removeClass("d-none");
+        for(let count=0;count < Math.ceil(i);count++){
+            html += `
+                <li class="page-item" onclick="loadProducts(${offset})">
+                    <a class="page-link b-radius-0 ${offset == offsetAtual ? 'active-pagination' : ''}" href="javascript:void(0)">${count + 1}</a>
+                </li>
+            `;
+            offset += limit;
+        }
+
+        $("#pagination").html(html);
+    }
+}
+function loadProductsFilter() {
+    clearTimeout(timeoutLoadProductName);
+    timeoutLoadProductName = setTimeout(function () {
+        loadProducts(0);
+    },1000);
+}
+function loadProducts(offset = 0) {
+    offsetAtual = offset;
     let categories = getCategoriesFilter();
-    console.log(categories);
-    console.log(`${Enviroments.baseHttp}client/product?categories=${categories}`)
-    $.ajax({
-        url: `${Enviroments.baseHttp}client/product?categories=${categories}`,
+    let description = $("#product-name").val();
+    xhr.abort();
+    xhr = $.ajax({
+        url: `${Enviroments.baseHttp}client/product?description=${description}&categories=${categories}&limit=${limit}&offset=${offset}`,
         type: 'GET',
         dataType: 'json',
         data:JSON.stringify(categories),
@@ -44,7 +97,8 @@ function loadProducts() {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             let html = "";
-            result.forEach((product)=>{
+            buildPagination(result.maxsize);
+            result.data.forEach((product)=>{
                 let ingredients = product.ingredient
                     .map(ingredient => ingredient.description)
                     .join(" ,");

@@ -28,8 +28,8 @@
                 <div class="single-sidebar">
                     <h2 class="sidebar-title">Buscar Produtos</h2>
                     <form action="">
-                        <input type="text" placeholder="Buscar produtos...">
-                        <input type="submit" value="Buscar">
+                        <input type="text" id="product-name" placeholder="Buscar produtos...">
+                        <input type="submit" onclick="carregarProdutos();" value="Buscar">
                     </form>
                 </div>
 
@@ -79,7 +79,7 @@
                                 </form>
 
                                 <div class="product-inner-category">
-                                    <p>Categoria: <u class="category-product">Summer</u>.
+                                    <p>Categoria: <u class="category-product"></u>.
                                 </div>
 
                                 <div role="tabpanel">

@@ -42,11 +42,11 @@ function loadCart() {
                 </td>
     
                 <td class="product-thumbnail">
-                    <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="img/product-thumb-2.jpg"></a>
+                    <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="${Enviroments.baseUrl}assets/img/product-thumb-2.jpg"></a>
                 </td>
     
                 <td class="product-name">
-                    <a href="single-product.html">${product.description}</a>
+                    <a href="${Enviroments.baseUrl}product/${product.id}/details">${product.description}</a>
                 </td>
     
                 <td class="product-price">

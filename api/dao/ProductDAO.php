@@ -16,16 +16,51 @@ class ProductDAO extends Conexao
         $stmt->execute();
         return  $stmt->insert_id;
     }
-    public function getProducts($id = "") {
+    public function getMaxSizeProducts($filter,$params,$s) {
+        $sql = "select count(id) as maxsize from product $filter";
+        $stmt = $this->connection->prepare($sql);
+        if($s != "") {
+            $stmt->bind_param($s, ...$params);
+        }
+        $stmt->execute();
+        $result =  $stmt->get_result();
+        return $this->createLineArray($result)['maxsize'];
+    }
+    public function getProducts($id = "",$categories = "",$description="",$limit = 20,$offset = 0) {
         $categoryDAO = new CategoryDAO();
         $categoryDAO->connection = $this->connection;
-
-        $filter =  ($id != "") ? "where id=?" : "";
-        $sql = "select * from product $filter";
-        $stmt = $this->connection->prepare($sql);
-        if($filter != "") {
-            $stmt->bind_param("s", $id);
+        $filter = [];
+        $params = [];
+        $s = "";
+        if ($id != "") {
+            if (empty($filter)) $filter[] = "WHERE id = ?";
+            elseif (!empty($filter)) $filter[] = "AND id = ?";
+            $params[] = $id;
+            $s .= "s";
         }
+        if ($categories != "") {
+            $arrTemp = explode(",",$categories);
+            $arrSql = [];
+            foreach ($arrTemp as $category_id) {
+                $params[] = $category_id;
+                $arrSql[] = " product.category = ? ";
+                $s .= "s";
+            }
+            $sqlCategory = implode(" OR ",$arrSql);
+            if (empty($filter)) $filter[] = "WHERE ($sqlCategory) = true";
+            elseif (!empty($filter)) $filter[] = "AND ($sqlCategory) = true";
+        }
+        if ($description != "") {
+            if (empty($filter)) $filter[] = "WHERE description like ?";
+            elseif (!empty($filter)) $filter[] = "AND description like ?";
+            $params[] = "%$description%";
+            $s .= "s";
+        }
+        $filter = implode(" ",$filter);
+        $sql = "SELECT * FROM product $filter  LIMIT ? OFFSET ?";
+        $stmt = $this->connection->prepare($sql);
+
+        $stmt->bind_param($s."ss", ...array_merge($params,[$limit,$offset]));
         $stmt->execute();
         $products = $this->createTableArray($stmt->get_result());
 
@@ -33,7 +68,11 @@ class ProductDAO extends Conexao
             $product['ingredient'] = $this->getIngredientProduct($product['id']);
             $product['category'] = $categoryDAO->getCategories($product['category']);
         }
-        return  $products;
+        $response = array(
+            "data" => $products,
+            "maxsize" => $this->getMaxSizeProducts($filter,$params,$s)
+        );
+        return  $response;
     }
     public function getIngredientProduct($productId) {
         $sql = "SELECT i.* FROM 
@@ -54,7 +93,7 @@ class ProductDAO extends Conexao
         return  $stmt->affected_rows;
     }
     public function existIngredientProduct($ingredientId,$productId) {
-        $sql = "select * from product_ingredient where ingredient_id=? and product_id = ?";
+        $sql = "SELECT * FROM product_ingredient WHERE ingredient_id=? and product_id = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ss", $ingredientId , $productId);
         $stmt->execute();
