@@ -1,0 +1,6 @@
+#register-form-wrap {
+    min-width: 400px;
+}
+#register-form-wrap p input{
+    width: 100% !important;
+}

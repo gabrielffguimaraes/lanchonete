@@ -11,7 +11,7 @@ class ClientController extends ClientDAO
         $addressDAO = new AddressDAO();
         $addressDAO->connection = $this->connection;
 
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
         $address = $addressDAO->getAddressById($args['id']);
         if(!$address) {
             return $res->withJson("Endereço não encontrado", 404);
@@ -22,7 +22,7 @@ class ClientController extends ClientDAO
         $addressDAO = new AddressDAO();
         $addressDAO->connection = $this->connection;
 
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
         $client = $this->getClientByName($name);
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);
@@ -36,7 +36,7 @@ class ClientController extends ClientDAO
         $addressDAO->connection = $this->connection;
 
         $args = $req->getParsedBody();
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
         $client = $this->getClientByName($name);
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);
@@ -63,7 +63,7 @@ class ClientController extends ClientDAO
         $addressDAO->connection = $this->connection;
 
         $args = array_merge($args,$req->getParsedBody());
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
         $client = $this->getClientByName($name);
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);
@@ -91,7 +91,7 @@ class ClientController extends ClientDAO
         $addressDAO = new AddressDAO();
         $addressDAO->connection = $this->connection;
 
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
         $client = $this->getClientByName($name);
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);

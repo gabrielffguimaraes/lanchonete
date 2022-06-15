@@ -706,7 +706,11 @@ width: 10px;
 }
 
 
-
+input[type=submit]:disabled {
+    background-color:gray !important;
+    opacity: 0.5;
+    cursor:not-allowed;
+}
 
 
 .sidebar-title {

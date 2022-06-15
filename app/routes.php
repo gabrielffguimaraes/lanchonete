@@ -72,7 +72,12 @@ $app->get('/my-addresses/{id}/edit', function (Request $request, Response $respo
 $app->get('/login', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'login.php');
 });
-
+$app->get('/recover', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'recover.php');
+});
+$app->get('/forgot', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'forgot.php');
+});
 $app->get('/payment', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'payment.php');
 })->add(Auth::authentication("payment"));

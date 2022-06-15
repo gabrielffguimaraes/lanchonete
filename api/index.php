@@ -1,19 +1,20 @@
 <?php
-
+date_default_timezone_set('America/Sao_Paulo');
 require('../vendor/autoload.php');
 require('./conexao/Conexao.php');
 /* classes */
-require('./util/autoload.php');
-
-require('./util/util.php');
+require('./autoload.php');
 require('../app/authentication/Auth.php');
+
 $app = new \Slim\App();
 
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-$app->get('/', function ($request, $response, $args) {
-    $response->getBody()->write("Hello world !");
+$app->post('/email', function(Request $request, Response $response, array $args) use ($app) {
+    $authController = new AuthController();
+    return $authController->sendRecoveryCode($request,$response);
 });
-
 
 $app->group('/client/auth', function() use ($app) {
     include './rest/loginRest.php';
@@ -42,6 +43,8 @@ $app->group('/product', function() use ($app) {
 $app->group('/order', function() use ($app) {
     include './rest/orderRest.php';
 });
+
+
 
 /*
 $app->group('/categoria', function() use ($app) {

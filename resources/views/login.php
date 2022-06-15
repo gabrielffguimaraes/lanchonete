@@ -40,23 +40,21 @@
                     <p class="form-row form-row-first">
                         <label for="username">Login <span class="required">*</span>
                         </label>
-                        <input type="text" id="username" name="username" class="input-text">
+                        <input required type="text" id="username" name="username" class="input-text">
                     </p>
                     <p class="form-row form-row-last">
                         <label for="password">Senha <span class="required">*</span>
                         </label>
-                        <input type="password" id="password" name="password" class="input-text">
+                        <input required type="password" id="password" name="password" class="input-text">
                     </p>
                     <div class="clear"></div>
                     <p class="form-row">
                         <input type="submit" value="Login" name="login" class="button">
-                        <label class="inline" for="rememberme"><input type="checkbox" value="forever" id="rememberme" name="rememberme"> Manter conectado </label>
                     </p>
-                    <p class="lost_password">
-                        <a href="#">Esqueceu a senha?</a>
-                    </p>
-
                     <div class="clear"></div>
+                    <p class="lost_password">
+                        <a href="<?$baseUrl?>forgot">Esqueceu a senha?</a>
+                    </p>
                 </form>
             </div>
             <div class="col-md-6">
@@ -66,22 +64,22 @@
                     <p class="form-row form-row-first">
                         <label for="complete-name">Nome Completo <span class="required">*</span>
                         </label>
-                        <input type="text" id="complete-name" name="complete-name" class="input-text">
+                        <input required type="text" id="complete-name" name="complete-name" class="input-text">
                     </p>
                     <p class="form-row form-row-first">
                         <label for="email">E-mail <span class="required">*</span>
                         </label>
-                        <input type="email" id="email" name="email" class="input-text">
+                        <input required type="email" id="email" name="email" class="input-text">
                     </p>
                     <p class="form-row form-row-first">
                         <label for="username-register">Login <span class="required">*</span>
                         </label>
-                        <input type="text" id="username-register" name="username-register" class="input-text">
+                        <input required type="text" id="username-register" name="username-register" class="input-text">
                     </p>
                     <p class="form-row form-row-last">
                         <label for="password-register">Password <span class="required">*</span>
                         </label>
-                        <input type="password" id="password-register" name="password-register" class="input-text">
+                        <input required type="password" id="password-register" name="password-register" class="input-text">
                     </p>
                     <div class="clear"></div>
 

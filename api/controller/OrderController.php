@@ -18,7 +18,7 @@ class OrderController extends OrderDAO
         $addressDao = new AddressDao();
         $addressDao->connection = $this->connection;
 
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
 
         /*VERIFICA CLIENTE*/
         $client = $clientDao->getClientByName($name);
@@ -84,7 +84,7 @@ class OrderController extends OrderDAO
         $addressDao = new AddressDao();
         $addressDao->connection = $this->connection;
 
-        $name = getAuthorizationCredentials($req);
+        $name = Authmethods::getAuthorizationCredentials($req);
 
         /* verifica cliente */
         $client = $clientDao->getClientByName($name);
