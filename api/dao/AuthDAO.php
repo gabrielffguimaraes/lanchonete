@@ -25,4 +25,14 @@ class AuthDAO extends Conexao
         $stmt->execute();
         return  $stmt->affected_rows;
     }
+    public function getByRecoveryCode($token) {
+        $sql = "SELECT * FROM auth_recover_pass WHERE recover_code = ?";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $token);
+
+        $stmt->execute();
+        $recoverData = $this->createLineArray($stmt->get_result());
+        return  $recoverData;
+    }
 }

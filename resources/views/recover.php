@@ -27,13 +27,14 @@
     <div class="container">
         <div class="d-flex justify-content-center">
             <div class="col-md-6 d-flex justify-content-center">
-                <form id="register-form-wrap" class="login" method="post" action="login">
+                <form id="register-form-wrap"  class="recover" method="post" action="recover">
                     <input type="hidden" name="redirect" value="<?=$_GET['redirect']?>">
+                    <input type="hidden" name="token" value="<?=$_GET['token']?>">
                     <h2>Recuperar</h2>
                     <p class="form-row form-row-first">
                         <label for="username">Login <span class="required">*</span>
                         </label>
-                        <input type="text" disabled id="username" name="username" class="input-text">
+                        <input type="text" value="<?=$name?>" disabled id="name" name="name" class="input-text">
                     </p>
                     <p class="form-row form-row-last">
                         <label for="password">Nova Senha <span class="required">*</span>

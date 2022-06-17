@@ -41,4 +41,13 @@ class LoginDAO extends Conexao
         $stmt->execute();
         return $this->createLineArray($stmt->get_result());
     }
+    public function updateUserPassword($name,$pass) {
+        $sql="UPDATE
+             client
+           SET password=? WHERE name=? ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $pass, $name);
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
 }

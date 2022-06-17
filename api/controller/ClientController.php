@@ -6,7 +6,17 @@ class ClientController extends ClientDAO
     {
         $this->open();
     }
-
+    public function getClientByRecoveryCode($req,$res,$args = []) {
+        $params = $req->getParams();
+        $token = $params["token"];
+        $clientDAO = new ClientDao();
+        $clientDAO->connection = $this->connection;
+        $client = $clientDAO->getClientByRecoveryCodeDAO($token);
+        if(!$client) {
+            return false;
+        }
+        return $client;
+    }
     public function getAddress($req,$res,$args = []) {
         $addressDAO = new AddressDAO();
         $addressDAO->connection = $this->connection;

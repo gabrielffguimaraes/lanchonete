@@ -6,9 +6,24 @@ class AuthController extends AuthDAO
     {
         $this->open();
     }
-    private function generateRecoveryCode($email,$date) {
-        $random = Util::generateRandomNumber();
-        return base64_encode($email.$random.$date);
+    public function verifyRecoveryCode($token) {
+        $authDAO = new AuthDAO();
+        $authDAO->connection = $this->connection;
+
+        $recoveryData = $authDAO->getByRecoveryCode($token);
+        if(!$recoveryData) {
+            throw new Exception("Código de recuperação de senha inválido ou já utilizado .");
+        }
+
+        $today = date('Y-m-d H:i:s');
+        $expiration_at = $recoveryData["expiration_at"];
+
+        $expirated = ($today > $expiration_at) ? true : false;
+        if ($expirated) {
+            throw new Exception("Código de recuperação de senha expirado");
+        }
+
+        return true;
     }
 
     public function sendRecoveryCode($req,$res,$args = []) {
@@ -52,8 +67,11 @@ class AuthController extends AuthDAO
         if($result == 1) {
              return $res->withJson($msgSuccess,200);
         } else {
-            $res->withJson($msgErr,400);
+            return $res->withJson($msgErr,400);
         }
     }
-
+    private function generateRecoveryCode($email,$date) {
+        $random = Util::generateRandomNumber();
+        return base64_encode($email.$random.$date);
+    }
 }

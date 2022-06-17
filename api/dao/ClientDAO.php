@@ -9,7 +9,7 @@ class ClientDAO extends Conexao
     }
 
     public function getClientByName($name = "") {
-        $sql = "select * from client where name = ?";
+        $sql = "SELECT * FROM client WHERE name = ?";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("s", $name);
@@ -19,10 +19,22 @@ class ClientDAO extends Conexao
         return  $client;
     }
     public function getClientByEmail($email = "") {
-        $sql = "select * from client where email = ?";
+        $sql = "SELECT * FROM client WHERE email = ?";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("s", $email);
+
+        $stmt->execute();
+        $client = $this->createLineArray($stmt->get_result());
+        return  $client;
+    }
+    public function getClientByRecoveryCodeDAO($token = "") {
+        $sql = "SELECT * FROM client 
+                INNER JOIN auth_recover_pass auth on auth.client_id = client.id
+                WHERE auth.recover_code = ?";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $token);
 
         $stmt->execute();
         $client = $this->createLineArray($stmt->get_result());

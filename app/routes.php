@@ -1,8 +1,15 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 error_reporting(E_ERROR | E_PARSE);
 require('../api/conexao/Conexao.php');
 require '../api/dao/LoginDAO.php';
+require '../api/dao/ClientDAO.php';
+require '../api/dao/AuthDAO.php';
 require '../api/controller/LoginController.php';
+require '../api/controller/ClientController.php';
+require '../api/controller/AuthController.php';
+require '../api/util/Authmethods.php';
+
 use Slim\Http\Request;
 use Slim\Http\Response;
 $enviroments = require __DIR__. '/enviroments.php';
@@ -12,7 +19,7 @@ $auth = Auth::authentication();
 $app->post('/logout', function (Request $request, Response $response, array $args) use ($enviroments) {
     unset($_SESSION['name']);
     unset($_SESSION['password']);
-    return $response->withRedirect("{$enviroments['baseUrl']}");
+    return $response->withRedirect("{$enviroments['baseUrl']}login");
 });
 $app->post('/login', function (Request $request, Response $response, array $args) use ($enviroments) {
     $loginController = new LoginController();
@@ -50,6 +57,28 @@ $app->post('/register', function (Request $request, Response $response, array $a
         return $response->withRedirect("{$enviroments['baseUrl']}login?invalid&message={$ret['message']}$path" );
     };
 });
+$app->post('/recover', function (Request $request, Response $response, array $args) use ($enviroments) {
+    $params = $request->getParams();
+    $authController = new AuthController();
+    $clientController = new ClientController($request,$response,$args);
+    try {
+        $authController->verifyRecoveryCode($params['token']);
+        $client = $clientController->getClientByRecoveryCode($request,$response,$args);
+        if(!$client) {
+            throw new Exception("Cliente não encontrado em nossa base de dados .");
+        }
+        $loginController = new LoginController();
+        $result = $loginController->updateUserPass($client["name"],$params["password"]);
+        if($result < 0) {
+            throw new Exception("Error ao atualizar senha");
+        }
+        $authController->deleteRecoveryCode($client);
+        $msg = "Senha de acesso recuperada realize o login .";
+        return $response->withRedirect("{$enviroments['baseUrl']}login?valid&message=$msg" );
+    } catch(Exception $e) {
+        return $response->withRedirect("{$enviroments['baseUrl']}login?invalid&message={$e->getMessage()}" );
+    }
+});
 
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'homepage.php');
@@ -73,8 +102,14 @@ $app->get('/login', function (Request $request, Response $response, array $args)
     return $this->view->render($response, 'login.php');
 });
 $app->get('/recover', function (Request $request, Response $response, array $args) {
-    return $this->view->render($response, 'recover.php');
-});
+    $clientController = new ClientController();
+    $client = $clientController->getClientByRecoveryCode($request,$response,$args);
+    $data = array(
+        "name" => $client["name"]
+    );
+    return $this->view->render($response, 'recover.php',$data);
+})->add(Authmethods::isValidRecoveryCode());
+
 $app->get('/forgot', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'forgot.php');
 });
@@ -96,12 +131,3 @@ $app->get('/product/{id}/ingredients', function (Request $request, Response $res
     );
     return $this->view->render($response, 'choose-ingredients.php',$data);
 });
-
-/*
-$app->get('/about',function(Request $request, Response $response, array $args)
-{
-    $data = array(
-        "credentials"=>Auth::credentials()
-    );
-    return $this->view->render($response, 'about.php',$data);
-})->add($auth);*/

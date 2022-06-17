@@ -27,6 +27,11 @@ class LoginController extends LoginDAO
         }
         return $valid;
     }
+    public function updateUserPass($name,$newPassword)
+    {
+        $resp = $this->updateUserPassword($name,$newPassword);
+        return $resp;
+    }
     public function registerUser($req,$res)
     {
         $args = $req->getParsedBody();

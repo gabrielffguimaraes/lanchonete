@@ -32,6 +32,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php } ?>
+                <?php if(isset($_GET['valid'])){?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?=$_GET['message']?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
             </div>
             <div class="col-md-6">
                 <form id="login-form-wrap" class="login" method="post" action="login">
