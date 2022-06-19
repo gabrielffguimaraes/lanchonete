@@ -10,7 +10,9 @@ $enviroments =  [
 $base64Variables = base64_encode(json_encode($enviroments));
 
 $enviroments =  array_merge([
-    "envoriments" => $base64Variables
-],$enviroments);
+    "envoriments" => $base64Variables,
+],$enviroments,[
+    "userLogged" =>Auth::loggedUser()
+]);
 
 return $enviroments;

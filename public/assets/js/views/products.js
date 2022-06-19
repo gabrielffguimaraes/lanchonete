@@ -7,7 +7,6 @@ var xhr = {
 
     }
 };
-xhr.abort();
 function getCategoriesFilter () {
     return [...document.getElementsByName("category-filter")]
         .filter(elementRef => elementRef.checked)

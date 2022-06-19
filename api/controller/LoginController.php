@@ -13,11 +13,12 @@ class LoginController extends LoginDAO
     {
         return $this->getUsers();
     }
-    public function login($args)
+    public function login($args,$role = "client")
     {
         $user = array(
             "name" =>$args['username'],
-            "password" =>$args['password']
+            "password" =>$args['password'],
+            "role" =>$role
         );
 
         $valid = $this->validate($user);

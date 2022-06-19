@@ -1,10 +1,13 @@
 create database lanchonete;
 use lanchonete;
+
+
 create table client(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL
+    email VARCHAR(255) UNIQUE NOT NULL,
+    role VARCHAR(20)
 );
 
 create table auth_recover_pass (

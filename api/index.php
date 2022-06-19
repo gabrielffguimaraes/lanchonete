@@ -1,10 +1,6 @@
 <?php
 date_default_timezone_set('America/Sao_Paulo');
 require('../vendor/autoload.php');
-require('./conexao/Conexao.php');
-/* classes */
-require('./autoload.php');
-require('../app/authentication/Auth.php');
 
 $app = new \Slim\App();
 
@@ -27,6 +23,7 @@ $app->group('/category', function() use ($app) {
 $app->group('/ingredient', function() use ($app) {
     include './rest/ingredientRest.php';
 });
+
 
 $app->group('/client/product', function() use ($app) {
     include './rest/clientProductRest.php';

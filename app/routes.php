@@ -1,31 +1,26 @@
 <?php
 date_default_timezone_set('America/Sao_Paulo');
 error_reporting(E_ERROR | E_PARSE);
-require('../api/conexao/Conexao.php');
-require '../api/dao/LoginDAO.php';
-require '../api/dao/ClientDAO.php';
-require '../api/dao/AuthDAO.php';
-require '../api/controller/LoginController.php';
-require '../api/controller/ClientController.php';
-require '../api/controller/AuthController.php';
-require '../api/util/Authmethods.php';
 
 use Slim\Http\Request;
 use Slim\Http\Response;
 $enviroments = require __DIR__. '/enviroments.php';
-// Routes
-$auth = Auth::authentication();
 
 $app->post('/logout', function (Request $request, Response $response, array $args) use ($enviroments) {
     unset($_SESSION['name']);
     unset($_SESSION['password']);
-    return $response->withRedirect("{$enviroments['baseUrl']}login");
+    $params = $request->getParams();
+    if(isset($params['redirect'])) {
+        return $response->withRedirect("{$enviroments['baseUrl']}{$params['redirect']}");
+    } else {
+        return $response->withRedirect("{$enviroments['baseUrl']}login");
+    }
 });
 $app->post('/login', function (Request $request, Response $response, array $args) use ($enviroments) {
     $loginController = new LoginController();
     $params = $request->getParams();
     $path = "";
-    if($loginController->login($request->getParsedBody())) {
+    if($loginController->login($request->getParsedBody(),"client")) {
         if($params['redirect']) {
             $path = $params['redirect'];
         }
@@ -35,6 +30,15 @@ $app->post('/login', function (Request $request, Response $response, array $args
             $path = "&redirect=".$params['redirect'];
         }
         return $response->withRedirect("{$enviroments['baseUrl']}login?invalid&message=Usuário ou senha incorretos$path" );
+    };
+});
+
+$app->post('/management/login', function (Request $request, Response $response, array $args) use ($enviroments) {
+    $loginController = new LoginController();
+    if($loginController->login($request->getParsedBody(),"employee")) {
+        return $response->withRedirect("{$enviroments['baseUrl']}management/dashboard");
+    } else {
+        return $response->withRedirect("{$enviroments['baseUrl']}management/login?invalid&message=Usuário ou senha incorretos" );
     };
 });
 $app->post('/register', function (Request $request, Response $response, array $args) use ($enviroments) {
@@ -80,6 +84,7 @@ $app->post('/recover', function (Request $request, Response $response, array $ar
     }
 });
 
+// CLIENT ROUTES
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'homepage.php');
 });
@@ -113,17 +118,19 @@ $app->get('/recover', function (Request $request, Response $response, array $arg
 $app->get('/forgot', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'forgot.php');
 });
+
 $app->get('/payment', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'payment.php');
-})->add(Auth::authentication("payment"));
+})->add(Auth::authenticationClientLogged($enviroments,"payment"));
+
+$app->get('/my-orders', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, 'my-orders.php');
+})->add(Auth::authenticationClientLogged($enviroments));
 
 $app->get('/cart', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'cart.php');
 });
 
-$app->get('/my-orders', function (Request $request, Response $response, array $args) {
-    return $this->view->render($response, 'my-orders.php');
-})->add(Auth::authentication());
 
 $app->get('/product/{id}/ingredients', function (Request $request, Response $response, array $args) {
     $data = array(
@@ -131,3 +138,19 @@ $app->get('/product/{id}/ingredients', function (Request $request, Response $res
     );
     return $this->view->render($response, 'choose-ingredients.php',$data);
 });
+
+// MANAGER ROUTES
+$app->group('/management',function () use ($app) {
+    $app->get('/login', function (Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'management/login.php');
+    });
+    $app->get('/dashboard', function (Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'management/dashboard.php');
+    });
+    $app->get('/products', function (Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'management/products/products.php');
+    });
+    $app->get('/products/add', function (Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'management/products/product-form.php');
+    });
+})->add(Auth::authenticationManagerLogged($enviroments));

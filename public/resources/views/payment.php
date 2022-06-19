@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="<?= $baseUrl ?>assets/css/payment.css">
 </head>
 <body>
-<?php include "layouts/menu.php"; ?>
+<?php include "layouts/menu-client.php"; ?>
 <?php include "layouts/header.php"; ?>
-<?php include "layouts/navigator.php"; ?>
+<?php include "layouts/navigator-client.php"; ?>
 
 <div class="product-big-title-area">
     <div class="container">

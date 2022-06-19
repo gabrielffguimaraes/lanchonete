@@ -18,11 +18,11 @@ class ClientDAO extends Conexao
         $client = $this->createLineArray($stmt->get_result());
         return  $client;
     }
-    public function getClientByEmail($email = "") {
-        $sql = "SELECT * FROM client WHERE email = ?";
+    public function getClientByEmail($email = "",$role = "client") {
+        $sql = "SELECT * FROM client WHERE email = ? and role = ?";
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss", $email,$role);
 
         $stmt->execute();
         $client = $this->createLineArray($stmt->get_result());

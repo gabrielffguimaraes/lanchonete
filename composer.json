@@ -6,5 +6,30 @@
         "tuupola/slim-basic-auth": "^3.3",
         "zircote/swagger-php": "^4.4",
         "phpmailer/phpmailer": "^6.6"
+    },
+    "autoload": {
+        "files": [
+            "api/conexao/Conexao.php",
+            "api/dao/LoginDAO.php",
+            "api/dao/CategoryDAO.php",
+            "api/dao/IngredientDAO.php",
+            "api/dao/ProductDAO.php",
+            "api/dao/ClientDAO.php",
+            "api/dao/OrderDAO.php",
+            "api/dao/AddressDAO.php",
+            "api/dao/AuthDAO.php",
+            "api/controller/LoginController.php",
+            "api/controller/CategoryController.php",
+            "api/controller/IngredientController.php",
+            "api/controller/ProductController.php",
+            "api/controller/ClientController.php",
+            "api/controller/OrderController.php",
+            "api/controller/AuthController.php",
+            "api/service/Correios.php",
+            "api/service/Email.php",
+            "api/util/Util.php",
+            "api/util/Authmethods.php",
+            "app/authentication/Auth.php"
+        ]
     }
 }

@@ -39,7 +39,7 @@ class AuthController extends AuthDAO
             return $res->withJson("Parametro email obrigatório",400);
         }
 
-        $client = $clientDAO->getClientByEmail($params['email']);
+        $client = $clientDAO->getClientByEmail($params['email'],"client");
         if(!$client) {
             return $res->withJson("email não encontrado",404);
         }

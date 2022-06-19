@@ -96,6 +96,9 @@
 <!-- jQuery easing -->
 <script src="<?=$baseUrl;?>assets/js/jquery.easing.1.3.min.js"></script>
 
+<!-- jQuery inputmask -->
+<script src="<?=$baseUrl;?>assets/js/jquery.inputmask.bundle.js"></script>
+
 <!-- Main Script -->
 <script src="<?=$baseUrl;?>assets/js/main.js"></script>
 
