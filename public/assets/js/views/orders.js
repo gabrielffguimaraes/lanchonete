@@ -44,10 +44,13 @@ function orderList() {
                                     <img width="50" src="/lanchonete/public/assets/img/product-2.jpg" alt="">
                                 </div>
                                 <div>`;
-                        let ingredient = firstProduct.ingredients.map(ingredient => ingredient.description).join(" ,");
+                        let ingredient = "";
+                        if(firstProduct) {
+                            ingredient = firstProduct.ingredients.map(ingredient => ingredient.description).join(" ,");
+                        }
                         html +=`
-                                    <p class="mb-0">${firstProduct.description}</p>
-                                    <p class="mb-0"><b>${firstProduct.quantity} quantidade</b></p>
+                                    <p class="mb-0">${firstProduct?.description}</p>
+                                    <p class="mb-0"><b>${firstProduct?.quantity} quantidade</b></p>
                                     <p class="mb-0">${ingredient}</p>
                                 </div>
                             </div>
@@ -69,7 +72,7 @@ function orderList() {
                                             </div>
                                         </div>
                                     </div>`;
-                    price += parseFloat(product.price);
+                    price += parseFloat(product.price * product.quantity);
                     discount += parseFloat(order.discount);
                     delivery_fee += parseFloat(order.delivery_fee);
 

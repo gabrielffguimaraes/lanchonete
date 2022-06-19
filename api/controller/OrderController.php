@@ -55,21 +55,25 @@ class OrderController extends OrderDAO
         }
         $orderId = $stmt->insert_id;
         $this->updateStatus($orderId,0);
+
         // INSERTING PRODUCTS FROM CART
         $productDao = new ProductDao();
         $productDao->connection = $this->connection;
         foreach ($args['cart'] as $cartProduct) {
-            $product = $productDao->getProducts($cartProduct['id'])[0];
-            $orderProduct = array(
-                "product_id" => $product['id'],
-                "quantity" => $cartProduct['quantity'],
-                "price" => $product['price']
-            );
-            $stmtOrderProduct = $this->addOrderProduct($orderId, $orderProduct);
-            $orderProductId = $stmtOrderProduct->insert_id;
+            $products = $productDao->getProducts($cartProduct['id'])["data"];
+            if(!empty($products)) {
+                $product = $products[0];
+                $orderProduct = array(
+                    "product_id" => $product['id'],
+                    "quantity" => $cartProduct['quantity'],
+                    "price" => $product['price']
+                );
+                $stmtOrderProduct = $this->addOrderProduct($orderId, $orderProduct);
+                $orderProductId = $stmtOrderProduct->insert_id;
 
-            foreach ($product['ingredient'] as $ingredient) {
-                $stmtOrderProductIngredient = $this->addOrderProductIngredient($orderProductId, $ingredient['id']);
+                foreach ($product['ingredient'] as $ingredient) {
+                    $stmtOrderProductIngredient = $this->addOrderProductIngredient($orderProductId, $ingredient['id']);
+                }
             }
         }
 

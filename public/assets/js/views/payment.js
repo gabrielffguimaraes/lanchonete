@@ -1,5 +1,7 @@
 var frete = 0;
-
+var subtotal = 0;
+var total = 0;
+var frete = 0;
 /* payment function */
 document.getElementById("address-form").addEventListener("submit" , () => {
     event.preventDefault();
@@ -70,7 +72,7 @@ document.getElementById("place_order").addEventListener("click",()=>{
             const cart = new Cart();
             cart.clearCart();
             alert("Seu pedido foi realizado com sucesso você será redirecionado para a pagina de pedidos .");
-            window.location.href = `${Enviroments.baseUrl}client/order`;
+            window.location.href = `${Enviroments.baseUrl}my-orders`;
             console.log(response)
         },
         error: function (error) {
@@ -83,9 +85,6 @@ document.getElementById("place_order").addEventListener("click",()=>{
 window.addEventListener("load",() => {
     const cart = new Cart();
     let details = ``;
-    let subtotal = 0;
-    let total = 0;
-    let frete = 0;
     cart.getCart().forEach((product) => {
         let totalPerProduct = product.price * product.quantity;
         details += `
@@ -164,6 +163,7 @@ function loadFrete(cep) {
         success: function (response) {
             frete = parseFloat(response.valor[0].replace(",","."));
             $("#frete").html(money(frete));
+            $("#total").html(money(total + frete));
         },
         error: function (error) {
             $("#error-msg").removeClass("d-none");
