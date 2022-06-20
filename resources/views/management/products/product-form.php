@@ -5,6 +5,12 @@ if(isset($edit) && $edit = true) {
     if(empty($product)) {
         header("Location: {$url}management/products/add?invalid&message=Produto não encontrado para edição");
         exit;
+    } else {
+        $product = $product[0];
+        $product['ingredient'] = array_map(function($p) {
+         return $p['description'];
+        },$product['ingredient']);
+        $product['ingredient'] = implode(",",$product['ingredient']);
     }
 }
 ?>
@@ -21,7 +27,9 @@ if(isset($edit) && $edit = true) {
         <div class="row">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
-                    <h2>Formulário de cadastro de produto</h2>
+                    <h2>
+                        <?=($edit) ? "Edição de produto" : " Formulário de cadastro de produto" ?>
+                    </h2>
                 </div>
             </div>
         </div>
@@ -36,7 +44,9 @@ if(isset($edit) && $edit = true) {
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?=$baseUrl?>management/dashboard">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="<?=$baseUrl?>management/products">Produtos</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Formulário</li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <?=($edit) ? "Edição de produto" : " Formulário" ?>
+                        </li>
                     </ol>
                 </nav>
             </div>
@@ -56,27 +66,27 @@ if(isset($edit) && $edit = true) {
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="bi bi-bag-plus me-2"></i>
-                        Adicionar novo produto
+                        <?=($edit) ? "Editando produto : ".$product['description'] : "Adicionar novo produto" ?>
                     </div>
                     <div class="card-body text-primary">
                         <form id="form-product">
                             <div class="mb-3">
                                 <label for="description" class="form-label">Descrição do produto</label>
-                                <input type="text" class="form-control" id="description" required>
+                                <input value="<?=$product['description']?>" type="text" class="form-control" id="description" required>
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Categoria</label>
-                                <select id="category" class="form-select" required>
+                                <select id="category" value="<?=$product['category']?>" class="form-select" required>
                                     <option selected disabled>Selecione</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="ingredient" class="form-label">Ingredientes</label>
-                                <input placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control" id="ingredient">
+                                <input value="<?=$product['ingredient']?>" placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control" id="ingredient">
                             </div>
                             <div class="mb-3" style="max-width: 140px">
                                 <label for="price" class="form-label">Preço</label>
-                                <input data-inputmask="'alias' : 'currency'" required class="form-control" id="price">
+                                <input value="<?=$product['price']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price">
                             </div>
                             <button type="submit" class="btn btn-primary">Cadastrar</button>
                         </form>

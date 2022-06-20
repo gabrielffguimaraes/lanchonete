@@ -57,6 +57,8 @@ class ProductDAO extends Conexao
             $s .= "s";
         }
         $filter = implode(" ",$filter);
+
+
         $sql = "SELECT * FROM product $filter  LIMIT ? OFFSET ?";
         $stmt = $this->connection->prepare($sql);
 

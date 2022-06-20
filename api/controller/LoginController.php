@@ -17,7 +17,7 @@ class LoginController extends LoginDAO
     {
         $user = array(
             "name" =>$args['username'],
-            "password" =>$args['password'],
+            "password" =>md5($args['password']),
             "role" =>$role
         );
 
@@ -30,7 +30,7 @@ class LoginController extends LoginDAO
     }
     public function updateUserPass($name,$newPassword)
     {
-        $resp = $this->updateUserPassword($name,$newPassword);
+        $resp = $this->updateUserPassword($name,md5($newPassword));
         return $resp;
     }
     public function registerUser($req,$res)
@@ -39,7 +39,7 @@ class LoginController extends LoginDAO
         $newUser = array(
             "complete-name" => $args['complete-name'],
             "name" => $args['username-register'],
-            "password" => $args['password-register'],
+            "password" => md5($args['password-register']),
             "email" => $args['email']
         );
 

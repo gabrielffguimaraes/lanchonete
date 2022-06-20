@@ -25,9 +25,9 @@ function loadProducts(offset = 0) {
                     <td>${ingredients}</td>
                     <td>${money(parseFloat(product.price))}</td>
                     <td>
-                        <button class="btn btn-warning btn-sm text-white">
+                        <a href="products/${product.id}/edit" class="btn btn-warning btn-sm text-white">
                             <i class="bi bi-pencil-square"></i>
-                        </button>
+                        </a>
                         <button class="btn btn-danger btn-sm text-white">
                             <i class="bi bi-trash3"></i>
                         </button>
