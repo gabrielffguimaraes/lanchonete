@@ -153,4 +153,13 @@ $app->group('/management',function () use ($app) {
     $app->get('/products/add', function (Request $request, Response $response, array $args) {
         return $this->view->render($response, 'management/products/product-form.php');
     });
+    $app->get('/products/{id}/edit', function (Request $request, Response $response, array $args) {
+        $productController = new ProductController();
+        $product = $productController->listById($request,$response,$args,false);
+        $data = array(
+            "edit" => true,
+            "product" => $product
+        );
+        return $this->view->render($response, 'management/products/product-form.php',$data);
+    });
 })->add(Auth::authenticationManagerLogged($enviroments));

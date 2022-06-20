@@ -106,8 +106,4 @@
 <script type="text/javascript" src="<?=$baseUrl;?>assets/js/bxslider.min.js"></script>
 <script type="text/javascript" src="<?=$baseUrl;?>assets/js/script.slider.js"></script>
 
-
-
-
-
 <script src="<?= $baseUrl; ?>assets/js/enviroments.js" enviroments="<?=$envoriments;?>" id="enviroments-script"></script>

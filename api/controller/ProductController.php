@@ -19,10 +19,13 @@ class ProductController extends ProductDAO
         $products = $this->getProducts("",$categories,$description,$limit,$offset);
         return $res->withJson($products,200);
     }
-    public function listById($req,$res,$args)
+    public function listById($req,$res,$args,$api = true)
     {
         $id = $args['id'];
         $product = $this->getProducts($id);
+        if(!$api) {
+            return $product["data"];
+        }
         if(!empty($product["data"])) {
             return $res->withJson($product["data"][0],200);
         } else {
@@ -64,7 +67,12 @@ class ProductController extends ProductDAO
     {
         $categoryDAO = new CategoryDAO();
         $categoryDAO->connection = $this->connection;
-        $productDAO = $this;
+        $ingredientDAO = new IngredientDAO();
+        $ingredientDAO->connection = $this->connection;
+
+        $productDAO = new ProductDAO();
+        $productDAO->connection = $this->connection;
+
         $args = $req->getParsedBody();
 
         $category = $categoryDAO->getCategories($args['category']);
@@ -78,6 +86,21 @@ class ProductController extends ProductDAO
             "price" => $args['price']
         );
         $id = $productDAO->addProduct($product);
+        if(isset($args['ingredients']) && is_array($args['ingredients'])) {
+            foreach($args['ingredients'] as $ingredient ) {
+                $newIngredient = array(
+                    "description" => trim($ingredient)
+                );
+                $ingredients = $ingredientDAO->getIngredientByDescription($newIngredient);
+                $idIngredient = null;
+                if(empty($ingredients)) {
+                    $idIngredient = $ingredientDAO->addIngredient($newIngredient);
+                } else {
+                    $idIngredient = $ingredients[0]["id"];
+                }
+                $productDAO->addIngredientToProduct($id,$idIngredient);
+            }
+        }
         if($id) {
             return $res->withJson("Sucesso, produto criado com sucesso .",201);
         } else {

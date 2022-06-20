@@ -12,6 +12,8 @@
 <!-- Bootstrap -->
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/libs/bootstrap-5.2.0/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/libs/bootstrap-icons-1.8.3/font/bootstrap-icons.css">
+
+
 <!-- Font Awesome -->
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/font-awesome.min.css">
 
@@ -19,7 +21,6 @@
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/owl.carousel.css">
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/style.css">
 <link rel="stylesheet" href="<?= $baseUrl; ?>assets/css/responsive.css">
-
 
 <script src="<?= $baseUrl; ?>assets/js/views/cart.js"></script>
 <script src="<?= $baseUrl; ?>assets/js/utils.js"></script>

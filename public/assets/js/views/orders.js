@@ -75,7 +75,6 @@ function orderList() {
                     price += parseFloat(product.price * product.quantity);
                     discount += parseFloat(order.discount);
                     delivery_fee += parseFloat(order.delivery_fee);
-
                 });
 
                                 html += `
@@ -85,7 +84,7 @@ function orderList() {
                                         <div class="status">
                                             <div>
                                                 <h4> Pedido recebido </h4>
-                                                <small>${stats[0]?.created_at ? stats[0]?.created_at : ''}</small>
+                                                <small>${stats[1]?.created_at ? stats[1]?.created_at : ''}</small>
                                             </div>
                                         </div>
                                     </li>
@@ -93,7 +92,7 @@ function orderList() {
                                         <div class="status">
                                             <div>
                                                 <h4> Pagamento aprovado </h4>
-                                                <small>${stats[1]?.created_at ? stats[1]?.created_at : ''}</small>
+                                                <small>${stats[2]?.created_at ? stats[2]?.created_at : ''}</small>
                                             </div>
                                         </div>
                                     </li>
@@ -101,7 +100,7 @@ function orderList() {
                                         <div class="status">
                                             <div>
                                                 <h4> Preparando Pedido </h4>
-                                                <small class="d-block">${stats[2]?.created_at ? stats[2]?.created_at : ''}</small>
+                                                <small class="d-block">${stats[3]?.created_at ? stats[3]?.created_at : ''}</small>
                                             </div>
                                         </div>
                                     </li>
@@ -109,7 +108,7 @@ function orderList() {
                                         <div class="status">
                                             <div>
                                                 <h4> Em transporte </h4>
-                                                <small class="d-block">${stats[3]?.created_at ? stats[3]?.created_at : ''}</small>
+                                                <small class="d-block">${stats[4]?.created_at ? stats[4]?.created_at : ''}</small>
                                             </div>
                                         </div>
                                     </li>
@@ -117,7 +116,7 @@ function orderList() {
                                         <div class="status">
                                             <div>
                                                 <h4> Pedido entregue </h4>
-                                                <small class="d-block">${stats[4]?.created_at ? stats[4]?.created_at : ''}</small>
+                                                <small class="d-block">${stats[5]?.created_at ? stats[5]?.created_at : ''}</small>
                                             </div>
                                         </div>
                                     </li>

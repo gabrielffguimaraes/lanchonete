@@ -31,11 +31,11 @@ class IngredientController extends IngredientDAO
         $newIngredient = array(
             "description" => $args['description']
         );
-        $this->getIngredientByDescription($newIngredient);
+        $ingredients = $this->getIngredientByDescription($newIngredient);
         $msg = "";
         $status = null;
 
-        if(empty($this->countRows())) {
+        if(empty($ingredients)) {
             $result = $this->addIngredient($newIngredient);
             $msg = ($result == 1) ? "Ingrediente criada com sucesso" : "Erro ao criar ingrediente";
             $status = ($result == 1) ? 201 : 400;
@@ -52,11 +52,11 @@ class IngredientController extends IngredientDAO
             "id" => $args['id'],
             "description" => $args['description']
         );
-        $this->getIngredientByDescription($ingredient);
+        $ingredients = $this->getIngredientByDescription($ingredient);
         $msg = "";
         $status = null;
 
-        if(empty($this->countRows())) {
+        if(empty($ingredients)) {
             $result = $this->updateIngredient($ingredient);
             $msg = ($result >= 0) ? "Ingrediente atualizada com sucesso" : "Erro ao atualizar ingrediente";
             $status = ($result >= 0) ? 200 : 400;

@@ -27,7 +27,7 @@ class IngredientDAO extends Conexao
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("s", $ingredient['description']);
         $stmt->execute();
-        return  $stmt->affected_rows;
+        return  $stmt->insert_id;
     }
     public function updateIngredient($ingredient) {
         $sql="UPDATE ingredient SET description=? WHERE id=?";
@@ -47,11 +47,10 @@ class IngredientDAO extends Conexao
             $params[] = $ingredient['id'];
         }
 
-        $sql="SELECT * FROM ingredient WHERE description like ? $filter";
+        $sql="SELECT * FROM ingredient WHERE upper(description) like upper(?) $filter";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param($nParams, ...$params);
         $stmt->execute();
-        $this->resultado = $stmt->get_result();
-        return  $this->resultado;
+        return  $this->createTableArray($stmt->get_result());
     }
 }
