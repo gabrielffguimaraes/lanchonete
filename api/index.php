@@ -3,6 +3,7 @@ date_default_timezone_set('America/Sao_Paulo');
 require('../vendor/autoload.php');
 
 $app = new \Slim\App();
+$enviroments = require __DIR__. '/../app/enviroments.php';
 
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -41,17 +42,12 @@ $app->group('/order', function() use ($app) {
     include './rest/orderRest.php';
 });
 
-
-
-/*
-$app->group('/categoria', function() use ($app) {
-    $app->get('/', function (Request $request, Response $response, array $args) {
-        $LoginController = new LoginController();
-        return $LoginController->registerUser($request,$response);
-    });
-});
-*/
-
-
+// Get container
+$container = $app->getContainer();
+$container['notFoundHandler'] = function ($c) use ($enviroments){
+    return function ($request, $response) use ($c,$enviroments) {
+        return $response->withRedirect("{$enviroments['baseUrl']}404");
+    };
+};
 
 $app->run();

@@ -1,7 +1,7 @@
 <?php
 $enviroments =  [
-    "url" => "http://localhost/lanchonete/public/",
-    "baseUrl" => "/lanchonete/public/",
+    "url" => "http://localhost/lanchonete/",
+    "baseUrl" => "/lanchonete/",
     "baseHttp" => "http://localhost/lanchonete/api/",
     "authorization" => Auth::credentials(),
     "name" => $_SESSION["name"] ?? ""

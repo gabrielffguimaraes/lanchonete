@@ -84,6 +84,12 @@ $app->post('/recover', function (Request $request, Response $response, array $ar
     }
 });
 
+
+// NOT FOUND
+$app->get('/404', function (Request $request, Response $response, array $args) {
+    return $this->view->render($response, '404.php');
+});
+
 // CLIENT ROUTES
 $app->get('/', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'homepage.php');
@@ -130,7 +136,6 @@ $app->get('/my-orders', function (Request $request, Response $response, array $a
 $app->get('/cart', function (Request $request, Response $response, array $args) {
     return $this->view->render($response, 'cart.php');
 });
-
 
 $app->get('/product/{id}/ingredients', function (Request $request, Response $response, array $args) {
     $data = array(

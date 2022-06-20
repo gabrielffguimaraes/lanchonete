@@ -6,6 +6,7 @@ $app->get('', function (Request $request, Response $response, array $args) {
     $IngredientController = new IngredientController();
     return $IngredientController->list($request,$response);
 });
+
 $app->get('/{id}', function (Request $request, Response $response, array $args) {
     $IngredientController = new IngredientController();
     return $IngredientController->listById($request,$response,$args);
