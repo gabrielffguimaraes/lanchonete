@@ -59,7 +59,12 @@ class ProductDAO extends Conexao
         $filter = implode(" ",$filter);
 
 
-        $sql = "SELECT * FROM product $filter  LIMIT ? OFFSET ?";
+        $sql = "SELECT *,
+                (SELECT group_concat(
+                    (SELECT i.description FROM ingredient i WHERE i.id = pi.ingredient_id) separator ' , ') FROM product_ingredient pi WHERE pi.product_id = p.id) AS _ingredients 
+                from PRODUCT p 
+
+         $filter  LIMIT ? OFFSET ?";
         $stmt = $this->connection->prepare($sql);
 
         $stmt->bind_param($s."ss", ...array_merge($params,[$limit,$offset]));

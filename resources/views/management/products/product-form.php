@@ -5,13 +5,8 @@ if(isset($edit) && $edit = true) {
     if(empty($product)) {
         header("Location: {$url}management/products/add?invalid&message=Produto não encontrado para edição");
         exit;
-    } else {
-        $product = $product[0];
-        $product['ingredient'] = array_map(function($p) {
-         return $p['description'];
-        },$product['ingredient']);
-        $product['ingredient'] = implode(",",$product['ingredient']);
     }
+    $product = $product[0];
 }
 ?>
 <!DOCTYPE html>
@@ -82,13 +77,15 @@ if(isset($edit) && $edit = true) {
                             </div>
                             <div class="mb-3">
                                 <label for="ingredient" class="form-label">Ingredientes</label>
-                                <input value="<?=$product['ingredient']?>" placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control" id="ingredient">
+                                <input value="<?=$product['_ingredients']?>" placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control" id="ingredient">
                             </div>
                             <div class="mb-3" style="max-width: 140px">
                                 <label for="price" class="form-label">Preço</label>
                                 <input value="<?=$product['price']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price">
                             </div>
-                            <button type="submit" class="btn btn-primary">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary">
+                                <?=($edit) ? " " : "Adicionar novo produto" ?>
+                            </button>
                         </form>
                     </div>
                 </div>
