@@ -1,26 +1,22 @@
 document.getElementById("form-product").addEventListener("submit",function() {
     event.preventDefault();
     event.stopPropagation();
-    let description = $("#description").val();
-    let category = $("#category").val();
-    let ingredients = $("#ingredient").val().split(",");
+
     let price = $("#price").val();
     price = price.replace("$","").replace(/[,]/g,"").trim();
 
+    let form = new FormData(this);
+    form.set("price",price);
     $.ajax({
         url: `${Enviroments.baseHttp}product`,
         type: 'POST',
-        dataType: 'json',
-        data:JSON.stringify({
-           description,
-           category,
-           ingredients,
-           price
-        }),
+        data: form,
+        cache: false,
+        processData:false,
         headers: {
             'Authorization': `${Enviroments.authorization}`
         },
-        contentType: 'application/json; charset=utf-8',
+        contentType: false,
         success: function (result) {
             alert(result);
             $("#form-product").trigger("reset");
@@ -45,8 +41,9 @@ function loadCategories() {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             let html = "<option value selected disabled>Selecione</option>";
-            result.forEach((ingredient) => {
-                html += `<option value="${ingredient.id}">${ingredient.description}</option>`;
+            result.forEach((category) => {
+                let value = $("#category").attr("value");
+                html += `<option ${category.id == value ? "selected" : ""} value="${category.id}">${category.description}</option>`;
             });
             $("#category").html(html);
         },
@@ -55,3 +52,21 @@ function loadCategories() {
         }
     })
 }
+/* controls upload fotos*/
+$(function () {
+    $(document).on('click', '.btn-add', function (e) {
+        e.preventDefault();
+        var controlForm = $('.controls:first'),
+            currentEntry = $(this).parents('.entry:first'),
+            newEntry = $(currentEntry.clone()).appendTo(controlForm);
+        newEntry.find('input').val('');
+        controlForm.find('.entry:not(:last) .btn-add')
+            .removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-success').addClass('btn-danger')
+            .html('<span class="fa fa-trash"></span>');
+    }).on('click', '.btn-remove', function (e) {
+        $(this).parents('.entry:first').remove();
+        e.preventDefault();
+        return false;
+    });
+});

@@ -106,6 +106,13 @@ class ProductDAO extends Conexao
         $stmt->execute();
         return  $stmt->get_result()->fetch_row();
     }
+    public function saveProductPhoto($productId,$name) {
+        $sql="INSERT INTO product_photo (product_id,name) VALUES (?,?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $productId , $name );
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
     /*
    public function updateIngredient($ingredient) {
        $sql="UPDATE ingredient SET description=? WHERE id=?";

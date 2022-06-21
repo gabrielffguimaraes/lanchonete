@@ -13,6 +13,7 @@ if(isset($edit) && $edit = true) {
 <html lang="pt-Br">
 <head>
     <?php include "$layoutPath/head.php"; ?>
+    <script src="<?=$baseUrl?>assets/css/product-form.css"> </script>
 </head>
 <body>
 <?php include "$layoutPath/menu-manager.php"; ?>
@@ -67,24 +68,35 @@ if(isset($edit) && $edit = true) {
                         <form id="form-product">
                             <div class="mb-3">
                                 <label for="description" class="form-label">Descrição do produto</label>
-                                <input value="<?=$product['description']?>" type="text" class="form-control" id="description" required>
+                                <input value="<?=$product['description']?>" type="text" class="form-control" id="description" name="description" required>
                             </div>
                             <div class="mb-3">
                                 <label for="category" class="form-label">Categoria</label>
-                                <select id="category" value="<?=$product['category']?>" class="form-select" required>
+                                <select id="category" value="<?=$product['category'][0]['id']?>" class="form-select"  name="category" required>
                                     <option selected disabled>Selecione</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="ingredient" class="form-label">Ingredientes</label>
-                                <input value="<?=$product['_ingredients']?>" placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control" id="ingredient">
+                                <input value="<?=$product['_ingredients']?>" placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control"  name="ingredients" id="ingredient">
                             </div>
                             <div class="mb-3" style="max-width: 140px">
                                 <label for="price" class="form-label">Preço</label>
-                                <input value="<?=$product['price']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price">
+                                <input value="<?=$product['price']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price" name="price">
+                            </div>
+                            <div  class="mb-3">
+                                <label  class="form-label">Fotos</label>
+                                <div class="controls">
+                                    <div class="entry input-group upload-input-group mb-2" >
+                                        <input class="form-control" name="fotos[]" type="file">
+                                        <button class="btn btn-upload btn-success btn-add" type="button">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary">
-                                <?=($edit) ? " " : "Adicionar novo produto" ?>
+                                <?=($edit) ? "Editar produto" : "Adicionar novo produto" ?>
                             </button>
                         </form>
                     </div>

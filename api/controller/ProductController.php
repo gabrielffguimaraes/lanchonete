@@ -86,19 +86,30 @@ class ProductController extends ProductDAO
             "price" => $args['price']
         );
         $id = $productDAO->addProduct($product);
-        if(isset($args['ingredients']) && is_array($args['ingredients'])) {
-            foreach($args['ingredients'] as $ingredient ) {
-                $newIngredient = array(
-                    "description" => trim($ingredient)
-                );
-                $ingredients = $ingredientDAO->getIngredientByDescription($newIngredient);
-                $idIngredient = null;
-                if(empty($ingredients)) {
-                    $idIngredient = $ingredientDAO->addIngredient($newIngredient);
-                } else {
-                    $idIngredient = $ingredients[0]["id"];
+        if($id) {
+            if (isset($args['ingredients'])) {
+                foreach (explode(",", $args['ingredients']) as $ingredient) {
+                    $newIngredient = array(
+                        "description" => trim($ingredient)
+                    );
+                    $ingredients = $ingredientDAO->getIngredientByDescription($newIngredient);
+                    $idIngredient = null;
+                    if (empty($ingredients)) {
+                        $idIngredient = $ingredientDAO->addIngredient($newIngredient);
+                    } else {
+                        $idIngredient = $ingredients[0]["id"];
+                    }
+                    $productDAO->addIngredientToProduct($id, $idIngredient);
                 }
-                $productDAO->addIngredientToProduct($id,$idIngredient);
+            }
+            $directory =  __DIR__."/../uploads" ;
+            $uploadedFiles = $req->getUploadedFiles();
+
+            foreach ($uploadedFiles['fotos'] as $uploadedFile) {
+                if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                    $filename = Util::moveUploadedFile($directory, $uploadedFile);
+
+                }
             }
         }
         if($id) {

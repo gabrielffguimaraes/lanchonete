@@ -1,4 +1,5 @@
 <?php
+use Slim\Http\UploadedFile;
 
 class Util
 {
@@ -16,5 +17,9 @@ class Util
         }
         return $r;
     }
-
+    public static function moveUploadedFile($directory, UploadedFile $uploadedFile)
+    {
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $uploadedFile->getClientFilename());
+        return $uploadedFile->getClientFilename();
+    }
 }
