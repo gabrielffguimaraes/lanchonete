@@ -35,7 +35,9 @@
     </div>
     <script id="ingredients-script"
             src="<?=$baseUrl?>assets/js/views/choose-ingredients.js"
-            product-id="<?=$productId?>">
+            product-id="<?=$productId?>"
+            quantity="<?=$_GET['quantity']?>"
+    >
     </script>
     <?php include "layouts/footer.php"; ?>
 </body>

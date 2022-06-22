@@ -1,0 +1,33 @@
+.ct-main-img {
+    width: 170px !important;
+    height: 120px;
+    border:none;
+}
+.ct-main-img .btn-close:hover{
+    color:red !important;
+}
+.ct-main-img .btn-close {
+    font-size: 14px;
+    right:5px;
+    top:5px;
+    position: absolute;
+}
+#main-photo,.galery-photo {
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+}
+.btn-close {
+    background-color: whitesmoke;
+}
+#galery-photos {
+    display: flex;
+    flex-row:column;
+    flex-wrap: wrap;
+}
+.price-fake {
+   text-decoration: line-through;
+}
+.ct-price {
+    width: 140px;
+}

@@ -4,13 +4,7 @@ document.getElementById("add_to_cart_button").addEventListener("click",()=>{
     event.preventDefault();
     event.stopPropagation();
     let quantity = $("#quantity").val();
-    if (Object.keys(inmemoryProduct).length > 0) {
-       let cart = new Cart();
-       inmemoryProduct.quantity = quantity;
-       cart.addProduct(inmemoryProduct);
-       alert("Produto adicionado com sucesso");
-       location.href = `${Enviroments.baseUrl}cart`;
-    } else alert("Produto inválido");
+    location.href = `${Enviroments.baseUrl}product/${params['product-id']}/ingredients?quantity=${quantity}`;
 });
 window.addEventListener("load",()=> {
     params = getParams("#script-product-detail");
@@ -31,6 +25,10 @@ function carregarProduto(id) {
         },
         contentType: 'application/json; charset=utf-8',
         success: function (product) {
+            let srcImg = getProductSrc(product);
+            $(".product-main-img img").attr("src",srcImg);
+            $("#details").text(product.detail);
+            $("#reviews").text(product.review);
             inmemoryProduct = product;
             product.price = parseFloat(product.price);
             $(".category-product").each((i,elementRef)=>{
@@ -40,6 +38,12 @@ function carregarProduto(id) {
                 elementRef.innerHTML = product.description;
             });
             $("#price-product").html(money(product.price));
+            $("#price-fake").html(money(product.price_fake));
+            product.galery.forEach(foto => {
+               let src = `${Enviroments.baseHttp}uploads/${foto?.name}`;
+               $(".product-gallery").append(`<img src='${src}'>`) ;
+            });
+
         },
         error: function (error) {
             console.log(error);
@@ -64,13 +68,14 @@ function carregarProdutos() {
                     .map(ingredient => ingredient.description)
                     .join(" ,");*/
                 product.price = parseFloat(product.price);
+                let srcImg = getProductSrc(product);
                 html += `
                     <div class="thubmnail-recent">
-                        <img src="${Enviroments.baseUrl}assets/img/product-thumb-1.jpg" class="recent-thumb" alt="">
+                        <img src="${srcImg}" class="recent-thumb" alt="">
                         <h2><a href="${Enviroments.baseUrl}product/${product.id}/details">${product.description}</a></h2>
                         <div class="product-sidebar-price">
                             <ins>${money(product.price)}</ins> 
-                            <!--<del>$100.00</del>-->
+                            <del>${money(product.price_fake)}</del>
                         </div>
                     </div>
                 `;
@@ -81,4 +86,11 @@ function carregarProdutos() {
             console.log(error);
         }
     })
+}
+function changeTabDetail(elementRef,tab) {
+    $(".tab-detail-product").removeClass("active");
+    elementRef.classList.add("active");
+
+    $(".tab").addClass("d-none");
+    $(tab).removeClass("d-none");
 }

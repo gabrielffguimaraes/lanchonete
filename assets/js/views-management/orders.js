@@ -1,5 +1,6 @@
+var status = 0;
 window.addEventListener("load",function() {
-   loadProducts();
+    loadProducts();
 });
 function loadProducts(offset = 0) {
     offsetAtual = offset;
@@ -42,21 +43,8 @@ function loadProducts(offset = 0) {
         }
     })
 }
-function deleteProduct(id) {
-    $.ajax({
-        url: `${Enviroments.baseHttp}product/${id}`,
-        type: 'DELETE',
-        dataType: 'json',
-        headers: {
-            'Authorization': `${Enviroments.authorization}`
-        },
-        contentType: 'application/json; charset=utf-8',
-        success: function (result) {
-            alert(result);
-            loadProducts();
-        },
-        error: function (error) {
-            alert(error.responseJSON);
-        }
-    });
+function changeTab(elementRef,s) {
+    status = s;
+    $("a").removeClass("active");
+    elementRef.querySelector("a").classList.add("active");
 }

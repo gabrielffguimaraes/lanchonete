@@ -6,3 +6,7 @@ $app->post('/register', function (Request $request, Response $response, array $a
     $LoginController = new LoginController();
     return $LoginController->registerUser($request,$response);
 });
+$app->post('/recover', function(Request $request, Response $response, array $args) use ($app) {
+    $authController = new AuthController();
+    return $authController->sendRecoveryCode($request,$response);
+});

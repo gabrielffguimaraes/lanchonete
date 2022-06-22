@@ -10,7 +10,7 @@ use Slim\Http\Response;
 
 $app->post('/email', function(Request $request, Response $response, array $args) use ($app) {
     $authController = new AuthController();
-    return $authController->sendRecoveryCode($request,$response);
+    return $authController->subscription($request,$response);
 });
 
 $app->group('/client/auth', function() use ($app) {

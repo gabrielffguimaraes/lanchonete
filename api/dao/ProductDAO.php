@@ -8,13 +8,27 @@ class ProductDAO extends Conexao
     }
     public function addProduct($product) {
         $sql="INSERT INTO product 
-                (id,description,category,price) 
+                (id,description,category,price,price_fake,detail,review) 
                     VALUES 
-                (default,?,?,?)";
+                (default,?,?,?,?,?,?)";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("sss",$product['description'],$product['category'],$product['price']);
+        $stmt->bind_param("ssssss",
+            $product['description'],
+            $product['category'],
+            $product['price'],
+            $product['price-fake'],
+            $product['detail'],
+            $product['review']);
         $stmt->execute();
         return  $stmt->insert_id;
+    }
+    public function editProduct($product) {
+        $sql="UPDATE  product 
+                SET description = ?,category = ?,price = ?,price_fake = ?,detail = ?,review = ? WHERE id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("sssssss",$product['description'],$product['category'],$product['price'],$product['price-fake'],$product['detail'],$product['review'],$product['id']);
+        $stmt->execute();
+        return  $stmt->affected_rows;
     }
     public function getMaxSizeProducts($filter,$params,$s) {
         $sql = "select count(id) as maxsize from product p $filter";
@@ -27,19 +41,30 @@ class ProductDAO extends Conexao
         return $this->createLineArray($result)['maxsize'];
     }
     public function getProductsPhoto($productId,$type = "galery") {
-        $sql = "SELECT * FROM product_photo WHERE product_id=? and type = ?";
+        $filter = [];
+        if($type == "main") {
+            $filter[] = " ORDER BY id DESC ";
+        }
+        $filter = implode(" ",$filter);
+        $sql = "SELECT * FROM product_photo WHERE product_id=? and type = ? $filter";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ss", $productId,$type);
         $stmt->execute();
         $photos = $this->createTableArray($stmt->get_result());
         return  $photos;
     }
-    public function getProducts($id = "",$categories = "",$description="",$limit = 20,$offset = 0) {
+    public function getProducts($id = "",$categories = "",$description="" ,$limit = 20,$offset = 0 , $sit = null) {
         $categoryDAO = new CategoryDAO();
         $categoryDAO->connection = $this->connection;
         $filter = [];
         $params = [];
         $s = "";
+        if ($sit != null && is_bool($sit)) {
+            if (empty($filter)) $filter[] = "WHERE sit = ?";
+            elseif (!empty($filter)) $filter[] = "AND sit = ?";
+            $params[] = $sit;
+            $s .= "s";
+        }
         if ($id != "") {
             if (empty($filter)) $filter[] = "WHERE id = ?";
             elseif (!empty($filter)) $filter[] = "AND id = ?";
@@ -65,6 +90,7 @@ class ProductDAO extends Conexao
             $params[] = "%$description%";
             $s .= "s";
         }
+
         $filter = implode(" ",$filter);
 
 
@@ -113,6 +139,24 @@ class ProductDAO extends Conexao
         $stmt->execute();
         return  $stmt->affected_rows;
     }
+    public function deleteIngredientToProduct($productId,$ingredientId = "") {
+        $filter = [];
+        $s = "";
+        $params = [];
+
+        if ($ingredientId != "") {
+            $filter[] = " AND ingredient_id = ? ";
+            $params[] = $ingredientId;
+            $s .= "s";
+        }
+        $filter = implode(" ",$filter);
+
+        $sql="DELETE FROM product_ingredient WHERE product_id = ? $filter";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s".$s, ...array_merge([$productId] , $params));
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
     public function existIngredientProduct($ingredientId,$productId) {
         $sql = "SELECT * FROM product_ingredient WHERE ingredient_id=? and product_id = ?";
         $stmt = $this->connection->prepare($sql);
@@ -124,6 +168,27 @@ class ProductDAO extends Conexao
         $sql="INSERT INTO product_photo (product_id,name,type) VALUES (?,?,?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("sss", $productId , $name ,$type);
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
+    public function deleteProductPhoto($productId,$photoId) {
+        $sql="DELETE FROM product_photo WHERE product_id = ? and id = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("ss", $productId , $photoId);
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
+    public function deleteProductMainPhoto($productId) {
+        $sql="DELETE FROM product_photo WHERE product_id = ? and type='main'";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $productId );
+        $stmt->execute();
+        return  $stmt->affected_rows;
+    }
+    public function deleteProduct($productId) {
+        $sql="UPDATE product SET sit = false WHERE id=?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $productId );
         $stmt->execute();
         return  $stmt->affected_rows;
     }

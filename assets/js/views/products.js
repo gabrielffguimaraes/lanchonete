@@ -101,20 +101,19 @@ function loadProducts(offset = 0) {
                 let ingredients = product.ingredient
                     .map(ingredient => ingredient.description)
                     .join(" ,");
-                console.log(product);
+                let srcImg = getProductSrc(product);
                 html += `
                 <div class="col-md-3 col-sm-6">
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="${Enviroments.baseHttp}uploads/${product?.foto[0]['name']}" alt="">
+                            <img src="${srcImg}" alt="">
                         </div>
-                        <h2><a href="${Enviroments.baseUrl}/product/${product.id}/details">${product.description}</a></h2>
+                        <h2><a href="${Enviroments.baseUrl}product/${product.id}/details">${product.description}</a></h2>
                         <div class="product-carousel-price">
-                            <ins>$ ${product.price}</ins> 
+                            <ins>${money(product.price)}</ins> 
+                            <del class="fst-italic text-dark">${money(product["price_fake"])}</del>
                             <p style="font-style: italic">${(ingredients != "") ? ingredients+" ." : ingredients}</p>
-                            <!--<del>$999.00</del>-->
                         </div>
-
                         <div class="product-option-shop">
                             <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="./product/${product.id}/ingredients">Add to cart</a>
                         </div>

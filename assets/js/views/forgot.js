@@ -4,7 +4,7 @@ document.getElementById("login-form-wrap").addEventListener("submit",function() 
     let email = $("#email").val();
     $("#btn-recover").prop("disabled",true);
     $.ajax({
-        url: `${Enviroments.baseHttp}/email?email=${email}`,
+        url: `${Enviroments.baseHttp}/client/auth/recover?email=${email}`,
         type: 'POST',
         dataType: 'json',
         headers: {

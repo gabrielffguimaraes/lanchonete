@@ -11,7 +11,7 @@
                         <div class="navbar-nav">
                             <a class="nav-link" href="<?=$baseUrl?>management/dashboard">Home</a>
                             <a class="nav-link" href="<?=$baseUrl?>management/products">Produtos</a>
-                            <a class="nav-link" href="#">Pedidos</a>
+                            <a class="nav-link" href="<?=$baseUrl?>management/orders">Pedidos</a>
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,7 @@ function orderList() {
                 let delivery_fee = 0;
                 let stats = order.status_history;
                 let firstProduct = order.products[0];
-                console.log(firstProduct);
+                let srcImg = getProductSrc(firstProduct);
                 html += `
                 <div class="card card-item">
                     <div class="card-body">
@@ -41,7 +41,7 @@ function orderList() {
                             </div>
                             <div class="d-flex half-opacity preview-product">
                                 <div class="me-3">
-                                    <img width="50" src="${Enviroments.baseHttp}uploads/${firstProduct.foto[0]['name']}" alt="">
+                                    <img width="50" src="${srcImg}" alt="">
                                 </div>
                                 <div>`;
                         let ingredient = "";
@@ -61,10 +61,11 @@ function orderList() {
                                     `;
                 order.products.forEach(product => {
                     let ingredient = product.ingredients.map(ingredient => ingredient.description).join(" ,");
+                    let srcImg = getProductSrc(product);
                     html += ` 
                                     <div class="mb-3">
                                         <div class="d-flex">
-                                            <img style="width:186px;height:123px" src="${Enviroments.baseHttp}uploads/${product.foto[0]['name']}" alt="">
+                                            <img style="width:186px;height:123px" src="${srcImg}" alt="">
                                             <div class="ms-2">
                                                 <p>${product.description}</p>
                                                 <p><b>${product.quantity} quantidade</b></p>
@@ -76,7 +77,6 @@ function orderList() {
                     discount += parseFloat(order.discount);
                     delivery_fee += parseFloat(order.delivery_fee);
                 });
-
                                 html += `
                                 </div>
                                 <ul class="timeline" id="timeline">

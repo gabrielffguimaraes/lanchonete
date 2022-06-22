@@ -7,13 +7,14 @@ if(isset($edit) && $edit = true) {
         exit;
     }
     $product = $product[0];
+
 }
 ?>
 <!DOCTYPE html>
 <html lang="pt-Br">
 <head>
     <?php include "$layoutPath/head.php"; ?>
-    <script src="<?=$baseUrl?>assets/css/product-form.css"> </script>
+    <link href="<?=$baseUrl?>assets/css/product-form.css" rel="stylesheet"> </link>
 </head>
 <body>
 <?php include "$layoutPath/menu-manager.php"; ?>
@@ -80,13 +81,31 @@ if(isset($edit) && $edit = true) {
                                 <label for="ingredient" class="form-label">Ingredientes</label>
                                 <input value="<?=$product['_ingredients']?>" placeholder="Exp:. Tomate , Cebola , Pimentão" required type="text" class="form-control"  name="ingredients" id="ingredient">
                             </div>
-                            <div class="mb-3" style="max-width: 140px">
-                                <label for="price" class="form-label">Preço</label>
+                            <div class="mb-3 ct-price">
+                                <label for="price" class="form-label">Preço (real)</label>
                                 <input value="<?=$product['price']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price" name="price">
+                            </div>
+                            <div class="mb-3 ct-price">
+                                <label for="price-fake" class="form-label price-fake">Preço</label>
+                                <input value="<?=$product['price_fake']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price-fake" name="price-fake">
+                            </div>
+                            <div class="mb-3">
+                                <label for="detail" class="form-label">Detalhes</label>
+                                <textarea class="form-control" id="detail" name="detail" rows="5"><?=$product["detail"]?></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="review" class="form-label">Revisão</label>
+                                <textarea class="form-control" id="review" name="review" rows="5"><?=$product["review"]?></textarea>
                             </div>
                             <div  class="mb-3">
                                 <label  class="form-label">Foto principal</label>
-                                <div>
+                                <?php if($edit && !empty($product['foto'])) { ?>
+                                    <div class="ct-main-img card position-relative mb-3">
+                                        <button id="btn-delete-main" type="button" class="btn-close" aria-label="Close"></button>
+                                        <img src="" id="main-photo">
+                                    </div>
+                                <?php } ?>
+                                <div class="ct-main-photo">
                                     <div class="entry input-group upload-input-group mb-2" >
                                         <input class="form-control" name="foto" type="file">
                                     </div>
@@ -94,6 +113,11 @@ if(isset($edit) && $edit = true) {
                             </div>
                             <div  class="mb-3">
                                 <label  class="form-label">Galeria</label>
+                                <?php if($edit) { ?>
+                                    <div id="galery-photos">
+
+                                    </div>
+                                <?php } ?>
                                 <div class="controls">
                                     <div class="entry input-group upload-input-group mb-2" >
                                         <input class="form-control" name="fotos[]" type="file">
@@ -115,7 +139,7 @@ if(isset($edit) && $edit = true) {
     </div>
 </div>
 <?php include "$layoutPath/footer.php"; ?>
-<script src="<?=$baseUrl?>assets/js/views-management/product-form.js"> </script>
+<script edit="<?=$edit?>" id-product="<?=$id?>" id="product-form-script" src="<?=$baseUrl?>assets/js/views-management/product-form.js"> </script>
 </body>
 
 </html>

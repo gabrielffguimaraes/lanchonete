@@ -155,6 +155,9 @@ $app->group('/management',function () use ($app) {
     $app->get('/products', function (Request $request, Response $response, array $args) {
         return $this->view->render($response, 'management/products/products.php');
     });
+    $app->get('/orders', function (Request $request, Response $response, array $args) {
+        return $this->view->render($response, 'management/orders.php');
+    });
     $app->get('/products/add', function (Request $request, Response $response, array $args) {
         return $this->view->render($response, 'management/products/product-form.php');
     });
@@ -163,6 +166,7 @@ $app->group('/management',function () use ($app) {
         $product = $productController->listById($request,$response,$args,false);
         $data = array(
             "edit" => true,
+            "id" => $args["id"],
             "product" => $product
         );
         return $this->view->render($response, 'management/products/product-form.php',$data);

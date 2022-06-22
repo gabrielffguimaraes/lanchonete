@@ -31,7 +31,11 @@ create table product(
     id INT PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(255),
     category INT,
-    price DECIMAL(10,2)
+    price DECIMAL(10,2),
+    price_fake DECIMAL(10,2),
+    detail TEXT,
+    review TEXT,
+    sit BOOLEAN DEFAULT true
 );
 
 create table product_ingredient(

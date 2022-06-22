@@ -16,7 +16,7 @@ class ProductController extends ProductDAO
         $offset = $params['offset'] ?? 0;
         $description = $params['description'] ?? "";
 
-        $products = $this->getProducts("",$categories,$description,$limit,$offset);
+        $products = $this->getProducts("",$categories,$description,$limit,$offset,true);
         return $res->withJson($products,200);
     }
     public function listById($req,$res,$args,$api = true)
@@ -74,18 +74,12 @@ class ProductController extends ProductDAO
         $productDAO->connection = $this->connection;
 
         $args = $req->getParsedBody();
-
         $category = $categoryDAO->getCategories($args['category']);
 
         if (empty($category)) {
             return $res->withJson("Categoria não encontrada",404);
         }
-        $product = array(
-            "description" => $args['description'],
-            "category" => $args['category'],
-            "price" => $args['price']
-        );
-        $id = $productDAO->addProduct($product);
+        $id = $productDAO->addProduct($args);
         if($id) {
             if (isset($args['ingredients'])) {
                 foreach (explode(",", $args['ingredients']) as $ingredient) {
@@ -126,5 +120,103 @@ class ProductController extends ProductDAO
             return $res->withJson("Erro ao criar produto .",400);
         }
     }
+    public function delete($req,$res,$pathParams = []) {
+        $productDAO = new ProductDAO();
+        $productDAO->connection = $this->connection;
 
+        $result = $productDAO->deleteProduct($pathParams["id"]);
+        if($result == 1) {
+            return $res->withJson("Sucesso, produto excluido com sucesso .",201);
+        } else {
+            return $res->withJson("Erro ao excluir produto .",400);
+        }
+    }
+    public function update($req,$res,$pathParams = [])
+    {
+        $categoryDAO = new CategoryDAO();
+        $categoryDAO->connection = $this->connection;
+
+        $ingredientDAO = new IngredientDAO();
+        $ingredientDAO->connection = $this->connection;
+
+        $productDAO = new ProductDAO();
+        $productDAO->connection = $this->connection;
+
+
+        $args = $req->getParsedBody();
+        $id = $pathParams['id'];
+
+        $category = $categoryDAO->getCategories($args['category']);
+
+        if (empty($category)) {
+            return $res->withJson("Categoria não encontrada",404);
+        }
+
+        /*$product = array(
+            "description" => $args['description'],
+            "category" => $args['category'],
+            "price" => ['price'],
+            "id" => $id,
+        );*/
+        $args["id"] = $id;
+
+        $result = $productDAO->editProduct($args);
+
+        if($result >= 0) {
+            if (isset($args['ingredients'])) {
+                // LIMPA OS INGREDIENTES
+                $productDAO->deleteIngredientToProduct($id);
+
+
+                // EXCLUI IMAGENS SETADAS PARA DELEÇÃO GALERIA / FOTO PRINCIPAL
+                if(Util::boolval($args['deleteMainPhoto'])) {
+                    $productDAO->deleteProductMainPhoto($id);
+                }
+                foreach (explode(",", $args['deletePhotos']) as $photoId) {
+                    $productDAO->deleteProductPhoto($id,$photoId);
+                }
+
+                // ADICIONA INGREDIENTES
+                foreach (explode(",", $args['ingredients']) as $ingredient) {
+                    $newIngredient = array(
+                        "description" => trim($ingredient)
+                    );
+                    $ingredients = $ingredientDAO->getIngredientByDescription($newIngredient);
+                    $idIngredient = null;
+                    if (empty($ingredients)) {
+                        $idIngredient = $ingredientDAO->addIngredient($newIngredient);
+                    } else {
+                        $idIngredient = $ingredients[0]["id"];
+                    }
+                    $productDAO->addIngredientToProduct($id, $idIngredient);
+                }
+            }
+
+            // UPLOAD DE IMAGENS
+            $directory =  __DIR__."/../uploads" ;
+            $uploadedFiles = $req->getUploadedFiles();
+
+            // FOTO PRINCIPAL
+            $uploadedFile = $uploadedFiles['foto'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = Util::moveUploadedFile($directory, $uploadedFile);
+                $productDAO->saveProductPhoto($id,$filename,"main");
+            }
+
+            // GALERIA
+            foreach ($uploadedFiles['fotos'] as $uploadedFile) {
+                if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                    $filename = Util::moveUploadedFile($directory, $uploadedFile);
+                    $productDAO->saveProductPhoto($id,$filename);
+                }
+            }
+        }
+
+
+        if($result >= 0) {
+            return $res->withJson("Sucesso, produto editado com sucesso .",201);
+        } else {
+            return $res->withJson("Erro ao editar produto .",400);
+        }
+    }
 }

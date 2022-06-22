@@ -4,6 +4,29 @@ if(btnLogout) {
         document.getElementById("form-logout").submit();
     });
 }
+window.addEventListener("load",()=>{
+    document.getElementById("subscription")?.addEventListener("submit",()=> {
+        event.preventDefault();
+        event.stopPropagation();
+        let email = $("#email-subscription").val();
+        $("#btn-subscription").prop("disabled",true);
+        $.ajax({
+            url: `${Enviroments.baseHttp}/email?email=${email}`,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                alert(result);
+                $("#btn-subscription").prop("disabled",false);
+                $("#subscription").trigger("reset");
+            },
+            error: function (error) {
+                alert(error.responseJSON);
+                $("#btn-subscription").prop("disabled",false);
+            }
+        });
+    });
+})
 jQuery(document).ready(function($){
     // jQuery sticky Menu
 

@@ -43,9 +43,9 @@
                     <h2 class="footer-wid-title">Newsletter</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus!</p>
                     <div class="newsletter-form">
-                        <form action="#">
-                            <input type="email" placeholder="Type your email">
-                            <input type="submit" value="Subscribe">
+                        <form id="subscription">
+                            <input type="email" id="email-subscription" required placeholder="Type your email">
+                            <input type="submit" id="btn-subscription" value="Subscribe">
                         </form>
                     </div>
                 </div>

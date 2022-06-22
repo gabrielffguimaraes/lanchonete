@@ -10,5 +10,16 @@ function object (key,value) {
     } else {};
 }
 function money (value) {
-    return value.toLocaleString("pt-Br",{currency:"BRL",style:"currency",maximumFractionDigits:2});
+    if(!value) {
+        return "";
+    } else {
+        return parseFloat(value)?.toLocaleString("pt-Br", {currency: "BRL", style: "currency", maximumFractionDigits: 2});
+    }
+}
+function getProductSrc(product) {
+    let srcImg = `${Enviroments.baseHttp}uploads/${product.foto[0]?.name}`;
+    if(!product.foto[0]) {
+        srcImg = `${Enviroments.baseUrl}assets/img/empty-product.png`;
+    }
+    return srcImg
 }

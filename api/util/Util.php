@@ -22,4 +22,7 @@ class Util
         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $uploadedFile->getClientFilename());
         return $uploadedFile->getClientFilename();
     }
+    public static function boolval($var) {
+        return $var == "true" ? true : false;
+    }
 }

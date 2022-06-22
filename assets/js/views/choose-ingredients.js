@@ -27,7 +27,7 @@ function carregarProduto(id) {
                             <!--<del>$999.00</del>-->
                             <div class="quantity buttons_added">
                                 <input type="button" class="minus" onclick="minus(this.nextElementSibling)" value="-">
-                                <input type="number" id="quantity" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
+                                <input type="number" value="${params.quantity > 0 ? params.quantity : 1}" id="quantity" size="4" class="input-text qty text" title="Qty" value="1" min="0" step="1">
                                 <input type="button" class="plus" onclick="plus(this.previousElementSibling)" value="+">
                             </div>
                         </div>
@@ -72,7 +72,7 @@ function addProductToCart() {
     Object.assign(productLoaded , product)
     cart.addProduct(productLoaded);
     alert("Produto adicionado com sucesso .");
-    window.history.back(-1);
+    window.location.href = Enviroments.baseUrl+"cart";
 }
 function getIngredients() {
     return [...document.getElementsByName('ingredients')]
