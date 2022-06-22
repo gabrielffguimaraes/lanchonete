@@ -40,6 +40,13 @@ create table product_ingredient(
     ingredient_id INT NOT NULL
 );
 
+create table product_photo(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL
+);
+
 create table payment_order (
    id INT PRIMARY KEY AUTO_INCREMENT,
    client_id INT NOT NULL,

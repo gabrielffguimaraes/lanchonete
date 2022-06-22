@@ -71,8 +71,8 @@ class OrderController extends OrderDAO
                 $stmtOrderProduct = $this->addOrderProduct($orderId, $orderProduct);
                 $orderProductId = $stmtOrderProduct->insert_id;
 
-                foreach ($product['ingredient'] as $ingredient) {
-                    $stmtOrderProductIngredient = $this->addOrderProductIngredient($orderProductId, $ingredient['id']);
+                foreach ($cartProduct['ingredient'] as $ingredient_id) {
+                    $stmtOrderProductIngredient = $this->addOrderProductIngredient($orderProductId, $ingredient_id);
                 }
             }
         }
@@ -84,6 +84,9 @@ class OrderController extends OrderDAO
     {
         $clientDao = new ClientDao();
         $clientDao->connection = $this->connection;
+
+        $productDao = new ProductDao();
+        $productDao->connection = $this->connection;
 
         $addressDao = new AddressDao();
         $addressDao->connection = $this->connection;
@@ -100,8 +103,9 @@ class OrderController extends OrderDAO
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);
             $order['address'] = $addressDao->getAddressById($order['address_id']);
-            forEach($order['products'] as &$product) {
-                $product['ingredients'] = $this->getOrderProductIngredients($product['id']);
+            forEach($order['products'] as &$order_product) {
+                $order_product['ingredients'] = $this->getOrderProductIngredients($order_product['id']);
+                $order_product['foto'] = $productDao->getProductsPhoto($order_product['product_id'],"main");
             }
         }
         return $res->withJson($orders,200);

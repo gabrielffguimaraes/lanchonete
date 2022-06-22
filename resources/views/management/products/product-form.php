@@ -85,7 +85,15 @@ if(isset($edit) && $edit = true) {
                                 <input value="<?=$product['price']?>" data-inputmask="'alias' : 'currency'" required class="form-control" id="price" name="price">
                             </div>
                             <div  class="mb-3">
-                                <label  class="form-label">Fotos</label>
+                                <label  class="form-label">Foto principal</label>
+                                <div>
+                                    <div class="entry input-group upload-input-group mb-2" >
+                                        <input class="form-control" name="foto" type="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div  class="mb-3">
+                                <label  class="form-label">Galeria</label>
                                 <div class="controls">
                                     <div class="entry input-group upload-input-group mb-2" >
                                         <input class="form-control" name="fotos[]" type="file">

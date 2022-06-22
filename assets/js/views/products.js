@@ -101,11 +101,12 @@ function loadProducts(offset = 0) {
                 let ingredients = product.ingredient
                     .map(ingredient => ingredient.description)
                     .join(" ,");
+                console.log(product);
                 html += `
                 <div class="col-md-3 col-sm-6">
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="${Enviroments.baseUrl}assets/img/product-2.jpg" alt="">
+                            <img src="${Enviroments.baseHttp}uploads/${product?.foto[0]['name']}" alt="">
                         </div>
                         <h2><a href="${Enviroments.baseUrl}/product/${product.id}/details">${product.description}</a></h2>
                         <div class="product-carousel-price">

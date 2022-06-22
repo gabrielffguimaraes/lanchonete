@@ -105,10 +105,18 @@ class ProductController extends ProductDAO
             $directory =  __DIR__."/../uploads" ;
             $uploadedFiles = $req->getUploadedFiles();
 
+            /* foto principal */
+            $uploadedFile = $uploadedFiles['foto'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = Util::moveUploadedFile($directory, $uploadedFile);
+                $productDAO->saveProductPhoto($id,$filename,"main");
+            }
+
+            /* galeria */
             foreach ($uploadedFiles['fotos'] as $uploadedFile) {
                 if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
                     $filename = Util::moveUploadedFile($directory, $uploadedFile);
-
+                    $productDAO->saveProductPhoto($id,$filename);
                 }
             }
         }

@@ -394,6 +394,10 @@ z-index: 999;}
 .product-f-image {
     position: relative;
 }
+.owl-carousel .owl-item img {
+    min-height: 225px;
+    object-fit: cover !important;
+}
 .product-hover {
     height: 100%;
     left: 0;

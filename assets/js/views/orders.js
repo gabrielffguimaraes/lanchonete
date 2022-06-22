@@ -21,7 +21,7 @@ function orderList() {
                 let delivery_fee = 0;
                 let stats = order.status_history;
                 let firstProduct = order.products[0];
-
+                console.log(firstProduct);
                 html += `
                 <div class="card card-item">
                     <div class="card-body">
@@ -41,7 +41,7 @@ function orderList() {
                             </div>
                             <div class="d-flex half-opacity preview-product">
                                 <div class="me-3">
-                                    <img width="50" src="${Enviroments.baseUrl}assets/img/product-2.jpg" alt="">
+                                    <img width="50" src="${Enviroments.baseHttp}uploads/${firstProduct.foto[0]['name']}" alt="">
                                 </div>
                                 <div>`;
                         let ingredient = "";
@@ -64,7 +64,7 @@ function orderList() {
                     html += ` 
                                     <div class="mb-3">
                                         <div class="d-flex">
-                                            <img src="${Enviroments.baseUrl}assets/img/product-2.jpg" alt="">
+                                            <img style="width:186px;height:123px" src="${Enviroments.baseHttp}uploads/${product.foto[0]['name']}" alt="">
                                             <div class="ms-2">
                                                 <p>${product.description}</p>
                                                 <p><b>${product.quantity} quantidade</b></p>
@@ -91,7 +91,7 @@ function orderList() {
                                     <li class="li ${stats[2] ? 'complete' : ''}">
                                         <div class="status">
                                             <div>
-                                                <h4> Pagamento aprovado </h4>
+                                                <h4> Preparando Pedido </h4>
                                                 <small>${stats[2]?.created_at ? stats[2]?.created_at : ''}</small>
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@ function orderList() {
                                     <li class="li ${stats[3] ? 'complete' : ''}">
                                         <div class="status">
                                             <div>
-                                                <h4> Preparando Pedido </h4>
+                                                <h4> Em transporte </h4>
                                                 <small class="d-block">${stats[3]?.created_at ? stats[3]?.created_at : ''}</small>
                                             </div>
                                         </div>
@@ -107,7 +107,7 @@ function orderList() {
                                     <li class="li ${stats[4] ? 'complete' : ''}">
                                         <div class="status">
                                             <div>
-                                                <h4> Em transporte </h4>
+                                                <h4> Pagamento aprovado </h4>
                                                 <small class="d-block">${stats[4]?.created_at ? stats[4]?.created_at : ''}</small>
                                             </div>
                                         </div>
