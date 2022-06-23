@@ -17,9 +17,9 @@ class LoginDAO extends Conexao
         return $response;
     }
     public function register($user) {
-        $sql="INSERT INTO client (id,name,password,email,role) VALUES (default,?,?,?,'client')";
+        $sql="INSERT INTO client (id,name,password,email,complete_name,role) VALUES (default,?,?,?,?,'client')";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("sss", $user['name'], $user['password'] , $user['email'] );
+        $stmt->bind_param("ssss", $user['name'], $user['password'] , $user['email'], $user['complete-name'] );
         $stmt->execute();
 
         return  $stmt->affected_rows;

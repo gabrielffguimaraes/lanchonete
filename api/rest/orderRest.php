@@ -21,3 +21,7 @@ $app->get('/frete/{cep}', function (Request $request, Response $response, array 
     $orderController = new OrderController();
     return $orderController->calcularFrete($request,$response,$args);
 });
+$app->get('/manager', function (Request $request, Response $response, array $args) {
+    $orderController = new OrderController();
+    return $orderController->listAll($request,$response);
+});

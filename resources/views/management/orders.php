@@ -59,7 +59,7 @@ $layoutPath = __DIR__ . "/../layouts";
                     </li>
                     <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,1)">
                         <a class="nav-link" href="#">
-                            Pedidos entregues <span id="qtd-1" class="badge bg-secondary ">0</span>
+                            Pedidos aceitos <span id="qtd-1" class="badge bg-secondary ">0</span>
                         </a>
                     </li>
                     <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,2)">
@@ -74,7 +74,7 @@ $layoutPath = __DIR__ . "/../layouts";
                     </li>
                     <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,4)">
                         <a class="nav-link" href="#">
-                            Pedido Finalizado <span id="qtd-4" class="badge bg-secondary ">0</span>
+                            Pedidos Entregues <span id="qtd-4" class="badge bg-secondary ">0</span>
                         </a>
                     </li>
                 </ul>
@@ -90,7 +90,7 @@ $layoutPath = __DIR__ . "/../layouts";
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody id="tbody-products"></tbody>
+                    <tbody id="tbody-orders"></tbody>
                 </table>
             </div>
         </div>

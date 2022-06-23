@@ -398,6 +398,9 @@ z-index: 999;}
     min-height: 225px;
     object-fit: cover !important;
 }
+.text-green {
+    color:greenyellow;
+}
 .product-hover {
     height: 100%;
     left: 0;

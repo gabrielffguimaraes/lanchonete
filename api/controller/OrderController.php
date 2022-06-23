@@ -80,7 +80,7 @@ class OrderController extends OrderDAO
         return $res->withJson("Pedido realizado com sucesso", 201);
 
     }
-    public function list($req,$res)
+    public function list($req,$res,$manager = false)
     {
         $clientDao = new ClientDao();
         $clientDao->connection = $this->connection;
@@ -99,6 +99,31 @@ class OrderController extends OrderDAO
             return $res->withJson("Cliente não encontrado .", 404);
         }
         $orders = $this->getOrders("",$client['id']);
+        forEach($orders as &$order) {
+            $order['products'] = $this->getOrderProducts($order['id']);
+            $order['status_history'] = $this->getStatusHistory($order['id']);
+            $order['address'] = $addressDao->getAddressById($order['address_id']);
+            forEach($order['products'] as &$order_product) {
+                $order_product['ingredients'] = $this->getOrderProductIngredients($order_product['id']);
+                $order_product['foto'] = $productDao->getProductsPhoto($order_product['product_id'],"main");
+            }
+        }
+        return $res->withJson($orders,200);
+    }
+    public function listAll($req,$res)
+    {
+        $clientDao = new ClientDao();
+        $clientDao->connection = $this->connection;
+
+        $productDao = new ProductDao();
+        $productDao->connection = $this->connection;
+
+        $addressDao = new AddressDao();
+        $addressDao->connection = $this->connection;
+
+        $params = $req->getParams();
+    
+        $orders = $this->getOrders("","",$params["status"]);
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);

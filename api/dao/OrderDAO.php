@@ -6,7 +6,7 @@ class OrderDAO extends Conexao
     {
         
     }
-    public function getOrders($id = "",$clientId = "") {
+    public function getOrders($id = "",$clientId = "",$status = "") {
         $filter = [];
         $params = [];
         $s = "";
@@ -22,25 +22,37 @@ class OrderDAO extends Conexao
             $params[] = $clientId;
             $s.="s";
         }
+        if ($status != "") {
+            if(empty($filter)) { $filter[] = "WHERE p.status = ?"; }
+            elseif (!empty($filter)) $filter[] = "AND p.status = ?";
+            $params[] = $status;
+            $s.="s";
+        }
         $filter = implode(" ",$filter);
 
         $sql = "SELECT *,
-                CASE 
-                    WHEN p.status = 0 THEN 'Aguardando aprovação do Pedido'
-                    WHEN p.status = 1 THEN 'Pedido recebido'
-                    WHEN p.status = 2 THEN 'Pagamento aprovado'
-                    WHEN p.status = 3 THEN 'Preparando Pedido'
-                    WHEN p.status = 4 THEN 'Em transporte'
-                    WHEN p.status = 5 THEN 'Pedido entregue'
-                    ELSE '' 
-                END AS status_description,
-                DATE_FORMAT((SELECT 
-                        created_at 
-                FROM payment_order_status p1
-                WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at
-                FROM payment_order as p $filter";
+                    CASE 
+                        WHEN p.status = 0 THEN 'Aguardando aprovação do Pedido'
+                        WHEN p.status = 1 THEN 'Pedido aceito'
+                        WHEN p.status = 2 THEN 'Preparando Pedido'
+                        WHEN p.status = 3 THEN 'Em transporte'
+                        WHEN p.status = 4 THEN 'Pedido finalizado'
+                        ELSE '' 
+                    END AS status_description,
+                    (SELECT SUM(pop.price) 
+                        FROM payment_order_product pop 
+                        WHERE pop.payment_order_id = p.id) + p.delivery_fee as total,
+                    DATE_FORMAT((SELECT 
+                            created_at 
+                    FROM payment_order_status p1
+                    WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at
+                FROM payment_order as p 
+                INNER JOIN client c on p.client_id = c.id
+                $filter";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param($s, ...$params);
+        if($s != "") {
+            $stmt->bind_param($s, ...$params);
+        }
         $stmt->execute();
         $orders = $this->createTableArray($stmt->get_result());
         return  $orders;

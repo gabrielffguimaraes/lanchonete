@@ -1,11 +1,17 @@
 var status = 0;
+var xhr = {
+    abort : () => {
+
+    }
+}
 window.addEventListener("load",function() {
     loadProducts();
 });
 function loadProducts(offset = 0) {
     offsetAtual = offset;
-    $.ajax({
-        url: `${Enviroments.baseHttp}client/product?limit=${9999999999999999999}&offset=${0}`,
+    xhr.abort();
+    xhr = $.ajax({
+        url: `${Enviroments.baseHttp}order/manager?status=${status}`,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -14,37 +20,55 @@ function loadProducts(offset = 0) {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             let html = "";
-            result.data.forEach((product)=>{
-                let ingredients = product.ingredient
-                    .map(ingredient => ingredient.description)
-                    .join(" ,");
 
+            result.forEach((order)=>{
+                let actionButtons = "";
+                switch(order["status"]) {
+                    case 0:
+                        actionButtons = `<button onclick="updateStatusOrder(${order["id"]},1)" type="button" class="btn btn-sm btn-primary">Aceitar Pedido</button>`;
+                        break;
+                    case 1:
+                        actionButtons = `<button onclick="updateStatusOrder(${order["id"]},2)" type="button" class="btn btn-sm btn-warning text-white">Colocar em preparação</button>`;
+                        break;
+                    case 2:
+                        actionButtons = `<button onclick="updateStatusOrder(${order["id"]},3)" type="button" class="btn btn-sm btn-warning text-white">Transportar pedido</button>`;
+                        break;
+                    case 3:
+                        actionButtons = `<button onclick="updateStatusOrder(${order["id"]},4)" type="button" class="btn btn-sm btn-danger">Finalizar pedido</button>`;
+                        break;
+                    case 4:
+                        actionButtons = `
+                            <button title="Pedido Completo" type="button" class="btn btn-sm btn-success rounded-circle">
+                                <i class="bi bi-check-square"></i>
+                            </button>
+                        `;
+                        break;
+                }
                 html += `
                 <tr>
-                    <td>${product.description}</td>
-                    <td>${product.category[0].description}</td>
-                    <td>${ingredients}</td>
-                    <td>${money(parseFloat(product.price))}</td>
+                    <td>${order['complete_name']}</td>
+                    <td>${order['status_description']}</td>
+                    <td>${order['created_at']}</td>
+                    <td>${money(order['total'])}</td>
                     <td>
-                        <a href="products/${product.id}/edit" class="btn btn-warning btn-sm text-white">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <button onclick="deleteProduct(${product.id})" class="btn btn-danger btn-sm text-white">
-                            <i class="bi bi-trash3"></i>
-                        </button>
+                        ${actionButtons}
                     </td>
                 </tr>
                 `;
-            })
-            $("#tbody-products").html(html);
+            });
+            $("#tbody-orders").html(html);
         },
         error: function (error) {
             console.log(error);
         }
-    })
+    });
+}
+function updateStatusOrder(orderId,status) {
+    alert("update");
 }
 function changeTab(elementRef,s) {
     status = s;
     $("a").removeClass("active");
     elementRef.querySelector("a").classList.add("active");
+    loadProducts();
 }
