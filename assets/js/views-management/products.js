@@ -14,12 +14,16 @@ function loadProducts(offset = 0) {
         success: function (result) {
             let html = "";
             result.data.forEach((product)=>{
+                let src = getProductSrc(product);
                 let ingredients = product.ingredient
                     .map(ingredient => ingredient.description)
                     .join(" ,");
 
                 html += `
                 <tr>
+                    <td>
+                        <img  alt="poster_1_up" class="shop_thumbnail" src="${src}">
+                    </td>
                     <td>${product.description}</td>
                     <td>${product.category[0].description}</td>
                     <td>${ingredients}</td>

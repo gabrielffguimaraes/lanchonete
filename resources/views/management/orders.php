@@ -5,11 +5,7 @@ $layoutPath = __DIR__ . "/../layouts";
 <html lang="pt-Br">
 <head>
     <?php include "$layoutPath/head.php"; ?>
-    <style>
-        .d-ini {
-            width:210px !important;
-        }
-    </style>
+    <link href="<?=$baseUrl?>assets/css/order-manager.css" rel="stylesheet" />
 </head>
 <body>
 <?php include "$layoutPath/menu-manager.php"; ?>
@@ -52,31 +48,7 @@ $layoutPath = __DIR__ . "/../layouts";
                     </div>
                 </div>
                 <ul class="nav nav-tabs mb-3" id="tab-hist">
-                    <li class="nav-item position-relative b-0" onclick="changeTab(this,0)">
-                        <a class="nav-link active" href="#">
-                            Pedidos Novos <span id="qtd-0" class="badge bg-secondary ">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,1)">
-                        <a class="nav-link" href="#">
-                            Pedidos aceitos <span id="qtd-1" class="badge bg-secondary ">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,2)">
-                        <a class="nav-link" href="#">
-                            Preparando pedido <span id="qtd-2" class="badge bg-secondary ">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,3)">
-                        <a class="nav-link" href="#">
-                            Em transporte <span id="qtd-3" class="badge bg-secondary ">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item position-relative b-0 ms-3" onclick="changeTab(this,4)">
-                        <a class="nav-link" href="#">
-                            Pedidos Entregues <span id="qtd-4" class="badge bg-secondary ">0</span>
-                        </a>
-                    </li>
+                    <!-- loaded by js -->
                 </ul>
             </div>
             <div class="col-md-12">
@@ -92,6 +64,22 @@ $layoutPath = __DIR__ . "/../layouts";
                     </thead>
                     <tbody id="tbody-orders"></tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL SEE ORDER DETAILS -->
+<div class="modal fade" id="modal-order-detail" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pedido : 18</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="body-order-details"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Cancelar pedido</button>
             </div>
         </div>
     </div>

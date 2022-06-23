@@ -6,19 +6,27 @@ class OrderDAO extends Conexao
     {
         
     }
+    public function getOrderCountByStatus($statusId) {
+        $sql = "SELECT  count(*) as qtd FROM payment_order po WHERE po.status = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $statusId);
+        $stmt->execute();
+        $result = $this->createLineArray($stmt->get_result());
+        return  $result['qtd'] ?? 0;
+    }
     public function getOrders($id = "",$clientId = "",$status = "") {
         $filter = [];
         $params = [];
         $s = "";
         if ($id != "") {
-            if(empty($filter))  $filter[] = "WHERE id = ?";
-            elseif (!empty($filter))  $filter[] = "AND id = ?";
+            if(empty($filter))  $filter[] = "WHERE p.id = ?";
+            elseif (!empty($filter))  $filter[] = "AND p.id = ?";
             $params[] = $id;
             $s.="s";
         }
         if ($clientId != "") {
-            if(empty($filter)) { $filter[] = "WHERE client_id = ?"; }
-            elseif (!empty($filter)) $filter[] = "AND client_id = ?";
+            if(empty($filter)) { $filter[] = "WHERE p.client_id = ?"; }
+            elseif (!empty($filter)) $filter[] = "AND p.client_id = ?";
             $params[] = $clientId;
             $s.="s";
         }
@@ -30,16 +38,9 @@ class OrderDAO extends Conexao
         }
         $filter = implode(" ",$filter);
 
-        $sql = "SELECT *,
-                    CASE 
-                        WHEN p.status = 0 THEN 'Aguardando aprovação do Pedido'
-                        WHEN p.status = 1 THEN 'Pedido aceito'
-                        WHEN p.status = 2 THEN 'Preparando Pedido'
-                        WHEN p.status = 3 THEN 'Em transporte'
-                        WHEN p.status = 4 THEN 'Pedido finalizado'
-                        ELSE '' 
-                    END AS status_description,
-                    (SELECT SUM(pop.price) 
+        $sql = "SELECT p.*,c.complete_name,s.last,
+                    s.description AS status_description,
+                    (SELECT SUM(pop.price * pop.quantity) 
                         FROM payment_order_product pop 
                         WHERE pop.payment_order_id = p.id) + p.delivery_fee as total,
                     DATE_FORMAT((SELECT 
@@ -48,6 +49,7 @@ class OrderDAO extends Conexao
                     WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at
                 FROM payment_order as p 
                 INNER JOIN client c on p.client_id = c.id
+                INNER JOIN status s on s.id = p.status
                 $filter";
         $stmt = $this->connection->prepare($sql);
         if($s != "") {
@@ -58,7 +60,10 @@ class OrderDAO extends Conexao
         return  $orders;
     }
     public function getOrderProducts($orderId = "") {
-        $sql = "SELECT po.*,p.description FROM 
+        $sql = "SELECT po.*,
+                    (SELECT group_concat(
+                    (SELECT i.description FROM ingredient i WHERE i.id = pi.ingredient_id) separator ' , ') FROM product_ingredient pi WHERE pi.product_id = po.product_id) AS _ingredients,
+                    p.description FROM 
                     payment_order_product po
                 INNER JOIN product as p ON p.id = po.product_id
                 WHERE payment_order_id=?";
@@ -67,6 +72,26 @@ class OrderDAO extends Conexao
         $stmt->execute();
         $orderProducts = $this->createTableArray($stmt->get_result());
         return  $orderProducts;
+    }
+    public function getStatusList($id = "") {
+        $filter = [];
+        $params = [];
+        $s = "";
+        if ($id != "") {
+            if(empty($filter))  $filter[] = "WHERE p.id = ?";
+            elseif (!empty($filter))  $filter[] = "AND p.id = ?";
+            $params[] = $id;
+            $s.="s";
+        }
+        $filter = implode(" ",$filter);
+        $sql = "SELECT * FROM status $filter order by id";
+        $stmt = $this->connection->prepare($sql);
+        if($s != "") {
+            $stmt->bind_param($s, ...$params);
+        }
+        $stmt->execute();
+        $statuslist = $this->createTableArray($stmt->get_result());
+        return  $statuslist;
     }
     public function getOrderProductIngredients($orderProductId = "") {
         $sql = "SELECT pi.*,i.description FROM 
@@ -152,6 +177,7 @@ class OrderDAO extends Conexao
     public function getStatusHistory($orderId = "") {
         $sql = "SELECT *,DATE_FORMAT(created_at,'%d/%m/%y ás %H:%i') as created_at FROM 
                     payment_order_status p
+                INNER JOIN status s on s.id = p.status
                 WHERE p.payment_order_id=?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("s", $orderId);

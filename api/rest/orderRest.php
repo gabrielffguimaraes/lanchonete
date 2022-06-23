@@ -4,7 +4,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 
-$app->post('/{order_id}/status/{status}', function (Request $request, Response $response, array $args) {
+$app->post('/{order_id}/status', function (Request $request, Response $response, array $args) {
     $orderController = new OrderController();
     return $orderController->addStatus($request,$response,$args);
 });
@@ -23,5 +23,10 @@ $app->get('/frete/{cep}', function (Request $request, Response $response, array 
 });
 $app->get('/manager', function (Request $request, Response $response, array $args) {
     $orderController = new OrderController();
-    return $orderController->listAll($request,$response);
+    return $orderController->listAll($request,$response,$args);
+});
+
+$app->get('/status', function (Request $request, Response $response, array $args) {
+    $orderController = new OrderController();
+    return $orderController->listStatus($request,$response,$args);
 });

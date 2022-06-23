@@ -27,8 +27,8 @@ function carregarProduto(id) {
         success: function (product) {
             let srcImg = getProductSrc(product);
             $(".product-main-img img").attr("src",srcImg);
-            $("#details").text(product.detail);
-            $("#reviews").text(product.review);
+            $("#details").text(product?.detail ?? "");
+            $("#reviews").text(product?.review ?? "");
             inmemoryProduct = product;
             product.price = parseFloat(product.price);
             $(".category-product").each((i,elementRef)=>{

@@ -8,6 +8,11 @@ $enviroments = require __DIR__. '/../app/enviroments.php';
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+$app->get('/status', function(Request $request, Response $response, array $args) use ($app) {
+    $statusController = new StatusController();
+    return $statusController->list($request,$response);
+});
+
 $app->post('/email', function(Request $request, Response $response, array $args) use ($app) {
     $authController = new AuthController();
     return $authController->subscription($request,$response);

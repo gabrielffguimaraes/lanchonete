@@ -1,6 +1,28 @@
+var statusList = [];
 window.addEventListener("load",function() {
-    orderList();
+    loadStatusList(()=>{
+        orderList();
+    });
 })
+function loadStatusList(callback){
+    $.ajax({
+        url: `${Enviroments.baseHttp}/status`,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            /*'Authorization': `${Enviroments.authorization}`*/
+            'Authorization': `${Enviroments.authorization}`
+        },
+        contentType: 'application/json; charset=utf-8',
+        success: function (response) {
+           statusList = response;
+           callback();
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
 function orderList() {
     $.ajax({
         url: `${Enviroments.baseHttp}order`,
@@ -12,10 +34,11 @@ function orderList() {
         },
         contentType: 'application/json; charset=utf-8',
         success: function (orders) {
-            console.log(orders);
+
             (orders.length > 0) ? $("#orders").removeClass("d-none") : $("#empty-order").removeClass("d-none");
             let html = ``;
             orders.forEach((order,i)=>{
+
                 let price = 0;
                 let discount = 0;
                 let delivery_fee = 0;
@@ -44,14 +67,10 @@ function orderList() {
                                     <img width="50" src="${srcImg}" alt="">
                                 </div>
                                 <div>`;
-                        let ingredient = "";
-                        if(firstProduct) {
-                            ingredient = firstProduct.ingredients.map(ingredient => ingredient.description).join(" ,");
-                        }
                         html +=`
                                     <p class="mb-0">${firstProduct?.description}</p>
                                     <p class="mb-0"><b>${firstProduct?.quantity} quantidade</b></p>
-                                    <p class="mb-0">${ingredient}</p>
+                                    <p class="mb-0">${firstProduct?._ingredients}</p>
                                 </div>
                             </div>
                             <hr/>
@@ -60,7 +79,6 @@ function orderList() {
                                     <small> Pedido : ${order.id} </small>
                                     `;
                 order.products.forEach(product => {
-                    let ingredient = product.ingredients.map(ingredient => ingredient.description).join(" ,");
                     let srcImg = getProductSrc(product);
                     html += ` 
                                     <div class="mb-3">
@@ -69,95 +87,70 @@ function orderList() {
                                             <div class="ms-2">
                                                 <p>${product.description}</p>
                                                 <p><b>${product.quantity} quantidade</b></p>
-                                                <p>${ingredient}</p>
+                                                <p>${product._ingredients}</p>
                                             </div>
                                         </div>
-                                    </div>`;
+                                    </div>
+                    `;
                     price += parseFloat(product.price * product.quantity);
                     discount += parseFloat(order.discount);
                     delivery_fee += parseFloat(order.delivery_fee);
                 });
-                                html += `
-                                </div>
+
+                html += `       </div>
                                 <ul class="timeline" id="timeline">
-                                    <li class="li ${stats[1] ? 'complete' : ''}">
+                `;
+
+                statusList.forEach((status) => {
+                    let objS = stats.find(s => s.status == status.id);
+                    html += ` 
+                                    <li class="li ${objS ? 'complete' : ''}">
                                         <div class="status">
                                             <div>
-                                                <h4> Pedido recebido </h4>
-                                                <small>${stats[1]?.created_at ? stats[1]?.created_at : ''}</small>
+                                                <h4> ${status.description} </h4>
+                                                <small>${objS ? objS.created_at : ''}</small>
                                             </div>
                                         </div>
-                                    </li>
-                                    <li class="li ${stats[2] ? 'complete' : ''}">
-                                        <div class="status">
-                                            <div>
-                                                <h4> Preparando Pedido </h4>
-                                                <small>${stats[2]?.created_at ? stats[2]?.created_at : ''}</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li ${stats[3] ? 'complete' : ''}">
-                                        <div class="status">
-                                            <div>
-                                                <h4> Em transporte </h4>
-                                                <small class="d-block">${stats[3]?.created_at ? stats[3]?.created_at : ''}</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li ${stats[4] ? 'complete' : ''}">
-                                        <div class="status">
-                                            <div>
-                                                <h4> Pagamento aprovado </h4>
-                                                <small class="d-block">${stats[4]?.created_at ? stats[4]?.created_at : ''}</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="li ${stats[5] ? 'complete' : ''}">
-                                        <div class="status">
-                                            <div>
-                                                <h4> Pedido entregue </h4>
-                                                <small class="d-block">${stats[5]?.created_at ? stats[5]?.created_at : ''}</small>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    </li>`;
+                });
+                html += `
                                 </ul>
                                 <div class="detail-order text-center">
                                     <a data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> detalhes do pedido </a>
                                     <div class="collapse mt-3" id="collapseExample">
-                                      <div class="card card-body">
-                                        <div class="d-flex" style="width: 100%;height: 100%">
-                                            <div class="border-right w-100">
-                                                <h5>Pagamento</h5>
-                                            </div>
-                                            <div class="border-right w-100">
-                                                <h5>Total pago</h5>
-                                                <div class="text-start p-2">
-                                                    <p class="mb-0">Subtotal : ${money(price)}</p>
-                                                    <p class="mb-0">Desconto : ${money(discount)}</p>
-                                                    <p>Frete : ${money(delivery_fee)}</p>
-                                                    <hr>
-                                                    <p>Total : ${money(price+discount+delivery_fee)}</p>
+                                        <div class="card card-body">
+                                            <div class="d-flex" style="width: 100%;height: 100%">
+                                                <div class="border-right w-100">
+                                                    <h5>Pagamento</h5>
                                                 </div>
-                                            </div>
-                                            <div class="w-100">
-                                                <h5>Endereço</h5>
-                                                <div class="text-start p-2">
-                                                    ${order.address?.address} .                                                    
-                                                    <br/>
-                                                    <br/>
-                                                    ${order.address?.complement}
-                                                    <br/>
-                                                    CEP : ${order.address?.cep}
-                                                    <br/>
-                                                    ${order.address?.city} ,
-                                                    ${order.address?.uf} .
+                                                <div class="border-right w-100">
+                                                    <h5>Total pago</h5>
+                                                    <div class="text-start p-2">
+                                                        <p class="mb-0">Subtotal : ${money(price)}</p>
+                                                        <p class="mb-0">Desconto : ${money(discount)}</p>
+                                                        <p>Frete : ${money(delivery_fee)}</p>
+                                                        <hr>
+                                                        <p>Total : ${money(price+discount+delivery_fee)}</p>
+                                                    </div>
                                                 </div>
-                                            </div>  
+                                                <div class="w-100">
+                                                    <h5>Endereço</h5>
+                                                    <div class="text-start p-2">
+                                                        ${order.address?.address} .                                                    
+                                                        <br/>
+                                                        <br/>
+                                                        ${order.address?.complement}
+                                                        <br/>
+                                                        CEP : ${order.address?.cep}
+                                                        <br/>
+                                                        ${order.address?.city} ,
+                                                        ${order.address?.uf} .
+                                                    </div>
+                                                </div>  
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
-                                </div>
-                                
+                                </div>   
                             </div>
                         </div>   
                     </div>

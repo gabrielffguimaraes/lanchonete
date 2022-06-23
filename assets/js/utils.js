@@ -17,8 +17,8 @@ function money (value) {
     }
 }
 function getProductSrc(product) {
-    let srcImg = `${Enviroments.baseHttp}uploads/${product.foto[0]?.name}`;
-    if(!product.foto[0]) {
+    let srcImg = `${Enviroments.baseHttp}uploads/${product?.foto[0]?.name}`;
+    if(!product?.foto[0]) {
         srcImg = `${Enviroments.baseUrl}assets/img/empty-product.png`;
     }
     return srcImg

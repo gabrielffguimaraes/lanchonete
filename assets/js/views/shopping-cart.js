@@ -35,6 +35,7 @@ window.addEventListener("load",() => {
 function loadCart() {
     let html = "";
     cart.getCart().forEach((product,i) => {
+        let src = getProductSrc(product);
         html += `
             <tr class="cart_item">
                 <td class="product-remove">
@@ -42,7 +43,7 @@ function loadCart() {
                 </td>
     
                 <td class="product-thumbnail">
-                    <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="${Enviroments.baseUrl}assets/img/product-thumb-2.jpg"></a>
+                    <a href="single-product.html"><img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="${src}"></a>
                 </td>
     
                 <td class="product-name">

@@ -14,12 +14,13 @@ function carregarProduto(id) {
         },
         contentType: 'application/json; charset=utf-8',
         success: function (product) {
+            let src = getProductSrc(product);
             productLoaded = product;
             let html = `
                 <div style="width: 250px">
                     <div class="single-shop-product">
                         <div class="product-upper">
-                            <img src="${Enviroments.baseUrl}assets/img/product-2.jpg" alt="">
+                            <img src="${src}" alt="">
                         </div>
                         <h2><a href="">${product.description}</a></h2>
                         <div class="product-carousel-price">

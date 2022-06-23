@@ -46,7 +46,7 @@ class OrderController extends OrderDAO
             "address_id" => $args['address_id'],
             "discount" => 0,
             "delivery_fee" => $frete['valor'],
-            "status" => 0
+            "status" => 1
         );
 
         $stmt = $this->createOrder($order);
@@ -54,7 +54,7 @@ class OrderController extends OrderDAO
             return $res->withJson("Erro , ocorreu um erro por favor tente mais tarde", 400);
         }
         $orderId = $stmt->insert_id;
-        $this->updateStatus($orderId,0);
+        $this->updateStatus($orderId,1);
 
         // INSERTING PRODUCTS FROM CART
         $productDao = new ProductDao();
@@ -79,6 +79,17 @@ class OrderController extends OrderDAO
 
         return $res->withJson("Pedido realizado com sucesso", 201);
 
+    }
+    public function listStatus($req,$res,$args)
+    {
+        $statusDao = new StatusDao();
+        $statusDao->connection = $this->connection;
+
+        $statusList = $statusDao->getStatus();
+        foreach($statusList as &$status) {
+            $status['qtd'] = $this->getOrderCountByStatus($status["id"]);
+        }
+        return $res->withJson($statusList,200);
     }
     public function list($req,$res,$manager = false)
     {
@@ -122,8 +133,10 @@ class OrderController extends OrderDAO
         $addressDao->connection = $this->connection;
 
         $params = $req->getParams();
-    
-        $orders = $this->getOrders("","",$params["status"]);
+        $params["order_id"] = isset($params["order_id"]) ? $params["order_id"] : "";
+        $params["status"] = isset($params["status"]) ? $params["status"] : "";
+
+        $orders = $this->getOrders($params["order_id"],"",$params["status"]);
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);
@@ -140,17 +153,20 @@ class OrderController extends OrderDAO
         if(empty($order)) {
             return $res->withJson("Ordem do pedido não encontrado", 404);
         }
-        $result = $this->updateStatus($args['order_id'],$args['status']);
+        if($order[0]['last']) {
+            return $res->withJson("Pedido já foi finalizado .", 400);
+        }
+        $statusNext = $order[0]['status'] + 1;
+        $result = $this->updateStatus($args['order_id'],$statusNext);
         if($result != 1) {
             return $res->withJson("Erro ao mudar o status do pedido", 404);
         }
 
-        $order[0]['status'] = $args['status'];
+        $order[0]['status'] =$statusNext;
         $result = $this->updateOrder($order[0]);
-        if($result == -1) {
+        if($result < 0) {
             return $res->withJson("Erro ao mudar o status do pedido", 404);
         }
-
         return $res->withJson("Status atualizado com sucesso .", 200);
     }
     public function calcularFrete($req,$res,$args) {

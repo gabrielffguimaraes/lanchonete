@@ -45,6 +45,12 @@ create table product_ingredient(
     ingredient_id INT NOT NULL
 );
 
+create table status(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    description VARCHAR(255) UNIQUE NOT NULL,
+    last BOOLEAN,
+);
+
 create table product_photo(
     id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT NOT NULL,

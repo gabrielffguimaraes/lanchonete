@@ -5,6 +5,7 @@ $layoutPath = __DIR__ . "/../../layouts";
 <html lang="pt-Br">
 <head>
     <?php include "$layoutPath/head.php"; ?>
+    <link href="<?=$baseUrl?>assets/css/product-manager.css" rel="stylesheet"/>
 </head>
 <body>
 <?php include "$layoutPath/menu-manager.php"; ?>
@@ -46,6 +47,7 @@ $layoutPath = __DIR__ . "/../../layouts";
                 <table class="table">
                     <thead>
                         <tr>
+                            <th scope="col">Foto</th>
                             <th scope="col">Descrição</th>
                             <th scope="col">Categoria</th>
                             <th scope="col">Ingredientes</th>

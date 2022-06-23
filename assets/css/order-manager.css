@@ -1,0 +1,20 @@
+.d-ini {
+    width:210px !important;
+}
+#products , .detail-order {
+    padding:20px;
+}
+#products  {
+    overflow:auto;
+    height:100%;
+    width:100%;
+}
+.order {
+    height: 100%;
+}
+#modal-order-detail .modal-content{
+    height: 100%;
+}
+#modal-order-detail .modal-body{
+    padding:0;
+}
