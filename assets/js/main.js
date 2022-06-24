@@ -5,6 +5,7 @@ if(btnLogout) {
     });
 }
 window.addEventListener("load",()=>{
+    $(":input").inputmask();
     document.getElementById("subscription")?.addEventListener("submit",()=> {
         event.preventDefault();
         event.stopPropagation();

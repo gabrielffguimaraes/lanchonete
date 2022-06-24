@@ -31,6 +31,10 @@
     display: block;
     margin: 0 auto 15px;
 }
+.dark-orange {
+    color: #b95b02;
+}
+
 a:focus { outline: 0px solid }
 img {
     max-width: 100%;

@@ -47,6 +47,10 @@ $app->group('/order', function() use ($app) {
     include './rest/orderRest.php';
 });
 
+$app->group('/management', function() use ($app) {
+    include './rest/managementRest.php';
+});
+
 // Get container
 $container = $app->getContainer();
 $container['notFoundHandler'] = function ($c) use ($enviroments){

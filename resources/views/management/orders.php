@@ -64,6 +64,7 @@ $layoutPath = __DIR__ . "/../layouts";
                         <th scope="col">Cliente</th>
                         <th scope="col">Status</th>
                         <th scope="col">Data</th>
+                        <th scope="col">Data status</th>
                         <th scope="col">Valor total</th>
                         <th></th>
                     </tr>
@@ -81,14 +82,17 @@ $layoutPath = __DIR__ . "/../layouts";
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <label class="me-5">Pedido : <small><span id="pedido-id"></span></small></label>
-                    <label>Status : <small><span id="pedido-status"></span></small></label>
+                    <label class="me-5">Pedido : <small><span id="order-id" class="dark-orange"></span></small></label>
+                    <label class="me-5">Status :
+                        <small class="dark-orange"><span id="order-status"></span> em <span id="status-date"></span></small>
+                    </label>
+                    <label class="me-5">Data do pedido : <small><span id="order-date" class="dark-orange"></span></small></label>
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="body-order-details"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" onclick="cancelarPedido()">Cancelar pedido</button>
+                <button type="button" class="btn btn-danger" onclick="cancelOrder()">Cancelar pedido</button>
             </div>
         </div>
     </div>

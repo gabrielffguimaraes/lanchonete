@@ -29,7 +29,7 @@ class OrderDAO extends Conexao
         $result = $this->createLineArray($stmt->get_result());
         return  $result['qtd'] ?? 0;
     }
-    public function getOrders($id = "",$clientId = "",$status = "",$dini = "",$dfim = "") {
+    public function getOrders($id = "",$clientId = "",$status = "",$dini = "",$dfim = "",$month = "") {
         $filter = [];
         $params = [];
         $s = "";
@@ -65,6 +65,12 @@ class OrderDAO extends Conexao
             $params[] = $dfim;
             $s.="s";
         }
+        if ($month != "") {
+            if(empty($filter)) { $filter[] = "WHERE DATE_FORMAT(p.created_at,'%Y-%m') = ?"; }
+            elseif (!empty($filter)) $filter[] = "AND DATE_FORMAT(p.created_at,'%Y-%m') = ?";
+            $params[] = $month;
+            $s.="s";
+        }
         $filter = implode(" ",$filter);
 
         $sql = "SELECT p.*,c.complete_name,s.last,
@@ -76,11 +82,12 @@ class OrderDAO extends Conexao
                     DATE_FORMAT((SELECT 
                             created_at 
                     FROM payment_order_status p1
-                    WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at
+                    WHERE p1.payment_order_id=p.id and p1.status = p.status LIMIT 1),'%d/%m/%Y ás %H:%i') as created_at_status,
+                    DATE_FORMAT(p.created_at,'%d/%m/%Y ás %H:%i') as created_at
                 FROM payment_order as p 
                 INNER JOIN client c on p.client_id = c.id
                 INNER JOIN status s on s.id = p.status
-                $filter";
+                $filter ORDER BY p.created_at";
         $stmt = $this->connection->prepare($sql);
         if($s != "") {
             $stmt->bind_param($s, ...$params);

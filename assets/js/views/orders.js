@@ -54,7 +54,7 @@ function orderList() {
                                     </a>
                                 </div>
                                 <div>
-                                   ${order.created_at}
+                                   ${order.created_at_status}
                                 </div>
                             </div>
                             <div class="d-flex half-opacity preview-product">

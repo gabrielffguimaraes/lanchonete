@@ -27,6 +27,7 @@
             "api/controller/OrderController.php",
             "api/controller/AuthController.php",
             "api/controller/StatusController.php",
+            "api/controller/ManagementController.php",
             "api/service/Correios.php",
             "api/service/Email.php",
             "api/util/Util.php",

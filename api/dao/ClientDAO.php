@@ -23,7 +23,6 @@ class ClientDAO extends Conexao
 
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ss", $email,$role);
-
         $stmt->execute();
         $client = $this->createLineArray($stmt->get_result());
         return  $client;
@@ -40,15 +39,15 @@ class ClientDAO extends Conexao
         $client = $this->createLineArray($stmt->get_result());
         return  $client;
     }
-    public function getClients($id = "") {
-        $filter =  ($id != "") ? "where id=?" : "";
-        $sql = "select * from client $filter";
+    public function getClients($date) {
+        $sql = "SELECT 
+                    id,
+                    complete_name,
+                    email
+                FROM client WHERE role='client' AND DATE_FORMAT(created_at,'%Y-%m') = ?";
 
         $stmt = $this->connection->prepare($sql);
-
-        if($filter != "") {
-            $stmt->bind_param("s", $id);
-        }
+        $stmt->bind_param("s",$date);
         $stmt->execute();
         $clients = $this->createTableArray($stmt->get_result());
         return  $clients;

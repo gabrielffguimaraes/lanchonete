@@ -1,0 +1,45 @@
+.ct-item-dash-info {
+    max-width:300px;
+    min-width:250px;
+    width:100%;
+}
+.item-dash-info {
+    height: 150px;
+    width:100%;
+}
+.item-dash-info .title {
+    font-weight: bolder;
+    color:#666;
+}
+.item-dash-info .content {
+    letter-spacing: 1px;
+    color: #312d2d;
+}
+.column-icon {
+    right:14px;
+    top:13px;
+    height: 37px;
+    width: 37px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background-color: #e98d3ba1;
+    color:white;
+}
+.growth-label {
+    color:darkgreen;
+    font-weight: bolder;
+}
+.not-growth-label {
+    color:red;
+    font-weight: bolder;
+}
+.filter-date span {
+    background-color: #e98d3ba1;
+    color:white;
+}
+.filter-date {
+    width:300px;
+}

@@ -63,24 +63,17 @@ function loadOrders(callback = ()=>{}) {
                     <td>${order['complete_name']}</td>
                     <td>${order['status_description']}</td>
                     <td>${order['created_at']}</td>
+                    <td>${order['created_at_status']}</td>
                     <td>${money(order['total'])}</td>
                     <td>
-                        `;
-                    html += `
-                            <button title="Ver" 
-                                     type="button" 
-                                     class="btn btn-sm btn-warning text-white"
-                                     onclick="seeOrderDetails(${order['id']})"
-                                     >
-                                Ver pedido
-                            </button>
                         `;
                     if(order['status'] != 0) {
                         if (!order['last']) {
                             html += `<button onclick="updateStatusOrder(${order["id"]})" 
                                          type="button" 
                                          class="btn btn-sm btn-primary">
-                                    Avançar status
+                                    Avançar status&nbsp;
+                                    <i class="bi bi-arrow-right-square"></i>
                                  </button>`;
                         } else {
                             html += `
@@ -91,6 +84,15 @@ function loadOrders(callback = ()=>{}) {
                                  </button>`;
                         }
                     }
+                html += `
+                            <button title="Ver" 
+                                     type="button" 
+                                     class="btn btn-sm btn-warning text-white"
+                                     onclick="seeOrderDetails(${order['id']})"
+                                     >
+                                Ver pedido
+                            </button>
+                        `;
                 html += `
                     </td>
                 </tr>
@@ -118,8 +120,10 @@ function seeOrderDetails(orderId) {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             order = result[0];
-            $("#pedido-id").text(order.id);
-            $("#pedido-status").text(order.status_description);
+            $("#order-id").text(order.id);
+            $("#order-status").text(order.status_description);
+            $("#status-date").text(order.created_at_status);
+            $("#order-date").text(order.created_at)
             if(order.status == 0) {
                 $(".modal-footer .btn").addClass("d-none");
             } else {
@@ -219,7 +223,7 @@ function changeTab(elementRef,s) {
     elementRef.querySelector("a").classList.add("active");
     loadOrders();
 }
-function cancelarPedido() {
+function cancelOrder() {
     if(confirm("Este procedimento não poderá ser desfeito , Deseja realmente cancelar este pedido ?")) {
         $.ajax({
             url: `${Enviroments.baseHttp}order/${orderIdLoaded}/status`,

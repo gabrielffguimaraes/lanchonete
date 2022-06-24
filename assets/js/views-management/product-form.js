@@ -6,7 +6,6 @@ var deleteMainPhoto = false;
 window.addEventListener("load",function() {
     params = getParams("#product-form-script");
     flag = params.edit == 1 ? "edit" : "add";
-    $(":input").inputmask();
     loadCategories();
     if(flag == "edit") {
         loadProductById(params['id-product'],(product) => {

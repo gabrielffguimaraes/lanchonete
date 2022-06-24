@@ -6,6 +6,12 @@ class ClientController extends ClientDAO
     {
         $this->open();
     }
+    public function list($req,$res)
+    {
+        $clients = parent::getClients();
+        return $res->withJson($clients, 200);
+    }
+
     public function getClientByRecoveryCode($req,$res,$args = []) {
         $params = $req->getParams();
         $token = $params["token"];
