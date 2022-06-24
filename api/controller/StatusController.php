@@ -11,7 +11,7 @@ class StatusController extends StatusDAO
 
     public function list($req,$res)
     {
-        $status = $this->getStatus();
+        $status = $this->getStatus("",false);
         return $res->withJson($status,200);
     }
 

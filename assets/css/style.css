@@ -1,3 +1,19 @@
+/* SCROLLBAR WHATSAPP*/
+.scrollbar , .bootstrap-select .dropdown-menu  {  overflow:auto; }
+
+.scrollbar::-webkit-scrollbar {
+    width: 8px!important;
+    height: 6px!important;
+
+}
+.scrollbar::-webkit-scrollbar-thumb
+{
+    background-color: #ea9448!important;
+}
+.scrollbar::-webkit-scrollbar-track
+{
+    background: hsla(0,0%,100%,.1)!important;
+}
 .sticky-wrapper {
     height: unset !important;
 }
@@ -390,7 +406,13 @@ z-index: 999;}
   text-align: center;
 }
 
+.text-left {
+    text-align: left;
+}
 
+.text-right {
+    text-align: right;
+}
 .product-f-image {
     position: relative;
 }
@@ -1210,4 +1232,7 @@ label {
     transition: unset !important;
     border:0;
     color:#666;
+}
+.pointer-event-none {
+    pointer-events: none;
 }

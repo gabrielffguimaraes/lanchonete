@@ -33,7 +33,7 @@ $layoutPath = __DIR__ . "/../layouts";
         </div>
     </div>
 </div>
-<?php include "$layoutPath/footer.php"; ?>
+<?php include "$layoutPath/footer-manager.php"; ?>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 var status = 1;
+var orderIdLoaded = null;
 var xhr = {
     abort : () => {
 
@@ -9,8 +10,10 @@ window.addEventListener("load",function() {
     loadOrders();
 });
 function loadStatusTabs() {
+    let dini = $("#dini").val();
+    let dfim = $("#dfim").val();
     $.ajax({
-        url: `${Enviroments.baseHttp}order/status`,
+        url: `${Enviroments.baseHttp}order/status?dini=${dini}&dfim=${dfim}`,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -18,7 +21,7 @@ function loadStatusTabs() {
         },
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
-            statusList = result;
+            result.push(result.shift());
             let html = "";
             result.forEach((obj,i)=>{
                 html += `
@@ -27,7 +30,7 @@ function loadStatusTabs() {
                             ${obj.description} 
                             <span 
                                  id="qtd-0"
-                                 class="badge ${obj.qtd > 0 ? 'text-bg-primary' : 'text-bg-secondary'}">${obj.qtd}</span>
+                                 class="badge ${obj.qtd > 0 ? 'text-bg-warning text-white' : 'text-bg-secondary'}">${obj.qtd}</span>
                         </a>
                     </li>
                 `;
@@ -40,9 +43,11 @@ function loadStatusTabs() {
     });
 }
 function loadOrders(callback = ()=>{}) {
+    let dini = $("#dini").val();
+    let dfim = $("#dfim").val();
     xhr.abort();
     xhr = $.ajax({
-        url: `${Enviroments.baseHttp}order/manager?status=${status}`,
+        url: `${Enviroments.baseHttp}order/manager?status=${status}&dini=${dini}&dfim=${dfim}`,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -70,20 +75,21 @@ function loadOrders(callback = ()=>{}) {
                                 Ver pedido
                             </button>
                         `;
-                    if(!order['last']) {
-                        html += `<button onclick="updateStatusOrder(${order["id"]})" 
+                    if(order['status'] != 0) {
+                        if (!order['last']) {
+                            html += `<button onclick="updateStatusOrder(${order["id"]})" 
                                          type="button" 
                                          class="btn btn-sm btn-primary">
                                     Avançar status
                                  </button>`;
-
-                    } else {
-                        html += `
+                        } else {
+                            html += `
                                  <button title="${order["status_description"]}" 
                                          type="button" 
                                          class="btn btn-sm btn-success rounded-circle">
                                     <i class="bi bi-check-square"></i>
                                  </button>`;
+                        }
                     }
                 html += `
                     </td>
@@ -99,7 +105,9 @@ function loadOrders(callback = ()=>{}) {
     });
 }
 function seeOrderDetails(orderId) {
+    orderIdLoaded = orderId;
     $("#modal-order-detail").modal("show");
+    $("#body-order-details").html("");
     $.ajax({
         url: `${Enviroments.baseHttp}order/manager?order_id=${orderId}`,
         type: 'GET',
@@ -110,15 +118,19 @@ function seeOrderDetails(orderId) {
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
             order = result[0];
-            let price = 0;
-            let discount = 0;
-            let delivery_fee = 0;
+            $("#pedido-id").text(order.id);
+            $("#pedido-status").text(order.status_description);
+            if(order.status == 0) {
+                $(".modal-footer .btn").addClass("d-none");
+            } else {
+                $(".modal-footer .btn").removeClass("d-none");
+            }
             let html = `
                 <div class="order d-flex">
-                    <div id="products" class="flex-grow-1">
-                        <small> Pedido : ${order.id} </small>
+                    <div id="products" class="flex-grow-1 scrollbar">
                         `;
             order.products.forEach(product => {
+
                 let srcImg = getProductSrc(product);
                 html += ` 
                         <div class="mb-3">
@@ -131,35 +143,35 @@ function seeOrderDetails(orderId) {
                                 </div>
                             </div>
                         </div>
+                        <hr>
                 `;
-                /*
-                price += parseFloat(product.price * product.quantity);
-                discount += parseFloat(order.discount);
-                delivery_fee += parseFloat(order.delivery_fee);*/
             });
             html += `
                     </div>
                     <div class="detail-order text-center"> 
-                        <div class="card card-body" style="width: 350px">
+                        <div class="card card-body" style="width: 350px;height:100%">
                             <div style="width: 100%;height: 100%">
                                 <div class="border-right w-100">
-                                    <h6 class="text-right">Pagamento</h6>
+                                    <h6 class="text-left fw-bolder">Pagamento</h6>
                                 </div>
+                                <hr/>
                                 <div class="border-right w-100">
-                                    <h6 class="text-right">Total pago</h6>
-                                    <div class="text-start p-2">
-                                        <p class="mb-0">Subtotal : ${money(price)}</p>
-                                        <p class="mb-0">Desconto : ${money(discount)}</p>
-                                        <p>Frete : ${money(delivery_fee)}</p>
-                                        <hr>
-                                        <p>Total : ${money(price+discount+delivery_fee)}</p>
+                                    <h6 class="text-left fw-bolder">Total pago</h6>
+                                    <div class="card">
+                                        <div class="text-start p-2">
+                                            <p class="mb-0">Subtotal : ${money(order.subtotal)}</p>
+                                            <p class="mb-0">Desconto : ${money(0)}</p>
+                                            <p>Frete : ${money(order.delivery_fee)}</p>
+                                            <hr>
+                                            <p>Total : ${money(order.total)}</p>
+                                        </div>
                                     </div>
                                 </div>
+                                <hr/>
                                 <div class="w-100">
-                                    <h6 class="text-right">Endereço</h6>
+                                    <h6 class="text-left fw-bolder">Endereço</h6>
                                     <div class="text-start p-2">
                                         ${order.address?.address} .                                                    
-                                        <br/>
                                         <br/>
                                         ${order.address?.complement}
                                         <br/>
@@ -182,26 +194,48 @@ function seeOrderDetails(orderId) {
     });
 }
 function updateStatusOrder(orderId) {
-    $.ajax({
-        url: `${Enviroments.baseHttp}order/${orderId}/status`,
-        type: 'POST',
-        dataType: 'json',
-        headers: {
-            'Authorization': `${Enviroments.authorization}`
-        },
-        contentType: 'application/json; charset=utf-8',
-        success: function (result) {
-            alert(result);
-            loadOrders(loadStatusTabs);
-        },
-        error: function (error) {
-            alert(error.responseJSON);
-        }
-    });
+    if(confirm("Deseja prosseguir com este ação ? ?")) {
+        $.ajax({
+            url: `${Enviroments.baseHttp}order/${orderId}/status`,
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                'Authorization': `${Enviroments.authorization}`
+            },
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                alert(result);
+                loadOrders(loadStatusTabs);
+            },
+            error: function (error) {
+                alert(error.responseJSON);
+            }
+        });
+    }
 }
 function changeTab(elementRef,s) {
     status = s;
     $("a").removeClass("active");
     elementRef.querySelector("a").classList.add("active");
     loadOrders();
+}
+function cancelarPedido() {
+    if(confirm("Este procedimento não poderá ser desfeito , Deseja realmente cancelar este pedido ?")) {
+        $.ajax({
+            url: `${Enviroments.baseHttp}order/${orderIdLoaded}/status`,
+            type: 'DELETE',
+            dataType: 'json',
+            headers: {
+                'Authorization': `${Enviroments.authorization}`
+            },
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                alert(result);
+                loadOrders(loadStatusTabs);
+            },
+            error: function (error) {
+                alert(error.responseJSON);
+            }
+        });
+    }
 }

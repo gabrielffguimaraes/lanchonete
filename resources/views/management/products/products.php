@@ -61,7 +61,7 @@ $layoutPath = __DIR__ . "/../../layouts";
         </div>
     </div>
 </div>
-<?php include "$layoutPath/footer.php"; ?>
+<?php include "$layoutPath/footer-manager.php"; ?>
 <script src="<?=$baseUrl?>assets/js/views-management/products.js"> </script>
 </body>
 

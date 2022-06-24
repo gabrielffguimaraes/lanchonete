@@ -41,9 +41,15 @@ $layoutPath = __DIR__ . "/../layouts";
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-filter" aria-expanded="true" aria-controls="collapse-filter">
                             <i class="bi bi-funnel"></i> <b>Filtro</b>
                         </button>
-                        <div class="input-group mt-2 d-ini">
-                            <span class="input-group-text">Data</span>
-                            <input type="date" class="form-control">
+                        <div class="d-flex flex-wrap">
+                            <div class="input-group mt-2 d-filter me-3">
+                                <span class="input-group-text">Data Inicial</span>
+                                <input onchange="loadOrders(loadStatusTabs)" type="date" id="dini" class="form-control">
+                            </div>
+                            <div class="input-group mt-2 d-filter">
+                                <span class="input-group-text">Data Final</span>
+                                <input onchange="loadOrders(loadStatusTabs)" type="date" id="dfim" class="form-control">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,17 +80,20 @@ $layoutPath = __DIR__ . "/../layouts";
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Pedido : 18</h5>
+                <h5 class="modal-title">
+                    <label class="me-5">Pedido : <small><span id="pedido-id"></span></small></label>
+                    <label>Status : <small><span id="pedido-status"></span></small></label>
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="body-order-details"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Cancelar pedido</button>
+                <button type="button" class="btn btn-danger" onclick="cancelarPedido()">Cancelar pedido</button>
             </div>
         </div>
     </div>
 </div>
-<?php include "$layoutPath/footer.php"; ?>
+<?php include "$layoutPath/footer-manager.php"; ?>
 <script src="<?=$baseUrl?>assets/js/views-management/orders.js"> </script>
 </body>
 

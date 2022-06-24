@@ -82,12 +82,15 @@ class OrderController extends OrderDAO
     }
     public function listStatus($req,$res,$args)
     {
+        $params = $req->getParams();
         $statusDao = new StatusDao();
         $statusDao->connection = $this->connection;
 
         $statusList = $statusDao->getStatus();
+        $params["dini"] = $params["dini"] ?? "";
+        $params["dfim"] = $params["dfim"] ?? "";
         foreach($statusList as &$status) {
-            $status['qtd'] = $this->getOrderCountByStatus($status["id"]);
+            $status['qtd'] = $this->getOrderCountByStatus($status["id"],$params["dini"],$params["dfim"]);
         }
         return $res->withJson($statusList,200);
     }
@@ -133,10 +136,18 @@ class OrderController extends OrderDAO
         $addressDao->connection = $this->connection;
 
         $params = $req->getParams();
-        $params["order_id"] = isset($params["order_id"]) ? $params["order_id"] : "";
-        $params["status"] = isset($params["status"]) ? $params["status"] : "";
+        $params["order_id"] = $params["order_id"] ?? "";
+        $params["status"] = $params["status"] ?? "";
+        $params["dini"] = $params["dini"] ?? "";
+        $params["dfim"] = $params["dfim"] ?? "";
 
-        $orders = $this->getOrders($params["order_id"],"",$params["status"]);
+        $orders = $this->getOrders(
+            $params["order_id"],
+            "",
+            $params["status"],
+            $params["dini"],
+            $params["dfim"]
+        );
         forEach($orders as &$order) {
             $order['products'] = $this->getOrderProducts($order['id']);
             $order['status_history'] = $this->getStatusHistory($order['id']);
@@ -148,13 +159,32 @@ class OrderController extends OrderDAO
         }
         return $res->withJson($orders,200);
     }
-    public function addStatus($req,$res,$args) {
+    public function cancelOrder($req,$res,$args) {
+        $order = $this->getOrders($args['order_id']);
+        if(empty($order)) {
+            return $res->withJson("Ordem do pedido não encontrado", 404);
+        }
+        $result = $this->updateStatus($args['order_id'],0);
+        if($result != 1) {
+            return $res->withJson("Erro ao cancelar o pedido", 404);
+        }
+        $order[0]['status'] = 0;
+        $result = $this->updateOrder($order[0]);
+        if($result < 0) {
+            return $res->withJson("Erro ao cancelar o pedido", 404);
+        }
+        return $res->withJson("Pedido cancelado com sucesso .", 200);
+    }
+    public function updateOrderStatus($req,$res,$args) {
         $order = $this->getOrders($args['order_id']);
         if(empty($order)) {
             return $res->withJson("Ordem do pedido não encontrado", 404);
         }
         if($order[0]['last']) {
-            return $res->withJson("Pedido já foi finalizado .", 400);
+            return $res->withJson("Pedido já foi concluido .", 400);
+        }
+        if($order[0]['status'] == 0) {
+            return $res->withJson("Erro , Este pedido está cancelado .", 400);
         }
         $statusNext = $order[0]['status'] + 1;
         $result = $this->updateStatus($args['order_id'],$statusNext);

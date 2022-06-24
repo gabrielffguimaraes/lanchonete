@@ -138,7 +138,7 @@ if(isset($edit) && $edit = true) {
         </div>
     </div>
 </div>
-<?php include "$layoutPath/footer.php"; ?>
+<?php include "$layoutPath/footer-manager.php"; ?>
 <script edit="<?=$edit?>" id-product="<?=$id?>" id="product-form-script" src="<?=$baseUrl?>assets/js/views-management/product-form.js"> </script>
 </body>
 

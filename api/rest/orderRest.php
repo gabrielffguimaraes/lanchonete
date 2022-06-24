@@ -6,7 +6,11 @@ use Slim\Http\Response;
 
 $app->post('/{order_id}/status', function (Request $request, Response $response, array $args) {
     $orderController = new OrderController();
-    return $orderController->addStatus($request,$response,$args);
+    return $orderController->updateOrderStatus($request,$response,$args);
+});
+$app->delete('/{order_id}/status', function (Request $request, Response $response, array $args) {
+    $orderController = new OrderController();
+    return $orderController->cancelOrder($request,$response,$args);
 });
 $app->post('', function (Request $request, Response $response, array $args) {
     $orderController = new OrderController();

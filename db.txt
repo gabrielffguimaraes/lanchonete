@@ -1,7 +1,6 @@
 create database lanchonete;
 use lanchonete;
 
-
 create table client(
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL,
@@ -10,6 +9,8 @@ create table client(
     email VARCHAR(255) UNIQUE NOT NULL,
     role VARCHAR(20)
 );
+insert into client (id,name,password,email,role,complete_name)
+values (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin@gmail.com','employee','admin adm');
 
 create table auth_recover_pass (
     client_id INT,
@@ -22,6 +23,11 @@ create table category(
     id INT PRIMARY KEY AUTO_INCREMENT,
     description VARCHAR(255) UNIQUE NOT NULL
 );
+insert into category (id,description) values
+(1,'Fritas'),
+(2,'Doces'),
+(3,'Congelados'),
+(4,'Bebidas');
 
 create table ingredient(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,11 +51,20 @@ create table product_ingredient(
     ingredient_id INT NOT NULL
 );
 
+
 create table status(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT PRIMARY KEY,
     description VARCHAR(255) UNIQUE NOT NULL,
-    last BOOLEAN,
+    last BOOLEAN
 );
+insert into status (id,description,last) values
+(0,'Cancelado',null),
+(1,'Aguardando aprovação',null),
+(2,'Pedido aceito',null),
+(3,'Preparando pedido',null),
+(4,'Em transporte',null),
+(5,'Pedido entregue',true);
+
 
 create table product_photo(
     id INT PRIMARY KEY AUTO_INCREMENT,

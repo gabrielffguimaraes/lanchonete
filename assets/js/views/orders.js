@@ -6,11 +6,10 @@ window.addEventListener("load",function() {
 })
 function loadStatusList(callback){
     $.ajax({
-        url: `${Enviroments.baseHttp}/status`,
+        url: `${Enviroments.baseHttp}status`,
         type: 'GET',
         dataType: 'json',
         headers: {
-            /*'Authorization': `${Enviroments.authorization}`*/
             'Authorization': `${Enviroments.authorization}`
         },
         contentType: 'application/json; charset=utf-8',
@@ -38,10 +37,6 @@ function orderList() {
             (orders.length > 0) ? $("#orders").removeClass("d-none") : $("#empty-order").removeClass("d-none");
             let html = ``;
             orders.forEach((order,i)=>{
-
-                let price = 0;
-                let discount = 0;
-                let delivery_fee = 0;
                 let stats = order.status_history;
                 let firstProduct = order.products[0];
                 let srcImg = getProductSrc(firstProduct);
@@ -92,9 +87,6 @@ function orderList() {
                                         </div>
                                     </div>
                     `;
-                    price += parseFloat(product.price * product.quantity);
-                    discount += parseFloat(order.discount);
-                    delivery_fee += parseFloat(order.delivery_fee);
                 });
 
                 html += `       </div>
@@ -126,11 +118,11 @@ function orderList() {
                                                 <div class="border-right w-100">
                                                     <h5>Total pago</h5>
                                                     <div class="text-start p-2">
-                                                        <p class="mb-0">Subtotal : ${money(price)}</p>
-                                                        <p class="mb-0">Desconto : ${money(discount)}</p>
-                                                        <p>Frete : ${money(delivery_fee)}</p>
+                                                        <p class="mb-0">Subtotal : ${money(order.subtotal)}</p>
+                                                        <p class="mb-0">Desconto : ${money(0)}</p>
+                                                        <p>Frete : ${money(order.delivery_fee)}</p>
                                                         <hr>
-                                                        <p>Total : ${money(price+discount+delivery_fee)}</p>
+                                                        <p>Total : ${money(order.total)}</p>
                                                     </div>
                                                 </div>
                                                 <div class="w-100">

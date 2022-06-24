@@ -8,15 +8,30 @@ class StatusDAO extends Conexao
         parent::__constructor();
     }
 
-    public function getStatus($id = "") {
+    public function getStatus($id = "",$cancelado = true) {
 
-        $filter =  ($id != "") ? "where id=?" : "";
+        $filter = [];
+        $params = [];
+        $s = "";
+        if ($id != "") {
+            if (empty($filter)) $filter[] = "WHERE id = ?";
+            elseif (!empty($filter)) $filter[] = "AND id = ?";
+            $params[] = $id;
+            $s .= "s";
+        }
+        if (!$cancelado) {
+            if (empty($filter)) $filter[] = "WHERE id != ?";
+            elseif (!empty($filter)) $filter[] = "AND id != ?";
+            $params[] = $cancelado;
+            $s .= "s";
+        }
+        $filter = implode(" ",$filter);
         $sql = "select * from status $filter";
 
         $stmt = $this->connection->prepare($sql);
 
-        if($filter != "") {
-            $stmt->bind_param("s", $id);
+        if($s != "") {
+            $stmt->bind_param($s, ...$params);
         }
         $stmt->execute();
         $status = $this->createTableArray($stmt->get_result());

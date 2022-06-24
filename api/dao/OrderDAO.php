@@ -6,15 +6,30 @@ class OrderDAO extends Conexao
     {
         
     }
-    public function getOrderCountByStatus($statusId) {
-        $sql = "SELECT  count(*) as qtd FROM payment_order po WHERE po.status = ?";
+    public function getOrderCountByStatus($statusId,$dini = "",$dfim = "") {
+        $filter = [];
+        $params = [];
+        $s = "";
+        if ($dini != "") {
+            $filter[] = "AND DATE_FORMAT(po.created_at,'%Y-%m-%d') >= ?";
+            $params[] = $dini;
+            $s.="s";
+        }
+
+        if ($dfim != "") {
+            $filter[] = "AND DATE_FORMAT(po.created_at,'%Y-%m-%d') <= ?";
+            $params[] = $dfim;
+            $s.="s";
+        }
+        $filter = implode(" ",$filter);
+        $sql = "SELECT  count(*) as qtd FROM payment_order po WHERE po.status = ? $filter";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $statusId);
+        $stmt->bind_param("s".$s, ...array_merge([$statusId],$params));
         $stmt->execute();
         $result = $this->createLineArray($stmt->get_result());
         return  $result['qtd'] ?? 0;
     }
-    public function getOrders($id = "",$clientId = "",$status = "") {
+    public function getOrders($id = "",$clientId = "",$status = "",$dini = "",$dfim = "") {
         $filter = [];
         $params = [];
         $s = "";
@@ -36,13 +51,28 @@ class OrderDAO extends Conexao
             $params[] = $status;
             $s.="s";
         }
+
+        if ($dini != "") {
+            if(empty($filter)) { $filter[] = "WHERE DATE_FORMAT(p.created_at,'%Y-%m-%d') >= ?"; }
+            elseif (!empty($filter)) $filter[] = "AND DATE_FORMAT(p.created_at,'%Y-%m-%d') >= ?";
+            $params[] = $dini;
+            $s.="s";
+        }
+
+        if ($dfim != "") {
+            if(empty($filter)) { $filter[] = "WHERE DATE_FORMAT(p.created_at,'%Y-%m-%d') <= ?"; }
+            elseif (!empty($filter)) $filter[] = "AND DATE_FORMAT(p.created_at,'%Y-%m-%d') <= ?";
+            $params[] = $dfim;
+            $s.="s";
+        }
         $filter = implode(" ",$filter);
 
         $sql = "SELECT p.*,c.complete_name,s.last,
                     s.description AS status_description,
-                    (SELECT SUM(pop.price * pop.quantity) 
+                    @subtotal := (SELECT SUM(pop.price * pop.quantity) 
                         FROM payment_order_product pop 
-                        WHERE pop.payment_order_id = p.id) + p.delivery_fee as total,
+                        WHERE pop.payment_order_id = p.id) as subtotal,
+                    @subtotal  + p.delivery_fee as total,    
                     DATE_FORMAT((SELECT 
                             created_at 
                     FROM payment_order_status p1
