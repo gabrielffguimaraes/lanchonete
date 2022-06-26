@@ -9,9 +9,9 @@ class LoginController extends LoginDAO
         $this->open();
     }
 
-    public function list()
+    public function list($roles)
     {
-        return $this->getUsers();
+        return $this->getUsers($roles);
     }
     public function login($args,$role = "client")
     {

@@ -40,7 +40,7 @@ class ProductDAO extends Conexao
         $result =  $stmt->get_result();
         return $this->createLineArray($result)['maxsize'];
     }
-    public function getProductsPhoto($productId,$type = "galery") {
+    public function getProductsPhoto($productId,$type = "gallery") {
         $filter = [];
         if($type == "main") {
             $filter[] = " ORDER BY id DESC ";
@@ -110,7 +110,7 @@ class ProductDAO extends Conexao
         foreach ($products as &$product) {
             $product['ingredient'] = $this->getIngredientProduct($product['id']);
             $product['category'] = $categoryDAO->getCategories($product['category']);
-            $product['galery'] = $this->getProductsPhoto($product['id'],"galery");
+            $product['gallery'] = $this->getProductsPhoto($product['id'],"gallery");
             $product['foto'] = $this->getProductsPhoto($product['id'],"main");
         }
 
@@ -164,7 +164,7 @@ class ProductDAO extends Conexao
         $stmt->execute();
         return  $stmt->get_result()->fetch_row();
     }
-    public function saveProductPhoto($productId,$name,$type = "galery") {
+    public function saveProductPhoto($productId,$name,$type = "gallery") {
         $sql="INSERT INTO product_photo (product_id,name,type) VALUES (?,?,?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("sss", $productId , $name ,$type);

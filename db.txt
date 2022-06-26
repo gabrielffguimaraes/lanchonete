@@ -28,7 +28,10 @@ insert into category (id,description) values
 (1,'Fritas'),
 (2,'Doces'),
 (3,'Congelados'),
-(4,'Bebidas');
+(4,'Bebidas'),
+(5,'Hamburguers'),
+(6,'Cachorro quente'),
+(7,'Lanches');
 
 create table ingredient(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -81,6 +84,7 @@ create table payment_order (
    discount DECIMAL(10,2),
    delivery_fee DECIMAL(10,2),
    status INT NOT NULL,
+   payment_method VARCHAR(8) NOT NULL,
    created_at datetime default now()
 );
 

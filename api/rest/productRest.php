@@ -3,27 +3,9 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-$app->get('', function (Request $request, Response $response, array $args) {
-    $ProductController = new ProductController();
-    return $ProductController->list($request,$response);
-});
-$app->get('/{id}', function (Request $request, Response $response, array $args) {
-    $ProductController = new ProductController();
-    return $ProductController->listById($request,$response,$args);
-});
-$app->post('/ingredient', function (Request $request, Response $response, array $args) {
-    $ProductController = new ProductController();
-    return $ProductController->addIngredientToProduct($request,$response);
-});
-$app->post('', function (Request $request, Response $response, array $args) {
-    $ProductController = new ProductController();
-    return $ProductController->add($request,$response);
-});
-$app->post('/{id}', function (Request $request, Response $response, array $args) {
-    $ProductController = new ProductController();
-    return $ProductController->update($request,$response,$args);
-});
-$app->delete('/{id}', function (Request $request, Response $response, array $args) {
-    $ProductController = new ProductController();
-    return $ProductController->delete($request,$response,$args);
-});
+$app->post('/ingredient', 'ProductController:addIngredientToProduct')->add(Authmethods::basicAuth(['employee']));
+$app->post('', 'ProductController:add')->add(Authmethods::basicAuth(['employee']));
+$app->post('/{id}', 'ProductController:update')->add(Authmethods::basicAuth(['employee']));
+$app->get('', 'ProductController:list');
+$app->get('/{id}', 'ProductController:listById');
+$app->delete('/{id}', 'ProductController:delete')->add(Authmethods::basicAuth(['employee']));

@@ -32,7 +32,7 @@
                             <i class="bi bi-funnel"></i> <b>Filtro</b>
                         </button>
                     </h2>
-                    <div id="collapse-filter" class="accordion-collapse collapse">
+                    <div id="collapse-filter" class="accordion-collapse collapse show">
                         <p class="mt-3 ms-3 fw-bolder">Produto :</p>
                         <div class="mt-3 ms-3 me-3 d-flex">
                             <input id="product-name" oninput="loadProductsFilter()" type="text" class="flex-grow-1" placeholder="Buscar produtos...">

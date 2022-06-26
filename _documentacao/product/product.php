@@ -1,5 +1,5 @@
 <?php
-$json.='"/api/client/product": {
+$json.='"/api/product": {
 				"get": {
 					"tags": [
 						"Produtos"
@@ -15,7 +15,7 @@ $json.='"/api/client/product": {
 				}
 			},
 	';
-$json.='"/api/client/product/{id}": {
+$json.='"/api/product/{id}": {
 				"get": {
 					"tags": [
 						"Produtos"

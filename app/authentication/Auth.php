@@ -47,17 +47,6 @@ class Auth
             return $next($request,$response);
         };
     }
-    public static function basicAuth() : HttpBasicAuthentication
-    {
-        $loginController = new LoginController();
-        $users = $loginController->list();
-        return new HttpBasicAuthentication([
-            "users" => $users,
-            "error" => function ($response) {
-                return  $response->withJson(array("response"=>"Unauthorized"), 403);
-            }
-        ]);
-    }
     public static function credentials()
     {
         if(isset($_SESSION['name']) && isset($_SESSION['password'])) {

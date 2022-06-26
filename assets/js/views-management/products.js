@@ -4,7 +4,7 @@ window.addEventListener("load",function() {
 function loadProducts(offset = 0) {
     offsetAtual = offset;
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product?limit=${9999999999999999999}&offset=${0}`,
+        url: `${Enviroments.baseHttp}product?limit=${9999999999999999999}&offset=${0}`,
         type: 'GET',
         dataType: 'json',
         headers: {

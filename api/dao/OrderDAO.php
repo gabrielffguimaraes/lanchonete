@@ -87,7 +87,7 @@ class OrderDAO extends Conexao
                 FROM payment_order as p 
                 INNER JOIN client c on p.client_id = c.id
                 INNER JOIN status s on s.id = p.status
-                $filter ORDER BY p.created_at";
+                $filter ORDER BY p.created_at DESC";
         $stmt = $this->connection->prepare($sql);
         if($s != "") {
             $stmt->bind_param($s, ...$params);
@@ -158,19 +158,19 @@ class OrderDAO extends Conexao
     }
     public function createOrder($order) {
         $sql="INSERT INTO payment_order 
-                (id,client_id,address_id,discount,delivery_fee,status) 
+                (id,client_id,address_id,discount,delivery_fee,status,payment_method) 
                     VALUES 
-                (default,?,?,?,?,?)";
+                (default,?,?,?,?,?,?)";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("sssss",
+        $stmt->bind_param("ssssss",
             $order['client_id'],
             $order['address_id'],
             $order['discount'],
             $order['delivery_fee'],
-            $order['status']);
+            $order['status'],
+            $order['payment_method']);
         $stmt->execute();
         return $stmt;
-
     }
     public function addOrderProduct($orderId,$product) {
         $sql="INSERT INTO payment_order_product 

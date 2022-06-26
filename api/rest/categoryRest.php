@@ -13,8 +13,9 @@ $app->get('/{id}', function (Request $request, Response $response, array $args) 
 $app->post('', function (Request $request, Response $response, array $args) {
     $CategoryController = new CategoryController();
     return $CategoryController->add($request,$response);
-});
+})->add(Authmethods::basicAuth(['employee']));
+
 $app->put('', function (Request $request, Response $response, array $args) {
     $CategoryController = new CategoryController();
     return $CategoryController->update($request,$response);
-});
+})->add(Authmethods::basicAuth(['employee']));

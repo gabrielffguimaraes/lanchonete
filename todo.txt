@@ -1,1 +1,0 @@
-pedido indo direto de detalhes para o carrinho sem escolher os ingredientes.

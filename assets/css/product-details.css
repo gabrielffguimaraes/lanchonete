@@ -1,3 +1,6 @@
 .product-main-img img {
     width: 100%;
 }
+.product-gallery img {
+    cursor:pointer;
+}

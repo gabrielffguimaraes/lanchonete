@@ -1,3 +1,7 @@
 .accordion-button {
     box-shadow:none !important;
 }
+.payment-method {
+    padding:8px;
+    font-size:20px;
+}

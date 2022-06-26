@@ -45,6 +45,7 @@ function loadStatusTabs() {
 function loadOrders(callback = ()=>{}) {
     let dini = $("#dini").val();
     let dfim = $("#dfim").val();
+    $("#tbody-orders").html("");
     xhr.abort();
     xhr = $.ajax({
         url: `${Enviroments.baseHttp}order/manager?status=${status}&dini=${dini}&dfim=${dfim}`,
@@ -110,6 +111,7 @@ function seeOrderDetails(orderId) {
     orderIdLoaded = orderId;
     $("#modal-order-detail").modal("show");
     $("#body-order-details").html("");
+    $(".modal-footer .btn").addClass("d-none");
     $.ajax({
         url: `${Enviroments.baseHttp}order/manager?order_id=${orderId}`,
         type: 'GET',
@@ -124,7 +126,7 @@ function seeOrderDetails(orderId) {
             $("#order-status").text(order.status_description);
             $("#status-date").text(order.created_at_status);
             $("#order-date").text(order.created_at)
-            if(order.status == 0) {
+            if(order?.status == 0 || order?.last == true) {
                 $(".modal-footer .btn").addClass("d-none");
             } else {
                 $(".modal-footer .btn").removeClass("d-none");
@@ -157,6 +159,9 @@ function seeOrderDetails(orderId) {
                             <div style="width: 100%;height: 100%">
                                 <div class="border-right w-100">
                                     <h6 class="text-left fw-bolder">Pagamento</h6>
+                                    <u class="text-left">
+                                        <li>${order.payment_method}</li>
+                                    </u>
                                 </div>
                                 <hr/>
                                 <div class="border-right w-100">
@@ -221,7 +226,7 @@ function changeTab(elementRef,s) {
     status = s;
     $("a").removeClass("active");
     elementRef.querySelector("a").classList.add("active");
-    loadOrders();
+    loadOrders(loadStatusTabs);
 }
 function cancelOrder() {
     if(confirm("Este procedimento não poderá ser desfeito , Deseja realmente cancelar este pedido ?")) {
@@ -236,6 +241,7 @@ function cancelOrder() {
             success: function (result) {
                 alert(result);
                 loadOrders(loadStatusTabs);
+                $("#modal-order-detail").modal("hide");
             },
             error: function (error) {
                 alert(error.responseJSON);

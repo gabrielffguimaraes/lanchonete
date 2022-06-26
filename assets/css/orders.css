@@ -54,6 +54,7 @@
 .cancelled .card-item::before {
     background-color: red;
 }
+
 .li {
     transition: all 200ms ease-in;
     flex-grow: 1;
@@ -91,7 +92,28 @@
     background-color: #66DC71;
     border: none;
     transition: all 200ms ease-in; }
-.li.complete .status h4 {
+.cancelled-timeline .status {
+    border:none !important;
+}
+.cancelled-timeline .status h4 {
+    color: red; }
+.cancelled-timeline .status::after {
+    position: absolute;
+    top:0;
+    left:0;
+    height:2px;
+    background: rgb(102,220,113);
+    background: linear-gradient(90deg, rgba(102,220,113,1) 6%, rgba(255,0,0,0.8802871490393032) 33%);
+    width: 100%;
+    content:' ';
+
+}
+.cancelled-timeline .status::before {
+    background-color: red;
+    border: none;
+    transition: all 200ms ease-in;
+}
+li.complete .status h4 {
 
     color: #66DC71; }
 

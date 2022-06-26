@@ -34,7 +34,9 @@
 .dark-orange {
     color: #b95b02;
 }
-
+.dark-black {
+    color:#666;
+}
 a:focus { outline: 0px solid }
 img {
     max-width: 100%;
@@ -751,7 +753,7 @@ width: 10px;
 input[type=submit]:disabled {
     background-color:gray !important;
     opacity: 0.5;
-    cursor:not-allowed;
+    cursor:progress;
 }
 
 
@@ -1240,3 +1242,5 @@ label {
 .pointer-event-none {
     pointer-events: none;
 }
+/*CSS ZOOM*/
+figure.containerZoom{background-position:50% 50%;position:relative;width:100%;overflow:hidden;cursor:zoom-in;margin:0}figure.containerZoom img{transition:opacity .5s;display:block;width:100%}figure.containerZoom.active img{opacity:0}

@@ -117,6 +117,7 @@
         product-id="<?=$id?>"
 ></script>
 <?php include "layouts/footer.php"; ?>
+<script src="<?=$baseUrl;?>assets/js/zoom.js"></script>
 </body>
 
 </html>

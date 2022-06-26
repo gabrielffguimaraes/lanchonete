@@ -14,7 +14,7 @@ function getCategoriesFilter () {
 }
 function loadCategories() {
     $.ajax({
-        url: `${Enviroments.baseHttp}/category`,
+        url: `${Enviroments.baseHttp}category`,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -86,7 +86,7 @@ function loadProducts(offset = 0) {
     let description = $("#product-name").val();
     xhr.abort();
     xhr = $.ajax({
-        url: `${Enviroments.baseHttp}client/product?description=${description}&categories=${categories}&limit=${limit}&offset=${offset}`,
+        url: `${Enviroments.baseHttp}product?description=${description}&categories=${categories}&limit=${limit}&offset=${offset}`,
         type: 'GET',
         dataType: 'json',
         data:JSON.stringify(categories),
@@ -115,7 +115,7 @@ function loadProducts(offset = 0) {
                             <p style="font-style: italic">${(ingredients != "") ? ingredients+" ." : ingredients}</p>
                         </div>
                         <div class="product-option-shop">
-                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="./product/${product.id}/ingredients">Add to cart</a>
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70" rel="nofollow" href="./product/${product.id}/ingredients">Comprar</a>
                         </div>
                     </div>
                 </div>

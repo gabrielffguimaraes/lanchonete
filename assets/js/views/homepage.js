@@ -1,7 +1,7 @@
 
 function carregarProdutos() {
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product`,
+        url: `${Enviroments.baseHttp}product`,
         type: 'GET',
         dataType: 'json',
         headers: {

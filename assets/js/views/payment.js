@@ -12,7 +12,7 @@ document.getElementById("address-form").addEventListener("submit" , () => {
     let city = $("#billing_city").val();
     let estado = $("#billing_state").val();
     let country = $("#billing_country").val();
-
+    $("#btn-add-address").prop("disabled",true);
     $.ajax({
         url: `${Enviroments.baseHttp}client/address`,
         type: 'POST',
@@ -36,31 +36,39 @@ document.getElementById("address-form").addEventListener("submit" , () => {
             $("#address-form").trigger("reset");
             $("#accordion-add").collapse();
             addressesList();
+            $("#btn-add-address").prop("disabled",false);
         },
         error: function (error) {
-            console.log(error);
-            alert("Ocorreu um erro ao adicionar endereço , por favor tente novamente mais tarde .")
+            alert("Ocorreu um erro ao adicionar endereço , por favor tente novamente mais tarde .");
+            $("#btn-add-address").prop("disabled",false);
         }
     });
 });
-document.getElementById("place_order").addEventListener("click",()=>{
+document.getElementById("btn_payment").addEventListener("click",()=>{
     const cart = new Cart();
     let cartSend = cart.getCart();
     cartSend.forEach((item) => {
         item.category = item.category[0].id
     });
     let addressId = $("input[name=address]:checked").val();
+    let paymentMethod = $("input[name=payment-form]:checked").val()
     if(!addressId) {
         alert("Endereço obrigatório");
         return
     }
+    if(!paymentMethod) {
+        alert("Methodo de pagamento obrigatório");
+        return
+    }
     $("#error-msg").addClass("d-none");
+    $("#btn_payment").prop("disabled",true);
     $.ajax({
         url: `${Enviroments.baseHttp}order`,
         type: 'POST',
         data: JSON.stringify({
             cart:cartSend,
-            address_id:addressId
+            address_id:addressId,
+            payment_method:paymentMethod
         }),
         dataType: 'json',
         headers: {
@@ -73,12 +81,13 @@ document.getElementById("place_order").addEventListener("click",()=>{
             cart.clearCart();
             alert("Seu pedido foi realizado com sucesso você será redirecionado para a pagina de pedidos .");
             window.location.href = `${Enviroments.baseUrl}my-orders`;
-            console.log(response)
+            $("#btn_payment").prop("disabled",false);
         },
         error: function (error) {
             alert(error.responseJSON);
             $("#error-msg").removeClass("d-none");
             $("#error-msg").html(error.responseJSON);
+            $("#btn_payment").prop("disabled",false);
         }
     });
 });

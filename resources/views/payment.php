@@ -75,7 +75,7 @@
                                                                 <label class="" for="billing_country">País</label>
                                                                 <input type="text" id="billing_country" required name="billing_country" placeholder="País" value="" class="input-text ">
                                                             </p>
-                                                            <button type="submit"  id="btn-add-address" class="button alt">ADICIONAR</button>
+                                                            <input type="submit"  id="btn-add-address" class="button alt" value="ADICIONAR">
                                                         </form>
                                                     </div>
                                                 </div>
@@ -84,12 +84,32 @@
                                     </div>
 
                                     <h3>Meus Endereços</h3>
-                                    <div class="accordion" id="addresses">
+                                    <div class="accordion mb-5" id="addresses">
 
                                     </div>
 
+                                    <h3 class="mb-1">Forma de Pagamento</h3>
+                                    <small>
+                                        <i class="dark-black">
+                                            * Atenção , o pagamento é realizado na hora da entrega , por meio de dinheiro ou cartão .
+                                        </i>
+                                    </small>
+                                    <div class="d-flex mt-4">
+                                        <div class="me-3 ms-2">
+                                            <input  type="radio" value="Cartão" name="payment-form" id="payment-card" class="btn-check"  autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-primary payment-method" for="payment-card">
+                                                <i class="bi bi-credit-card"></i> <small>Cartão</small>
+                                            </label><br>
+                                        </div>
+                                        <div>
+                                            <input  type="radio" value="Dinheiro" name="payment-form" id="payment-money" class="btn-check"  autocomplete="off">
+                                            <label class="btn btn-sm btn-outline-success payment-method" for="payment-money">
+                                                <i class="bi bi-cash"></i> <small>Dinheiro</small>
+                                            </label><br>
+                                        </div>
+                                    </div>
                                     <div class="clear"></div>
-                                    <h3 id="order_review_heading" class="mt-5">Detalhes do Pedido</h3>
+                                    <h3 id="order_review_heading" class="mt-4">Detalhes do Pedido</h3>
                                     <div id="order_review" style="position: relative;">
                                         <div id="error-msg" class="alert alert-danger d-none" role="alert">
 
@@ -128,7 +148,7 @@
                                         <div id="payment">
                                             <div class="form-row place-order">
                                                 <input type="submit" data-value="Place order" value="Pagar"
-                                                       id="place_order" name="woocommerce_checkout_place_order"
+                                                       id="btn_payment" name="woocommerce_checkout_place_order"
                                                        class="button alt">
                                             </div>
                                             <div class="clear"></div>

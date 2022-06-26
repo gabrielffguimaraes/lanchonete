@@ -5,6 +5,7 @@ window.addEventListener("load",() => {
     loadCart();
     loadAmountBox();
     controlCurrentView();
+
     document.getElementById("btn-frete").addEventListener("click",() => {
         event.preventDefault();
         let cep = $("#cep").val();
@@ -12,6 +13,7 @@ window.addEventListener("load",() => {
             alert("Cep inválido");
             return
         }
+        $("#btn-frete").prop("disabled",true);
         $.ajax({
             url: `${Enviroments.baseHttp}order/frete/${cep}`,
             type: 'GET',
@@ -22,10 +24,12 @@ window.addEventListener("load",() => {
             },
             contentType: 'application/json; charset=utf-8',
             success: function (response) {
+                $("#btn-frete").prop("disabled",false);
                 frete = parseFloat(response.valor[0].replace(",","."));
                 loadAmountBox();
             },
             error: function (error) {
+                $("#btn-frete").prop("disabled",false);
                 console.log(error.responseJSON)
                 alert(error.responseJSON);
             }

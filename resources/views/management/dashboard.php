@@ -83,7 +83,7 @@ $year = date("Y");
                         <div class="card ct-item-dash-info mb-4">
                             <div class="card-body item-dash-info position-relative">
                                 <div class="d-flex h-100 flex-column justify-content-between">
-                                    <p class="title">Pedidos</p>
+                                    <p class="title">Pedidos Entregues</p>
                                     <h5 class="content"><b id="orders">0</b></h5>
                                     <p class="mb-0">
                                         <label class="me-2 growth-label">

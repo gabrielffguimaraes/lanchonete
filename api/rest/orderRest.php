@@ -4,33 +4,12 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 
-$app->post('/{order_id}/status', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
-    return $orderController->updateOrderStatus($request,$response,$args);
-});
-$app->delete('/{order_id}/status', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
-    return $orderController->cancelOrder($request,$response,$args);
-});
-$app->post('', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
+$app->post('/{order_id}/status', 'OrderController:updateOrderStatus')->add(Authmethods::basicAuth(['employee']));
+$app->post('', 'OrderController:create')->add(Authmethods::basicAuth(['client']));
 
-    return $orderController->create($request,$response);
-});
-$app->get('', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
-    return $orderController->list($request,$response);
-});
-$app->get('/frete/{cep}', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
-    return $orderController->calcularFrete($request,$response,$args);
-});
-$app->get('/manager', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
-    return $orderController->listAll($request,$response,$args);
-});
+$app->get('', 'OrderController:list')->add(Authmethods::basicAuth(['client','employee']));
+$app->get('/frete/{cep}', 'OrderController:calcularFrete');
+$app->get('/manager', 'OrderController:listAll')->add(Authmethods::basicAuth(['employee']));
+$app->get('/status', 'OrderController:listStatus')->add(Authmethods::basicAuth(['employee']));
 
-$app->get('/status', function (Request $request, Response $response, array $args) {
-    $orderController = new OrderController();
-    return $orderController->listStatus($request,$response,$args);
-});
+$app->delete('/{order_id}/status', 'OrderController:cancelOrder')->add(Authmethods::basicAuth(['employee']));

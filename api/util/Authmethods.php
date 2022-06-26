@@ -1,5 +1,7 @@
 <?php
 
+use Tuupola\Middleware\HttpBasicAuthentication;
+
 Class Authmethods
 {
     public static function getAuthorizationCredentials($req)
@@ -24,5 +26,16 @@ Class Authmethods
                 return $response->withRedirect("{$enviroments['baseUrl']}login?invalid&message={$e->getMessage()}");
             }
         };
+    }
+    public static function basicAuth($roles) : HttpBasicAuthentication
+    {
+        $loginController = new LoginController();
+        $users = $loginController->list($roles);
+        return new HttpBasicAuthentication([
+            "users" => $users,
+            "error" => function ($response) {
+                return  $response->withJson(array("response"=>"Unauthorized"), 403);
+            }
+        ]);
     }
 }

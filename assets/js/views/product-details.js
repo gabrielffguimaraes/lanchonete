@@ -1,5 +1,6 @@
 let params;
 let inmemoryProduct = {};
+let galleryPhoto = [];
 document.getElementById("add_to_cart_button").addEventListener("click",()=>{
     event.preventDefault();
     event.stopPropagation();
@@ -17,7 +18,7 @@ window.addEventListener("load",()=> {
 });
 function carregarProduto(id) {
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product/${id}`,
+        url: `${Enviroments.baseHttp}product/${id}`,
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -26,7 +27,9 @@ function carregarProduto(id) {
         contentType: 'application/json; charset=utf-8',
         success: function (product) {
             let srcImg = getProductSrc(product);
+            galleryPhoto.push({src:srcImg,active:true});
             $(".product-main-img img").attr("src",srcImg);
+            $(".product-main-img img").imageZoom({zoom : 200});
             $("#details").text(product?.detail ?? "");
             $("#reviews").text(product?.review ?? "");
             inmemoryProduct = product;
@@ -39,22 +42,38 @@ function carregarProduto(id) {
             });
             $("#price-product").html(money(product.price));
             $("#price-fake").html(money(product.price_fake));
-            product.galery.forEach(foto => {
+            product.gallery.forEach((foto,i) => {
                let src = `${Enviroments.baseHttp}uploads/${foto?.name}`;
-               $(".product-gallery").append(`<img src='${src}'>`) ;
+               galleryPhoto.push({src,active:false});
+               $(".product-gallery").append(`<img onclick=selectGalleryImage('${i+1}') src='${src}'>`) ;
             });
-
         },
         error: function (error) {
             console.log(error);
         }
     })
 }
+function selectGalleryImage(i) {
+    galleryPhoto.forEach(g => {
+        g.active = false;
+    });
+    galleryPhoto[i].active = true;
+    $(".product-main-img img").attr("src",galleryPhoto[i].src);
+    reloadGallery();
+}
+function reloadGallery() {
+    $(".product-gallery").html("");
+    galleryPhoto.forEach((photo,i) => {
+        if(!photo.active) {
+            $(".product-gallery").append(`<img onclick=selectGalleryImage('${i}') src='${photo.src}'>`);
+        }
+    });
+}
 function carregarProdutos() {
     event.preventDefault();
     let description = $("#product-name").val();
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product?limit=10&description=${description}`,
+        url: `${Enviroments.baseHttp}product?limit=10&description=${description}`,
         type: 'GET',
         dataType: 'json',
         headers: {

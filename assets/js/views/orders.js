@@ -90,21 +90,53 @@ function orderList() {
                 });
 
                 html += `       </div>
-                                <ul class="timeline" id="timeline">
+                                <ul class="timeline" id="timeline" >
                 `;
 
-                statusList.forEach((status) => {
-                    let objS = stats.find(s => s.status == status.id);
-                    html += ` 
+                if(order.status == 0) {
+                    statusList.map(status => stats.find(s => s.status == status.id))
+                        .filter(status => status != undefined)
+                        .forEach((objS) => {
+                            html += ` 
                                     <li class="li ${objS ? 'complete' : ''}">
                                         <div class="status">
                                             <div>
-                                                <h4> ${status.description} </h4>
+                                                <h4> ${objS.description} </h4>
                                                 <small>${objS ? objS.created_at : ''}</small>
                                             </div>
                                         </div>
                                     </li>`;
-                });
+                        });
+                        html += `
+                                    <li class="li cancelled-timeline">
+                                        <div class="status">
+                                            <div>
+                                                <h4> ${order.status_description} </h4>
+                                                <small>${order.created_at_status}</small>
+                                            </div>
+                                        </div>
+                                    </li>
+                        `
+                } else {
+                    statusList.map(status => {
+                            let obj = stats.find(s => s.status == status.id);
+                            if(!obj) {
+                                obj = status;
+                            }
+                            return obj;
+                        })
+                        .forEach((objS) => {
+                            html += ` 
+                                    <li class="li ${objS.created_at ? 'complete' : ''}">
+                                        <div class="status">
+                                            <div>
+                                                <h4> ${objS.description} </h4>
+                                                <small>${objS.created_at ? objS.created_at : ''}</small>
+                                            </div>
+                                        </div>
+                                    </li>`;
+                        });
+                }
                 html += `
                                 </ul>
                                 <div class="detail-order text-center">
@@ -114,6 +146,9 @@ function orderList() {
                                             <div class="d-flex" style="width: 100%;height: 100%">
                                                 <div class="border-right w-100">
                                                     <h5>Pagamento</h5>
+                                                    <u class="text-left">
+                                                        <li>${order.payment_method}</li>
+                                                    </u>
                                                 </div>
                                                 <div class="border-right w-100">
                                                     <h5>Total pago</h5>

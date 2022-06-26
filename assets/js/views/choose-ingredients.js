@@ -6,7 +6,7 @@ window.addEventListener("load",()=> {
 
 function carregarProduto(id) {
     $.ajax({
-        url: `${Enviroments.baseHttp}client/product/${id}`,
+        url: `${Enviroments.baseHttp}product/${id}`,
         type: 'GET',
         dataType: 'json',
         headers: {

@@ -46,7 +46,8 @@ class OrderController extends OrderDAO
             "address_id" => $args['address_id'],
             "discount" => 0,
             "delivery_fee" => $frete['valor'],
-            "status" => 1
+            "status" => 1,
+            "payment_method" => $args['payment_method']
         );
 
         $stmt = $this->createOrder($order);
