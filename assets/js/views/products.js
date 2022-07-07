@@ -7,6 +7,7 @@ var xhr = {
 
     }
 };
+setActivatedLinkStyle(".nav-product");
 function getCategoriesFilter () {
     return [...document.getElementsByName("category-filter")]
         .filter(elementRef => elementRef.checked)

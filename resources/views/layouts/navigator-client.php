@@ -8,9 +8,9 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
-                            <a class="nav-link" href="<?=$baseUrl?>">Home</a>
-                            <a class="nav-link" href="<?=$baseUrl?>product">Produtos</a>
-                            <a class="nav-link" href="<?=$baseUrl?>cart">Carrinho</a>
+                            <a class="nav-link nav-home nav-link-active" href="<?=$baseUrl?>">Home</a>
+                            <a class="nav-link nav-product" href="<?=$baseUrl?>product">Produtos</a>
+                            <a class="nav-link nav-cart" href="<?=$baseUrl?>cart">Carrinho</a>
                         </div>
                     </div>
                 </div>

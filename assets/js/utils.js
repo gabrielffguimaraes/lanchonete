@@ -1,3 +1,7 @@
+function setActivatedLinkStyle(selector) {
+    document.querySelector(".nav-link-active").classList.remove("nav-link-active");
+    document.querySelector(selector).classList.add("nav-link-active");
+}
 function getParams(id) {
     let params = {};
     [...document.querySelector(id).attributes].map(r => Object.assign(params,object(r.name, r.value)));

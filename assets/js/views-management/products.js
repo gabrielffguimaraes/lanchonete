@@ -47,6 +47,7 @@ function loadProducts(offset = 0) {
     })
 }
 function deleteProduct(id) {
+    if(!confirm("Deseja realmente excluir este produto ? ")) return
     $.ajax({
         url: `${Enviroments.baseHttp}product/${id}`,
         type: 'DELETE',

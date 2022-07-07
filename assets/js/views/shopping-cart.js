@@ -1,6 +1,6 @@
 var frete = 0;
 const cart = new Cart();
-
+setActivatedLinkStyle(".nav-cart");
 window.addEventListener("load",() => {
     loadCart();
     loadAmountBox();

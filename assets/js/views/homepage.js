@@ -1,4 +1,4 @@
-
+setActivatedLinkStyle(".nav-home");
 function carregarProdutos() {
     $.ajax({
         url: `${Enviroments.baseHttp}product`,

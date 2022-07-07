@@ -13,39 +13,57 @@
     <div class="block-slider block-slider4">
         <ul class="" id="bxslider-home4">
             <li>
-                <img src="<?=$baseUrl?>assets/img/h4-slide.png" alt="Slide">
+                <img src="<?=$baseUrl?>assets/img/pizza/pizalg.png" alt="Slide">
                 <div class="caption-group">
                     <h2 class="caption title">
-                        iPhone <span class="primary">6 <strong>Plus</strong></span>
+                        SABOR DE <span class="primary">PIZZA <br><strong>DE VERDADE</strong></span>
                     </h2>
-                    <h4 class="caption subtitle">Dual SIM</h4>
+                    <h4 class="caption subtitle">ESCOLHA O SEU</h4>
                     <a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
                 </div>
             </li>
-            <li><img src="<?=$baseUrl?>assets/img/h4-slide2.png" alt="Slide">
+            <li><img src="<?=$baseUrl?>assets/img/hamburguer/hamburguerlg.png" alt="Slide">
                 <div class="caption-group">
                     <h2 class="caption title">
-                        by one, get one <span class="primary">50% <strong>off</strong></span>
+                        Carne <span class="primary">100% <strong>Bovina</strong></span>
                     </h2>
-                    <h4 class="caption subtitle">school supplies & backpacks.*</h4>
+                    <h4 class="caption subtitle">ESCOLHA O SEU</h4>
                     <a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
                 </div>
             </li>
-            <li><img src="<?=$baseUrl?>assets/img/h4-slide3.png" alt="Slide">
+            <li><img src="<?=$baseUrl?>assets/img/bebidas/bebidaslg.png" alt="Slide">
                 <div class="caption-group">
                     <h2 class="caption title">
-                        Apple <span class="primary">Store <strong>Ipod</strong></span>
+                        Drinks & <span class="primary">Sucos, <strong>Cervejas</strong></span>
                     </h2>
-                    <h4 class="caption subtitle">Select Item</h4>
+                    <h4 class="caption subtitle">PEGUE O SEU</h4>
                     <a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
                 </div>
             </li>
-            <li><img src="<?=$baseUrl?>assets/img/h4-slide4.png" alt="Slide">
+            <li><img src="<?=$baseUrl?>assets/img/sanduiches/sanduichelg.png" alt="Slide">
                 <div class="caption-group">
                     <h2 class="caption title">
-                        Apple <span class="primary">Store <strong>Ipod</strong></span>
+                        Sanduiches <span class="primary">Veganos e <strong>Caseiros</strong></span>
                     </h2>
-                    <h4 class="caption subtitle">& Phone</h4>
+                    <h4 class="caption subtitle">APROVEITE AGORA</h4>
+                    <a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
+                </div>
+            </li>
+            <li><img src="<?=$baseUrl?>assets/img/sobremesas/sobremesalg.png" alt="Slide">
+                <div class="caption-group">
+                    <h2 class="caption title">
+                        Sobremesas <span class="primary">Diversas e </br> <strong>Saborosas</strong></span>
+                    </h2>
+                    <h4 class="caption subtitle">EXPERIMENTE AGORA</h4>
+                    <a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
+                </div>
+            </li>
+            <li><img src="<?=$baseUrl?>assets/img/pasteis/pasteis1.png" alt="Slide">
+                <div class="caption-group">
+                    <h2 class="caption title">
+                        Pastéis <span class="primary">Saborosos e </br> <strong>Recheados</strong></span>
+                    </h2>
+                    <h4 class="caption subtitle">ESCOLHA O SEU AGORA</h4>
                     <a class="caption button-radius" href="#"><span class="icon"></span>Comprar</a>
                 </div>
             </li>
@@ -109,14 +127,11 @@
             <div class="col-md-12">
                 <div class="brand-wrapper">
                     <div class="brand-list">
-                        <img src="assets/img/brand1.png" alt="">
-                        <img src="assets/img/brand2.png" alt="">
-                        <img src="assets/img/brand3.png" alt="">
-                        <img src="assets/img/brand4.png" alt="">
-                        <img src="assets/img/brand5.png" alt="">
-                        <img src="assets/img/brand6.png" alt="">
-                        <img src="assets/img/brand1.png" alt="">
-                        <img src="assets/img/brand2.png" alt="">
+                        <img src="<?=$baseUrl?>assets/img/brand/catupiry.png" alt="">
+                        <img src="<?=$baseUrl?>assets/img/brand/heinz.png" alt="">
+                        <img src="<?=$baseUrl?>assets/img/brand/nutella.png" alt="">
+                        <img src="<?=$baseUrl?>assets/img/brand/wessel.png" alt="">
+                        <img src="<?=$baseUrl?>assets/img/brand/heineken.png" alt="">
                     </div>
                 </div>
             </div>
