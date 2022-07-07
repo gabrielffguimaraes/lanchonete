@@ -443,8 +443,12 @@ z-index: 999;}
 .product-f-image {
     position: relative;
 }
+.product-f-image img {
+    height:238px;
+}
 .owl-carousel .owl-item img {
     object-fit: cover !important;
+
 }
 .text-green {
     color:greenyellow;

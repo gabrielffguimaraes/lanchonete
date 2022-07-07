@@ -20,7 +20,7 @@ window.addEventListener("load",function() {
 
             /* load galery products*/
             let galeryPhotos = "";
-            product.galery.forEach(photo => {
+            product.gallery.forEach(photo => {
                 let src =  `${Enviroments.baseHttp}uploads/${photo.name}`;
                 galeryPhotos += `
                     <div class="ct-main-img card position-relative mb-3 me-3">
