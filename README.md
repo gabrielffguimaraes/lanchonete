@@ -1,9 +1,9 @@
 # Lanchonete
-Projeto de ecommmerce com tema de lanchonete , feita com PHP , utilizando micro framework slim , middlewares e orientação a objetos.
+Projeto de e-commmerce com tema de lanchonete , feita com PHP , utilizando micro framework slim , middlewares e orientação a objetos.
 
 # Objetivo
 
-* implementar uma solução ecommerce utilizando PHP e orientação a objeto
+* implementar uma solução e-commerce utilizando PHP e orientação a objeto
 * trabalhar com rotas e authenticação (Basic auth) 
 * modelar as entidades e praticar os conceitos de código limpo como por exemplo reuso de códigos .
 * nivelar acesso com roles de acesso nivel admin , client  e publico para as rotas.
