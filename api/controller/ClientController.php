@@ -116,7 +116,7 @@ class ClientController extends ClientDAO
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);
         }
-        $address = $addressDAO->getAddressById($args['id']);
+        $address = $addressDAO->getAddressById($args['id'],$client['id']);
         if(!$address) {
             return $res->withJson("Endereço não encontrado", 404);
         }
