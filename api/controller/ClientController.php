@@ -28,7 +28,11 @@ class ClientController extends ClientDAO
         $addressDAO->connection = $this->connection;
 
         $name = Authmethods::getAuthorizationCredentials($req);
-        $address = $addressDAO->getAddressById($args['id']);
+        $client = $this->getClientByName($name);
+        if(!$client) {
+            return $res->withJson("Cliente não encontrado", 404);
+        }
+        $address = $addressDAO->getAddressById($args['id'],$client['id']);
         if(!$address) {
             return $res->withJson("Endereço não encontrado", 404);
         }
@@ -84,7 +88,7 @@ class ClientController extends ClientDAO
         if(!$client) {
             return $res->withJson("Cliente não encontrado", 404);
         }
-        $address = $addressDAO->getAddressById($args['id']);
+        $address = $addressDAO->getAddressById($args['id'],$client['id']);
         if(!$address) {
             return $res->withJson("Endereço não encontrado", 404);
         }
@@ -117,7 +121,7 @@ class ClientController extends ClientDAO
             return $res->withJson("Endereço não encontrado", 404);
         }
 
-        $result = $addressDAO->delete($args['id']);
+        $result = $addressDAO->delete($args['id'],$client['id']);
         $msg = ($result >= 0 ) ? "Endereço excluido com sucesso" : "Erro ao excluir endereço";
         $status = ($result >= 0 ) ? 200 : 400;
         return $res->withJson($msg, $status);

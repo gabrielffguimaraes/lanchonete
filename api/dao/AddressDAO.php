@@ -7,11 +7,19 @@ class AddressDAO extends Conexao
         $this->connection = $con;
         parent::__constructor();
     }
-    public function getAddressById($id) {
-        $sql = "SELECT * FROM address WHERE id=?";
+    public function getAddressById($id , $client_id = "") {
+        $nParams = "";
+        $filter = "";
+        $params = array();
+        if($client_id != "") {
+            $filter = " and client_id = ? ";
+            $nParams.="s";
+            $params[] = $client_id;
+        }
+        $sql = "SELECT * FROM address WHERE id=? $filter";
 
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("s", $id);
+        $stmt->bind_param("s".$nParams, ...array_merge([$id],$params));
 
         $stmt->execute();
         $addresses = $this->createLineArray($stmt->get_result());
